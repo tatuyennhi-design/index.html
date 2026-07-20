@@ -1117,7 +1117,155 @@ user-select:none;
     height: 65px;
     resize: none;
 } 
-    
+		
+/* --- NHÚNG FONT GOOGLE ĐỂ HẾT LỖI & ĐẸP HƠN --- */
+/* (Dán dòng này vào đầu phần CSS của bạn nhé) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* --- Cài đặt cơ bản cho Hòm Thư & Popup --- */
+/* z-index thật cao để không bị lá rơi đè lên */
+#secret-mailbox, #mail-modal * {
+  font-family: 'Montserrat', sans-serif; /* Hết lỗi Font */
+  box-sizing: border-box;
+}
+
+#secret-mailbox {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99999 !important; /* Không bị đè */
+  width: 55px;
+  height: 55px;
+  background: #fff5e6; /* Màu giấy da hơi kem */
+  border: 2px solid #8b5a2b; /* Viền nâu đậm cổ điển */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, opacity 0.4s ease, visibility 0.4s ease; /* Thêm hiệu ứng ẩn mượt */
+}
+
+/* KHI HÒM THƯ BỊ ẨN (dùng JS để thêm class này) */
+#secret-mailbox.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* User không tương tác được nữa */
+}
+
+#secret-mailbox:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.mail-icon {
+  width: 28px;
+  height: 28px;
+  fill: #8b5a2b;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/*Animation Rung Lắc*/
+.shake-animation {
+  animation: mailboxShake 0.8s ease-in-out;
+}
+
+@keyframes mailboxShake {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  15% { transform: translateY(-50%) rotate(-15deg) scale(1.1); }
+  30% { transform: translateY(-50%) rotate(15deg) scale(1.1); }
+  45% { transform: translateY(-50%) rotate(-10deg) scale(1.1); }
+  60% { transform: translateY(-50%) rotate(10deg) scale(1.1); }
+  75% { transform: translateY(-50%) rotate(-5deg); }
+  100% { transform: translateY(-50%) rotate(0deg); }
+}
+
+/* Modal Popup*/
+.mail-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100000 !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.mail-modal.active {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+.mail-content {
+  background: #fbf7ee;
+  border: 2px solid #d4c3a3;
+  width: 90%;
+  max-width: 450px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  text-align: center;
+  color: #4a3b32;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 26px;
+  cursor: pointer;
+  color: #a08d75;
+}
+
+.stamp {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.mail-header h3 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  font-size: 1.3rem;
+  color: #8b5a2b;
+  border-bottom: 2px dashed #d4c3a3;
+  padding-bottom: 12px;
+}
+
+.mail-body p {
+  font-family: 'Montserrat', sans-serif !important;
+  font-style: italic; /* Thư tay nên có chút italic */
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin: 25px 0;
+}
+
+/* Đổi giao diện nút khi ẩn hòm thư (Bỏ nút "Đọc thư khác") */
+.mail-footer {
+  display: none; /* Mặc định ẩn, không cần nút đọc thư khác nữa */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 </style>
 
 </head>
@@ -4278,5 +4426,125 @@ function toggleMusic(){
     border-radius: 10px !important;
 } 
 </style>
+	<!-- Widget Hòm Thư Bí Mật -->
+<div id="secret-mailbox" onclick="openMail()">
+  <!-- Icon Hòm Thư (SVG nhẹ, mượt) -->
+  <svg viewBox="0 0 24 24" class="mail-icon">
+    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+  </svg>
+  <!-- Chấm đỏ báo thư mới -->
+  <span class="notification-dot"></span>
+</div>
+
+<!-- Popup/Modal Hiện Lời Nhắn -->
+<div id="mail-modal" class="mail-modal">
+  <div class="mail-content">
+    <span class="close-btn" onclick="closeMail()">&times;</span>
+    <div class="mail-header">
+      <div class="stamp">💌</div>
+      <h3>Thư từ Hy Hy</h3>
+    </div>
+    <div class="mail-body">
+      <p id="mail-text">Đang mở thư...</p>
+    </div>
+    <div class="mail-footer">
+      <button class="action-btn" onclick="openMail()">Đọc thư khác</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .click-daisy-flower {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2147483647;
+    user-select: none;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.18));
+    line-height: 1;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 12px !important;
+}
+::-webkit-scrollbar-thumb {
+    background:  #c89b27 !important;
+    border-radius: 10px !important;
+} 
+</style>
+
+<script>
+  // 1. Mảng 17 lời nhắn của Hy Hy
+  const hyHyMessages = [
+    "Hôm nay cậu mệt không? Mệt rồi thì cứ nghỉ ngơi một chút nhé. Thế giới ngoài kia vội vã quá, nhưng ở góc nhỏ này, cậu không cần phải gồng mình đâu.",
+    "Cảm ơn cậu vì đã ghé thăm góc nhỏ này giữa một ngày bận rộn. Mong là nơi đây mang lại cho cậu chút bình yên nhẹ nhàng.",
+    "Uống một ngụm nước ấm, thả lỏng vai ra nào. Cậu đã cố gắng rất nhiều cho ngày hôm nay rồi đấy!",
+    "Nếu hôm nay có chuyện gì làm cậu phiền lòng, cứ để hết mấy muộn phiền đó ngoài cánh cửa trang web này.",
+    "Đôi khi, không làm gì cả cũng là một cách chăm sóc bản thân. Cho phép mình được 'lười biếng' một tí tối nay nha.",
+    "Mỗi nhân vật ở đây đều giữ một câu chuyện riêng, còn cậu thì đang viết nên câu chuyện của chính mình. Dù thế nào cũng hãy thật vững vàng!",
+    "Mong rằng vài giai điệu nho nhỏ cùng tiếng lá rơi nơi đây có thể vỗ nhè nhẹ vào tâm trạng của cậu lúc này.",
+    "Trời có đổ mưa hay nắng gắt thì cũng đừng quên ăn uống đầy đủ và giữ ấm cho bản thân nha.",
+    "Chúc cậu một ngày (hoặc một buổi tối) có thật nhiều điều nho nhỏ làm cậu mỉm cười bất giác.",
+    "Cảm ơn cậu vì đã xuất hiện và cố gắng mỗi ngày. Cậu đang làm rất tốt rồi, thực sự đấy!",
+  "Nếu hôm nay thế giới đối xử với cậu hơi khắt khe, thì hãy nhớ tự thưởng cho mình một ly nước ấm và một giấc ngủ thật ngon.",
+  "Có những ngày mọi thứ chẳng như ý muốn... Không sao cả, sống sót qua một ngày mệt mỏi đã là một giỏi giang rồi!",
+  "Thả lỏng vai ra, thở ra một hơi thật dài nào. Mọi muộn phiền ngoài kia, cứ tạm thời để lại sau cánh cửa này.",
+  "Đừng vội vã quá. Hoa nở cần thời gian, và cậu cũng cần thời gian để dịu dàng với chính mình.",
+  "Người ta thường mải mê đuổi theo những điều xa xôi, mà quên mất rằng bình yên đôi khi chỉ là một khoảng nghỉ giữa ngày.",
+  "Kỷ niệm giống như những chiếc lá khô ép trong trang sách cũ — thỉnh thoảng mở ra xem, vừa dịu êm vừa hoài niệm.",
+  "Mong cậu luôn gặp được những con người chân thành, và những khoảnh khắc khiến lòng cậu dịu lại."
+  ];
+
+  // 2. Hàm mở thư & ẨN HÒM THƯ (Gọi trực tiếp từ HTML)
+  function openMail() {
+    var mailbox = document.getElementById("secret-mailbox");
+    var modal = document.getElementById("mail-modal");
+    var textElem = document.getElementById("mail-text");
+
+    if (modal && textElem) {
+      // Chọn câu ngẫu nhiên
+      var randomIndex = Math.floor(Math.random() * hyHyMessages.length);
+      textElem.innerText = '"' + hyHyMessages[randomIndex] + '"';
+
+      // Hiện popup thư
+      modal.classList.add("active");
+
+      // Ẩn hòm thư vĩnh viễn (biến mất luôn)
+      if (mailbox) {
+        mailbox.style.display = "none";
+      }
+    }
+  }
+
+  // 3. Hàm đóng popup
+  function closeMail() {
+    var modal = document.getElementById("mail-modal");
+    if (modal) {
+      modal.classList.remove("active");
+    }
+  }
+
+  // 4. Click ra ngoài vùng thư để đóng
+  window.onclick = function(event) {
+    var modal = document.getElementById("mail-modal");
+    if (event.target === modal) {
+      closeMail();
+    }
+  };
+
+  // 5. Hiệu ứng hòm thư rung lắc mỗi 8 giây
+  setInterval(function() {
+    var mailbox = document.getElementById("secret-mailbox");
+    var modal = document.getElementById("mail-modal");
+
+    // Chỉ lắc nếu hòm thư chưa bị ẩn (style.display != 'none')
+    if (mailbox && mailbox.style.display !== "none" && modal && !modal.classList.contains("active")) {
+      mailbox.classList.add("shake-animation");
+      setTimeout(function() {
+        mailbox.classList.remove("shake-animation");
+      }, 800);
+    }
+  }, 3000);
+</script>
+
 </body>
 </html>
