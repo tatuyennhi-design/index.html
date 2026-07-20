@@ -4544,6 +4544,20 @@ function toggleMusic(){
       }, 800);
     }
   }, 3000);
+	let originalTitle = document.title; // Lưu lại tên web gốc
+
+  window.addEventListener('blur', () => {
+    // Khi user chuyển sang tab khác
+    document.title = "Mặt trời nhỏ, cậu đi đâu thế..."; 
+  });
+
+  window.addEventListener('focus', () => {
+    // Khi user quay lại tab web mình
+    document.title = "Mừng cậu quay trở lại ✨";
+    setTimeout(() => {
+      document.title = originalTitle; // Trả lại tiêu đề gốc sau 2 giây
+    }, 2000);
+  });
 </script>
 
 </body>
