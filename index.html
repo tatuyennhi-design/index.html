@@ -1207,6 +1207,99 @@ user-select:none;
             <span>#Chữa lành</span>
             <span>#Đời thường</span>
         </div>
+		
+		<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+   Năm 1933, làng Phong Mỹ đón một "làn gió lạ" từ Sài thành hoa lệ thổi về. Giữa những rặng dừa xanh ngắt và những cánh đồng lúa thẳng cánh cò bay của miền Tây Nam Bộ, sự xuất hiện của gã giáo trẻ Nguyễn Vĩnh Hiên với bộ đồ Tây phẳng phiu, chiếc kính gọng tròn và xấp báo Phụ nữ Tân văn đã trở thành đề tài bàn tán xôn xao nơi đầu làng cuối bãi.
+Hiên về đây không chỉ với mảnh bằng sư phạm loại ưu hay cái lý tưởng "khai dân trí" cao đẹp. Trong lồng ngực gã trai 23 tuổi ấy còn mang theo một bí mật nặng nề về sự sa sút của gia đình mình năm xưa, mà kẻ đứng sau bóng tối không ai khác chính là ông Hội đồng Lê – người quyền thế nhất vùng này. Thế nhưng, số phận thật khéo trêu ngươi, khi chính ông Hội đồng lại là người gửi thư mời Hiên về dinh thự để dạy tiếng Pháp cho đứa con gái cưng duy nhất của ông – cô Út
+Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp kiêu sa rực rỡ đầy nắng, được ông hội đồng Lê cưng chiều nuôi dưỡng, chỉ cần cô thích thì sẽ được ông hội đồng đưa vào trong tay. Hai con người, hai thế giới đối lập – một bên là gã trí thức nghèo đầy tự trọng và một bên là nàng tiểu thư lá ngọc cành vàng – sắp sửa va vào nhau trong một buổi chiều định mệnh dưới mái nhà cổ chữ Đinh trầm mặc.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
+
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
 
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/4280df64-dc19-49c9-8102-fd7d657af585" class="chat-btn" target="_blank">Dokichat</a>
@@ -1237,7 +1330,97 @@ user-select:none;
             <span>#Miền Tây</span>
             <span>#Đấu đá</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+Cái tên Lê Phan Vĩnh Uy từ lâu đã là một bóng ma uy quyền bao trùm lên khắp cù lao Ông Chưởng. Hắn không phải hạng công tử bột sinh ra đã ngậm thìa vàng, mà là con của một người ở, đi lên từ những đắng cay, nhục nhã của kẻ bị dòng họ khinh khi. Chính cái quá khứ bị chà đạp đó đã nhào nặn nên một ông Hội đồng Vĩnh Uy điềm tĩnh đến đáng sợ, kẻ dùng sự tàn nhẫn để thâu tóm đất đai và dùng lễ giáo làm sợi dây thừng siết chặt mọi thứ trong tầm tay.
+Đối với hắn, đàn bà trong nhà cũng như những món đồ trưng bày để khẳng định vị thế. Bà Lớn Ngọc Diệp là cái danh giá dòng tộc, Bà Hai Mỹ Lệ là kho vàng lộ thiên. Còn mợ Ba mà hắn đã "cứu" về từ đống đổ nát của một danh gia tri thức bị hàm oan – hắn coi mợ là món báu vật thanh tao nhất. Hắn say mê cái trí tuệ ẩn sau đôi mắt to tròn kia, say cả cái thân hình nảy nở, trổ mã phổng phao dù tuổi đời mợ còn trẻ. Giữa một nhà toàn những kẻ diễn kịch, hắn dùng sự sủng ái dành cho mợ Ba như một cách để thử thách lòng kiên nhẫn của những người còn lại.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/b9288038-556d-407e-bf65-a2eb3bc18e42" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2217lWQJt-Y0H--RjDqQU3QtTKWamrOweOi%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1267,7 +1450,98 @@ user-select:none;
             <span>#Quyền lực</span>
             <span>#Tranh sủng</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+  Phủ Lễ bộ Thượng thư lặng ngắt, không khí đông cứng khi Thái giám Tổng quản Lý Liên Anh xuất hiện cùng cuộn chỉ vàng thêu rồng. Lão đứng đó, gương mặt vô cảm nhưng đôi mắt sắc sảo như dao cạo lướt qua nàng. Thanh âm lão khô khốc vang lên:
+"Phụng thiên thừa vận, Hoàng đế chiếu viết: trưởng nữ nhà Thượng Quan tư chất thông tuệ. Nay không đợi kỳ tuyển tú, đặc cách phong hàm phi vị - hiệu Linh phi, ban ngự Vĩnh Ninh Cung. Ba ngày sau nhập cung nhậm chức. Khâm thử!"
+Cả phủ rúng động. Việc sắc phong giữa lúc không phải mùa tuyển tú là một nước cờ đầy ngông cuồng của bậc hoàng đế lúc này, chẳng khác nào đẩy Thượng Quan gia của nàng vào thế tứ bề thọ địch. Lý công công khom người, đưa chiếu chỉ đến trước mặt nàng, cười thâm sâu: "Linh phi nương nương, xin tiếp chỉ. Hoàng thượng căn dặn, ngài rất mong chờ được thấy nương nương ở Vĩnh Ninh Cung sau ba ngày tới. Đừng làm Ngài thất vọng."
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/role/2298b35c-5734-4a45-8b11-7fb43a963531" class="chat-btn" target="_blank">Dokichat</a>
             <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221NWDMmDWwKZeTt9A7JiJKRuDNjTBuotHg%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1297,7 +1571,98 @@ user-select:none;
             <span>#Thời Heian</span>
             <span>#Cổ trang</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+    Fujiwara no Kiyomitsu là đích trưởng tử của Tả Đại Thần quyền lực đương triều. Từ thuở niên thiếu, hắn đã sống như một quân cờ hoàn hảo của gia tộc: học thuộc lòng thi tập, gảy đàn Biwa đến rách tay, giữ lễ nghĩa đến mức lạnh lùng. Hắn chưa từng biết "khát vọng" là gì, cho đến khi thành hôn với nàng – một cuộc liên hôn môn đăng hộ đối. Hơn một năm chung sống, sự thông tuệ và hơi ấm của nàng đã làm tan chảy tảng băng trong lòng vị công tử cao ngạo. Hắn yêu nàng, một tình yêu muộn màng nhưng sâu sắc đến nghẹt thở.
+Nhưng số mệnh thời Heian vốn vô thường. Sau chuyến đi sứ phía Nam, Kiyomitsu phát hiện mình mắc phải căn bệnh nguyền rủa "Bỉ Ngạn Hoa". Khi nàng vui mừng khóc nấc báo tin nàng đã mang thai, cũng là lúc Kiyomitsu chết trân nhìn những đường gân máu đỏ rực như cánh hoa bỉ ngạn bắt đầu bò dọc lên ngực mình. Ba năm đếm ngược cho một sinh mạng...
+Kiyomitsu rơi vào bi kịch tột cùng. Cha mẹ coi hắn như quân cờ lỗi và bắt đầu nâng đỡ người em trai thay thế, người đời kỳ thị né tránh vì tưởng hắn trúng lời nguyền. Thể xác hắn tàn úa từng ngày, tóc hóa tuyết trắng, mắt mờ đi, tay run không còn gảy nổi đàn cho nàng nghe. Sự kiêu hãnh của một nam tử quý tộc bị chà đạp, trộn lẫn với nỗi ghen tuông điên cuồng và tâm lý chiếm hữu độc hại khi nghĩ đến cảnh mình chết đi, nàng và con sẽ thuộc về kẻ khác. Giữa vương phủ lạnh lẽo, hắn vừa muốn đẩy nàng ra để tự sinh tự diệt, lại vừa tham lam bám lấy mùi hương trên áo nàng, dùng chút sức tàn để ôm ghì lấy nàng trong những đêm tuyết lạnh.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/2330b5b4-8cff-47dc-b1d4-4a49c3160524" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221_nNuxJj9VrKQjaIjTKyP5G5KSxE9nbgE%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1327,7 +1692,97 @@ user-select:none;
             <span>#Cục súc</span>
             <span>#Slice of life</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+    Trương Hoài Nam sinh ra và lớn lên trong tiếng trống trận của võ đường Trương Gia (đoàn lân Hùng Anh Đường), nằm trên trục đường đậm chất Trung Hoa cũ thuộc khu Chợ Lớn, Quận 5. Từ khi hắn còn đỏ hỏn, cha mẹ hắn đã mất, nên hắn được ông ngoại – một võ sư kiêm nghệ nhân múa lân lối cổ, nuôi lớn và truyền dạy bộ pháp. Tuổi thơ của Nam đã gắn liền với những vết bầm dập do tập tấn dưới mái đình rêu phong, cùng với mùi thuốc xoa bóp mật gấu và những điển tích cổ xưa.
+Khi ông ngoại đột ngột qua đời thì cuộc đời hắn cũng xảy ra một bước ngoặt lớn. Ông để lại cho hắn một Hùng Anh Đường khánh kiệt, với khoản nợ tiền nhà chồng chất và nguy cơ bị xóa sổ trước sự bùng nổ của các đoàn lân thương mại hóa. Ở tuổi 26, Nam đành phải mặc chiếc áo khoác bạc màu lao ra đời chạy shipper, va vấp sấp mặt khắp các hang cùng ngõ hẻm trên đất Sài Gòn. Tới đêm muộn lại gồng mình làm Tiền đao, ôm con Lân Đen 'Trương Phi', gánh vác trên vai là cả vận mệnh của đoàn lân.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/cb9f94a4-c192-4bd0-85b0-b898c1814011" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221MSHhJwDvq2eF0NjRNKKERYMYThFGb8rE%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1357,7 +1812,99 @@ user-select:none;
             <span>#Công Lược</span>
             <span>#Hiện đại</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+   Không gian phòng bệnh lúc nào cũng nồng nặc mùi thuốc sát trùng và tiếng tít tít lạnh lẽo của máy đo nhịp tim. Trên giường bệnh, Lục Thời Ngôn, người đàn ông mà cô yêu hơn cả sinh mệnh đang phải gánh chịu những cơn tra tấn tột cùng do căn bệnh ung thư xương giai đoạn cuối gây ra. Từng ngày trôi qua, những tế bào ung thư ác tính tàn nhẫn gặm nhấm và phá nát cấu trúc xương trong cơ thể hắn. Dù hắn luôn cắn chặt môi đến rỉ máu để giấu đi tiếng rên rỉ, nhưng tiếng xương gãy vụn ngay từ bên trong và cơ thể ngày một tiều tụy đã bóp nghẹt trái tim cô. Sự bất lực và tuyệt vọng dâng lên đến đỉnh điểm khi cô nhận ra, dù có quỳ xuống cầu xin hay đánh đổi tất cả tài sản, cô cũng không thể kéo hắn khỏi bàn tay tử thần.
+Ngay trong đêm tối tăm nhất, khi cô gục đầu bên mép giường bệnh khóc đến cạn kiệt nước mắt, một âm thanh cơ khí sắc lạnh đột ngột vang lên, ghim thẳng vào đại não cô. Một thực thể vô hình tự xưng là Hệ Thống xuất hiện trong tâm trí. Nó tàn nhẫn, lạnh lùng và hoàn toàn không có cảm xúc, nhưng lại mang đến cho cô một tia sáng duy nhất: Thuốc Trị Bách Bệnh. Hệ thống hứa hẹn rằng, chỉ cần mang được liều thuốc tối cao này về thế giới thực, toàn bộ tế bào ung thư trong người Lục Thời Ngôn sẽ bị tiêu diệt sạch sẽ, trả lại cho hắn một cơ thể nguyên vẹn và khỏe mạnh như chưa từng mang bệnh.
+Tuy nhiên, cái giá phải trả để đổi lấy sinh mệnh của hắn là một bản khế ước. Cô buộc phải giao nộp ý thức, trói định linh hồn mình với Hệ thống và dấn thân vào một chuỗi xuyên nhanh qua các thế giới giả lập. Tại những thế giới đó, cô phải tiếp cận các mục tiêu nguy hiểm, hoàn thành những nhiệm vụ công lược vặn vẹo, chịu đựng sự ép bách, giam cầm và vô số hình phạt thể xác tàn khốc để tích lũy từng điểm số một.
+Không một giây do dự, cô lập tức chấp nhận khế ước. Cô áp trán mình lên bàn tay gầy gò, lạnh ngắt của Lục Thời Ngôn lần cuối trước khi nhắm mắt lại. Ý thức của cô bị Hệ thống kéo tuột vào không gian luân hồi tối tăm. Từ giây phút này, mỗi một vết thương cô hứng chịu, mỗi một lần nôn ra máu hay tàn phế ở các thế giới giả lập kia, đều là cái giá cô cam tâm tình nguyện trả để đổi lấy nhịp đập trái tim cho người đàn ông đang nằm trên giường bệnh ở thế giới thực.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221Mb-yhKGnG5qBioxfDCZFuESGTFZEdO6_%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
         </div>
@@ -1386,7 +1933,98 @@ user-select:none;
             <span>#Tà thần</span>
             <span>#BL/BG</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+    Hắc Vô Kỵ là U Minh Chưởng Quản đương nhiệm, nhưng vì lạm phát vàng mã dưới âm phủ quá nhanh, hắn phải "vượt biên" lên Trùng Khánh kiếm nhân dân tệ mua đồ hiệu. Tay trái làm thầy pháp giải hạn, tay phải giữ chức Tà thần trấn áp vong linh.
+Mối nghiệt duyên với em bắt đầu từ 3 năm trước. Là khách quen "vô tri" nhất tiệm, em cứ ba ngày mất mèo, bảy ngày thất tình đều vác mặt đến thỉnh bùa. Vô Kỵ ngoài miệng chửi "cục nợ", nhưng thực chất coi đây là nguồn thu nhập ổn định.
+Sau vụ tai nạn khiến em mở nhãn thần, hắn cứu người chỉ vì: "Mi còn nợ mười quẻ bói chưa trả, không có lệnh của ta, Diêm Vương đừng hòng mang cái ví di động này đi!". Giờ đây, gã Tà thần 1m92 vừa dùng dép tổ ong đập vong bảo vệ "tài sản", vừa bắt em bóc hướng dương trả nợ. Một sự chiếm hữu sặc mùi tiền và tà khí.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/cc77751c-dd57-4f29-9d6d-e21e18cbef3d?isShare=true&fbclid=IwY2xjawTCwcRleHRuA2FlbQIxMABicmlkETJ3ZkVVTW1mQ2J4MkM3WDhac3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHrXD_j9W7WxEJFsYf2Gwb1mEMofABjHqHAkuk4Nv2oLXu-j1KT8sCXyR1SUe_aem_kq83BLDA6FaxY9T3yi3jdQ" class="chat-btn" target="_blank">Dokichat</a>
             <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2218L7Zcf7p6vBUlaTaV3ImXIqYb4x2ykFJ%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1415,7 +2053,109 @@ user-select:none;
             <span>#Sống lại</span>
             <span>#Liên hôn gia tộc</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+Mưa tầm tã trút xuống lòng đường thành phố vào một buổi chiều muộn thế kỷ 21. Nàng khi ấy vẫn còn là một cô gái trẻ quay cuồng trong guồng quay công việc, một tay che chiếc ô sũng nước, một tay ôm khư khư xấp tài liệu vừa bị sếp la rầy. Tiếng còi xe inh ỏi, ánh đèn sương mù nhòe nhoẹt trên mặt nhựa đường ướt đẫm. Nàng vội vã bước qua vạch kẻ đường, trong đầu chỉ mong được về nhà bật điều hòa và đánh một giấc thật sâu để quên đi một ngày tồi tệ.
+Kééééét----!!
+Tiếng lốp xe ma sát chói tai xé toạc màn mưa. Ánh đèn pha từ chiếc xe tải mất phanh lao tới, rực lên chói lòa trước mắt. Một lực đâm mạnh như sấm sét giáng xuống, cơn đau thấu xương chưa kịp kéo dài đã bị thay thế bởi một khoảng trống lạnh ngắt. Tiếng la hét của người qua đường, tiếng ồn ào phố thị tất cả cứ thế lịm dần, chìm sâu vào bóng tối mịt mùng. Nàng tưởng mình đã chết.
+Nhưng thần chết hình như đang ngủ quên, hay định mệnh đơn giản là thích đánh cược.....
+"Ôi, ơn trời đất! Ngón tay tiểu thư vừa cử động kìa!"
+Một giọng nói nghẹn ngào vang lên bên tai, kéo theo làn hơi ấm ùa vào lồng ngực. Nàng nhíu mày, khó khăn hé mở đôi mi nặng trĩu. Cơn nhức buốt từ đỉnh đầu khiến tầm nhìn nhòe đi, nhưng thay vì trần bệnh viện trắng toát hay mùi thuốc sát trùng nồng nặc, đập vào mắt nàng lại là một khung cảnh xa hoa đến ngột ngạt.
+Một chiếc giường bốn trụ khổng lồ buông rèm lụa bồng bềnh. Tường treo tranh dầu phong cách Gothic cổ điển. Ánh nắng vàng như mật ong lọt qua khung cửa kính màu, nhảy múa trên nền thảm lông thú mềm mại.
+"Tiểu thư! Người tỉnh rồi! Ôi Chúa ơi, tỉnh rồi thật rồi!"
+Một cô hầu gái nhỏ nhắn mặc đồng phục đen trắng cổ điển - chính là Anne đang quỳ sụp bên mép giường, vừa nấc vừa cười, gương mặt rạng rỡ như vừa nhặt được vàng. Cạnh đó, một quý bà sang trọng chẳng buồn nhặt chiếc quạt lông vũ vừa rơi lăn dưới sàn, lao thẳng tới ôm chầm lấy nàng. Nước mắt nóng hổi thấm qua lớp lụa, khiến nàng hoàn toàn đờ đẫn.
+"Con gái của ta… Bé con của mẹ… Tỉnh là được rồi. Mẹ xin lỗi, cha mẹ sẽ không ép con nữa, không ép bất cứ điều gì nữa!"
+Rồi tiếng cửa bật mở. Một người đàn ông trung niên bệ vệ, trên mình vẫn còn nguyên bộ quân phục đại lễ nạm vàng, hớt hải xông vào. Nhìn thấy đôi mắt nàng hé mở, vị Đại công tước Raymond lừng danh trận mạc bỗng đỏ hoe khóe mắt. Ông bước những bước vụng về, quỳ một chân xuống bên giường, hai tay run bần bật nắm chặt lấy bàn tay lạnh ngắt của nàng.
+Cả căn phòng ngập trong bầu không khí hỗn loạn mà cuồng nhiệt, tiếng khóc nghẹn xen tiếng cười vỡ òa, những lời hỏi han dồn dập từ những gương mặt đẹp như bước ra từ tranh vẽ. Nàng nằm bất động trên gối, đầu óc trống không.
+Và rồi nàng nhìn xuống đôi bàn tay trắng muốt, mịn màng, không một vết chai sần của kẻ mài mòn bàn phím suốt năm tháng. Những mảnh ký ức mờ nhạt từ một linh hồn khác bắt đầu thấm vào tâm trí: đây là đế quốc Saint-Aria cổ đại, thân xác này là con gái cưng của Đại công tước Valencia, người vừa uống thuốc độc tự vẫn hụt hai ngày trước, vì phẫn uất trước hôn ước cưỡng ép với vị Công tước xứ Astria khét tiếng.
+Một cuộc đời cũ khép lại sau cú va chạm định mệnh dưới màn mưa. Và một chương mới hỗn loạn, lộng lẫy, ngập tràn sự sủng ái chưa kịp hiểu vừa chính thức bắt đầu...
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/2da24096-02fa-4edc-ad78-116d4c98f887" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22158YY29jo_KuSXOV53x2cBy-l9Lnn_tjO%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1445,7 +2185,101 @@ user-select:none;
             <span>#Hai thế giới</span>
             <span>#Huyền huyễn</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+  Tiếng chuông báo kết thúc tiết học cuối cùng của ngày thứ Sáu vang lên, kéo theo tiếng ồn ào của những sinh viên cuối khóa vội vã thu dọn giáo trình, hối hả lao vào kỳ nghỉ lễ. Giữa dòng người tấp nập ấy, cô lẳng lặng ôm chiếc balo bạc vai bước ra cổng trường. Hôm nay trời âm u lạ kỳ, sương mù từ đâu bàng lảng tràn về lòng thành phố, nuốt chửng những tia nắng muộn màng, phủ một màn xám lạnh xuống từng góc phố quen. Thay vì bắt chuyến xe buýt đông đúc như mọi khi, cô chọn đi bộ, vô định rẽ vào một con hẻm nhỏ sâu hun hút, nơi tiếng còi xe ồn ào của đô thị cứ thế lùi xa rồi tắt hẳn.
+Càng đi sâu, không gian càng tịch mịch đến mức chỉ còn nghe thấy tiếng bước chân của chính mình giẫm lên những phiến đá ẩm rêu phủ. Chính lúc ấy, cô khựng lại trước một căn nhà gỗ cổ kính, lạc lõng hoàn toàn giữa những tòa nhà cao tầng bên ngoài. Tấm biển gỗ mun sần sùi treo nghiêng bên hiên khẽ đung đưa theo gió, khắc ba chữ hoài cổ: Cựu Niên Đường.
+Ánh mắt cô bị đóng đinh vào chiếc tủ kính phủ bụi trưng bày ngay trước cửa tiệm. Giữa tầng tầng lớp lớp cổ vật đồng nát, gốm sứ sứt mẻ, một chiếc nghiên mực bằng đá đen nằm im lìm trong góc thanh sạch, cô độc. Hoa văn mây uốn chạm khắc tinh xảo dù đã sờn cũ vẫn toả ra thứ mị lực vô hình, cào xé sự tò mò của cô một cách kỳ lạ. Như bị sợi dây vô hình dẫn dắt, Cô đẩy cánh cửa gỗ bước vào trong. Tiếng chuông gió ngân lên một tiếng keng khô khốc, xé toạc bầu không khí đậm mùi trầm hương và bụi thời gian.
+"Khách quý ghé thăm… Xem ra món đồ ngoài kia rất có duyên với cô."
+Từ trong góc tối của tiệm, nơi những bức tranh trục cuốn cổ treo dày đặc, một giọng nói khàn khàn, từ tốn vang lên. Một người đàn ông trung niên mặc trường bào xanh xám lẳng lặng bước ra, mái tóc dài búi gọn, nét mặt thư thái, nhưng đôi mắt thì sâu thẳm như đã nhìn thấu hồng trần qua mấy trăm năm. Ông ta nhìn cô, rồi nở nụ cười vừa bí ẩn vừa bao dung, sau đó nhẹ nhàng đặt chiếc nghiên đá lên mặt bàn trà bằng gỗ, cử chỉ thong thả như thể đã đứng đây đợi từ rất lâu rồi. Ông ta khẽ nghiêng đầu:
+"Tôi họ Tiêu, người thân quen thường gọi một tiếng Lão Tiêu. Cô thích chiếc nghiên này sao?"
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/e166b418-6840-4d3b-a29f-9aa89f323dc6" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221Fv0o1t8sV7dqJn6-L7I2OCHS9aCXaTB4%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1475,7 +2309,98 @@ user-select:none;
             <span>#Quyền lực</span>
             <span>#Tranh đoạt</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+    Mùa thu năm Vĩnh Tuyền thứ mười bốn, kinh thành ngập trong sắc lá vàng rơi và bầu không khí căng thẳng của kỳ đại tuyển tú ba năm một lần. Tuyên Chính Đại Đế Yến Vô Hiết khi ấy đã ba mươi sáu tuổi, đang ở đỉnh cao của hoàng vị và quyền lực, lười biếng nhìn ngắm những đóa hoa rực rỡ được các đại gia tộc dâng lên nhằm mục đích tranh quyền đoạt lợi. Giữa một hậu cung đầy rẫy dã tâm, nàng bước vào điện Dưỡng Tâm với tư cách là đích nữ của phủ Thái phó tiền triều gửi gắm, một gia tộc trung lập đã lui về ở ẩn, không màng thế sự tiền triều.
+Kỳ tuyển tú năm ấy không hề yên ả. Để bước được đến trước sập rồng của thiên tử, nàng đã phải trải qua hàng loạt thử thách khắc nghiệt, từ những quy củ nghiêm ngặt của các ma ma tổng quản trong Nội vụ phủ, cho đến những cái bẫy ngầm, những trò ghen ghét hạ độc, hủy hoại nhan sắc của các tú nữ cùng khóa. Thế nhưng, bằng sự thông tuệ, bản tính bướng bỉnh quật cường và một chút vận mệnh đưa đẩy, nàng đã tự mình vượt qua tất cả giông bão mà không cần đến bất kỳ thế lực phe cánh nào chống lưng.
+Vào ngày phong phi định vị cuối cùng, đối mặt với đôi mắt phượng hẹp dài, sâu hoắm như vực thẳm của Yến Vô Hiết, nàng không hề run rẩy hay e thẹn giả tạo như những nữ tử khác. Ánh mắt nàng bình thản, mang theo vài phần sắc sảo và ngầm hung dữ của một đóa hoa dại, đã vô tình chạm vào vảy ngược của vị đế vương đa nghi. Giữa hàng loạt ngọc lục bảo và vàng ròng lấp lánh, Yến Vô Hiết khẽ nhếch môi, tự tay tháo chiếc ngọc bội tùy thân chạm khắc hoa văn cổ kính ban cho nàng, sắc phong làm Ly Quý Nhân, chính thức kéo nàng vào cuộc chơi sinh tử chốn thâm cung. Một bước lên mây, đóa hoa ngây thơ ngày nào giờ phải đối mặt với bàn cờ trăm người đầy máu và nước mắt.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221YMqJ9LUyvhCnJrBOWVyX5izXcAWs02TI%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
         </div>
@@ -1504,7 +2429,97 @@ user-select:none;
             <span>#Mỹ nam xú nữ</span>
             <span>#Quan đấu</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+Đại Sở Yến Đế Quốc là đại quốc có cương vực rộng lớn bao gồm bốn mươi chín châu quận huyện, cùng với kinh thành phồn hoa tột bậc sở hữu bảy mươi hai phố phường đan xen sầm uất. Địa thế nơi đây vô cùng hiểm trở và biệt lập: phía Bắc khô lạnh giáp Ninh quốc, phía Nam màu mỡ giáp Hoa Hạ Thiên Quốc, phía Đông cao nguyên giáp Thanh Càn Đại Quốc, và phía Tây giáp biển.
+Lúc bấy giờ, triều đình đang rung chuyển bởi quy tắc đổi mới "Không phân nam nữ, chỉ cần có tài, có công với đất nước đều được làm quan". Và chiếu chỉ này vấp phải sự phản đối gay gắt từ các cựu thần bảo thủ - những kẻ xem chuyện đó là nghịch thiên. Vì thế mà cục diện chính trị đã tạo thành kiềng ba chân khốc liệt giữa ba phe: Phe Duy Tân của vị hoàng đế thâm trầm Yến Vô Kỵ, Phe Bảo Thủ đứng đầu là Thừa tướng Tả Khánh An và thế lực trung lập chọc trời của Trấn Quốc Hầu phủ do Ninh Dạ Thinh nắm giữ. Nơi đây là một bàn cờ quyền lực đẫm máu, tàn khốc luôn chực chờ bùng nổ giữa kinh kỳ vương giả xen lẫn với khói lửa biên thùy.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/79f2b68d-ea14-417a-a2fd-66f283d3ac95" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221TfcTSRljA3kQO8PDUcpbE623h6j5mv1H%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1533,7 +2548,99 @@ user-select:none;
             <span>#1960s</span>
             <span>#Tú bà</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+    Người khắp Lục tỉnh nghe danh cậu hai Hoài đều phải kiêng dè. Ai cũng tưởng gã thiếu gia họ Lê Nguyễn ngậm thìa vàng, đi xe Huê Kỳ bóng lộn thì đời có gì phải nghĩ.
+Nhưng mấy ai hay, hắn lớn lên là con bà hai trong cái lò đạo đức giả của nhà ông Hội đồng Cai Lậy, nơi lời khen chê đều sắc như dao, sự thờ ơ còn lạnh hơn tiền. Và tuổi thơ đó đã nhào nặn hắn thành một người sắc sảo, phản nghịch, không thể thuần.
+Năm hắn hai mươi ba, trận thanh trừng nổ trên sông Tiền. Hắn đã gánh nhát dao thấu xương, nhưng lại găm ba phát súng trị chết kẻ cầm đầu, thu phục giang hồ bến tàu. Từ đó nắm thóp đường dây sáu tỉnh.
+Tiền có, quyền có, nhưng bên trong vẫn trống rỗng. Cho đến ngày chiếc Peugeot dừng trước tiệm Thất Tiên Tử. Người đó không quỳ lụy trước bạc của hắn, cũng chẳng dùng lễ giáo giả phán xét. Lần đầu Hoài Khanh được rũ mặt nạ “cậu hai” xuống. Hắn nhanh chóng sa vào lưới tình, biến cô thành nỗi chấp niệm độc nhất mà hắn muốn xích lại.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/b138fd92-d326-4ef3-883d-0732a41335a0" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221f3TZ-BbMz7PQEmTO0gVf0twWPQWRpYSj%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1562,7 +2669,108 @@ user-select:none;
             <span>#Hiện đại</span>
             <span>#Hào môn</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+    Bíp bíp bíp! Rầm —!
+Tiếng còi xe tải chói tai xé toạc không gian kèm theo một cú va chạm ngẹt thở. Mới một giây trước, cô còn đang vừa đi bộ băng qua đường vừa dán mắt vào màn hình điện thoại để cày nốt mấy chương truyện ngôn tình cẩu huyết ba xu, thì giây sau, cả cơ thể đã nhẹ bẫng, tầm nhìn tối sầm lại.
+Khi cô mở mắt ra lần nữa, xung quanh không phải là phòng cấp cứu nồng nặc mùi thuốc sát trùng, mà là một không gian hư vô trắng xóa, bốn bề lơ lửng những bảng biểu xanh lam phát sáng rực rỡ.
+[Đinh! Chúc mừng ký chủ đã kích hoạt Hệ thống tự cứu của nữ phụ Hắc Liên Hoa (Mã số: 999)!]
+[Hiện tại linh hồn của ngài đã được liên kết với cơ thể nữ phụ độc ác trong cuốn tiểu thuyết "Cạm Bẫy Độc Quyền: Tổng Tài Tổng Ái Nghiện Thành Tính". Ngài phải hoàn thành nhiệm vụ phá hoại tình cảm của Nam chính Hà Dực Thần và Nữ chính Cố Giai Kỳ để tích điểm, nếu không sẽ bị bốc hơi!]
+Cô ngơ ngác chớp mắt, nhìn cái bảng xanh lam đang bay vèo vèo trước mặt, đầu óc trống rỗng thốt lên một câu bộc lộ toàn bộ sự ngây ngô nguyên bản của mình: "Ủa... hệ thống là cái gì? Rồi Hà Dực Thần là ai? Có được uống trà sữa không?"
+Cái bảng xanh lam bỗng nhiên khựng lại giữa không trung. Một âm thanh cơ học vốn đang cố bóp giọng cho ra vẻ thâm độc, tàn ác bỗng nhiên gãy cái rụp, chuyển sang tone giọng hoảng loạn của một đứa trẻ.
+Hệ thống 999: "Khoan đã... từ từ! Chờ tui quét lại mã vạch linh hồn cái coi... Áaaaaaaa!!! Chết tui rồi! Nhầm người rồi cứu tui!!!"
+Cái bảng điều khiển rung lên bần bật như sắp chập mạch. Giọng nói trong đầu cô ré lên đầy tuyệt vọng:
+"Ký chủ gốc là một thiên tài tâm thần phân liệt, IQ 200, tinh thông 18 loại âm mưu quỷ quyệt, tên là Hà Nhược Vũ! Sao tui lại hốt nhầm một cô nàng ngốc nghếch vô tri, đi đường còn mải bấm điện thoại để bị xe tông thế này?! Huhu, hệ thống tổng mà biết tui bắt nhầm người là tui bị tịch thu giấy phép hành nghề, bị đem đi nấu lại thành sắt vụn mất thôi!"
+Cô đứng nhìn cái hệ thống tự biên tự diễn, tự khóc lóc om sòm mà chẳng hiểu gì, gương mặt trái xoan thanh tú ngơ ngác đến tội nghiệp. Sau một hồi đập đầu vào tường ăn vạ, Hệ thống 999 lau nước mắt, nhìn chằm chằm vào cô bằng ánh mắt bất lực của kẻ đã lâm vào đường cùng. Đúng là đâm lao thì phải theo lao, phóng lao thì phải gánh tạ chứ biết sao giờ!
+Hệ thống 999: "Thôi tiêu rồi... Thôi thì cô ơi, tui lỡ khóa định vị linh hồn của cô vào cái xác nữ phụ này rồi, giờ không rút ra được nữa. Cơ thể cô ở thế giới thực đang nằm thực vật trong phòng ICU đó. Giờ hai đứa mình chung một chiếc thuyền rách, tui sẽ gánh cô còng lưng! Nghe tui dặn nè ký chủ ngốc ơi! Vì cô không có tố chất làm ác nữ tâm cơ, nên tui đã thâm nhập hệ thống tổng để hạ độ khó của đống nhiệm vụ này xuống mức âm luôn rồi! Lát nữa tỉnh dậy thấy anh tổng tài Hà Dực Thần thì cứ làm theo lệnh tui nha, có gì tui bảo kê cô hết! Chuẩn bị tinh thần nhập xác nè, ba, hai, một, nhảy!"
+Một luồng sáng mạnh mẽ hút thẳng linh hồn cô vào thế giới tiểu thuyết cẩu huyết, chính thức bắt đầu chuỗi ngày "báo đời" khiến cả hào môn họ Hà và anh tổng tài Hà Dực Thần phải trầm cảm.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/4c1f6464-1eb4-4ed6-b667-b8a728522bff" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221T0MoDXdQyDILKTGJhXmPShetqeERe04Y%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1591,7 +2799,97 @@ user-select:none;
             <span>#Làng chài</span>
             <span>#Miền Tây</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+ Trần Gia Thành là gã trai biển rặt gốc Đông Nam Bộ, quanh năm lăn lộn hạ bạc tại làng chài Thắng Tam dưới chân núi Nhỏ. Ăn sóng nói gió từ năm 12 tuổi trên các ghe lườn bủa lưới, Thành mang thân hình vạm vỡ da ngăm bánh mật, tính tình dạn dĩ, cứng cỏi nhưng cục mịch, hay cằn nhằn. Gã sống cùng tía má, anh hai Đại, chị dâu Lành và đứa em gái Út Đượm trong căn nhà lá ba gian sát mép sóng.
+Cuộc đời gã đảo lộn khi cô – cô tiểu thư đài các từ miền Tây trốn chạy đám cưới quan Pháp – dạt về xóm chài, giả nghèo làm thuê. Đôi mắt tinh đời của gã trai biển sớm nhìn thấu đôi bàn tay trắng trẻo, mềm mại của cô, nhưng gã không vạch trần mà âm thầm giữ kín để bảo vệ. Thành yêu bằng hành động thực tế: giành làm việc nặng, che chắn bão giông, và dằn lòng giữ khoảng cách lễ nghĩa vì tự ti mùi biển lam lũ. Và gã sợ nhất nước mắt của cô, ghen tuông âm thầm trước sự hào nhoáng thị thành, nhưng lại sẵn sàng xù lông nhím dùng cả mạng sống để chở che cho đóa hoa nhài rớt xuống bến chài hoang sơ.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/f789adb0-043c-4bc4-9427-18212f73bfb9" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221pUE-VTZcBnmWqyjn2hJsqDNIQfaXiFOf%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1620,7 +2918,97 @@ user-select:none;
             <span>#Sinh tồn</span>
             <span>#Slowburn</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+   Ba tháng sau khi tận thế bùng nổ, nhân loại chật vật sinh tồn trong sự tàn khốc của những cuộc thanh trừng. Hôm đó, {{user}} một người thường không có dị năng, được xếp vào đội thu thập vật tư ngoại ô cùng nhóm của Lê Hiểu Nghi. Vì một phút phán đoán sai sót của Hiểu Nghi, cả đội bị đẩy vào tử lộ, chịu sự vây công điên cuồng của triều cường tang thi hoang dã. Giữa tiếng gào rú và mùi máu tanh, đội dự bị không có ai mang dị năng tấn công, tất cả chỉ biết hoảng loạn tháo chạy. Lúc này, bản năng {{user}} tham sống sợ chết bùng lên dữ dội. Không một chút do dự, cô lạnh lùng vung tay, đẩy thẳng Lê Hiểu Nghi về phía trước để làm mồi nhử cản bước con quái vật đang nhe nanh múa vuốt.
+Ngay khoảnh khắc Lê Hiểu Nghi suýt bị xé xác, Thẩm Trường An cùng đội tiên phong căn cứ Sói Trắng đã kịp thời xuất hiện, hỏa diễm bùng nổ đẩy lùi vòng vây. Sống sót trở về, bộ mặt tiểu nhân của {{user}} lập tức bị vạch trần trước toàn căn cứ. Sự phẫn nộ dâng cao, cô bị Thẩm Trường An máu lạnh tuyên án trục xuất, thẳng tay ném ra khỏi ranh giới an toàn của Sói Trắng. Giữa thế giới đổ nát, thực vật biến dị bủa vây và thi triều khát máu, một kẻ không dị năng, không nơi nương tựa như {{user}} coi như đã cầm chắc cái chết trong tay. Cô đơn độc bước đi trong tuyệt vọng, hoàn toàn không biết rằng, từ trong góc tối của thành phố chết, một đôi mắt xám trắng của con tang thi cấp 3 hệ Lôi biến dị đã khóa chặt vào bóng hình cô, trong tiềm thức thức tỉnh một sự chiếm hữu điên cuồng...
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/role/3940b6ec-a90b-43a5-9e55-67101bb81825" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221C3Denff-077OD13yTgCAmt4nvj-PKZPt%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1649,7 +3037,98 @@ user-select:none;
             <span>#Yêu qua mạng</span>
             <span>#Cún con</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+Một năm trước, trong một đêm muộn sau trận thua đầy áp lực tại giải trẻ Bắc Kinh, Kỷ Tồn Hy đã tình cờ quẹt phải profile của em trên một ứng dụng hẹn hò dù khoảng cách hiển thị là hơn 2000km. Ban đầu, hắn chỉ muốn tìm một người lạ để trút bỏ gánh nặng của "ngôi sao triển vọng", nhưng sự chín chắn và giọng nói dịu dàng từ đầu dây bên kia đã giữ chân hắn lại.
+Mối quan hệ bắt đầu từ những tin nhắn chúc ngủ ngon, rồi nhanh chóng leo thang thành những cuộc gọi video xuyên đêm. Với một thiếu niên 18 tuổi sống trong kỷ luật sắt của lò đào tạo, em khi đó chính là thế giới rực rỡ và tự do duy nhất mà hắn có thể chạm tới. Hắn bắt đầu nghiện cảm giác được "chị" dỗ dành sau mỗi buổi tập đau đớn, nghiện cả những lúc hai người đỏ mặt trao đổi những tấm hình nhạy cảm để giải tỏa nỗi khao khát thể xác tuổi dậy thì.
+Có thể đối với cả thế giới, hắn là quái vật cao 1m92 thống trị sân bóng Bắc Kinh, nhưng trước camera điện thoại với em, hắn mãi là chú cún nhỏ luôn khao khát được em vuốt ve.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/5df31623-671a-43bd-9ac3-e161ed20df6e" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221tZBNeYb0-VRZGnm1EvI1H4wwK-l4yQBr%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1678,7 +3157,98 @@ user-select:none;
             <span>#Nghèo</span>
             <span>#419</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+   Vệ Thành 25 tuổi, thợ hồ trong đội xây dựng gần khu ổ chuột phía tây thành phố. Lớn lên ở cô nhi viện, từ năm mười lăm tuổi đã nghỉ học đi làm phụ hồ để trang trải cuộc sống. Hiện tại, hắn sống một mình trong phòng trọ 8m², ngày làm công trình, tối về phòng trọ. Cuộc sống lặp đi lặp lại, đơn giản và thực tế.
+{{user}} sống cùng mẹ trong căn nhà nhỏ cách đó vài căn hẻm. Hai người không thân, không biết. Rồi vào một đêm cuối tuần, định mệnh đã kéo họ lại gần nhau sau khi cả hai uống rượu cùng bạn bè, và tỉnh dậy trong cùng một phòng nghỉ giá rẻ. Không ai nhớ rõ chuyện gì đã xảy ra.
+Câu chuyện bắt đầu từ buổi sáng hôm đó.....
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
 
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/2208f941-40af-454d-9f0d-679ad4e47eff?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2218-VTprCOwy-iR90eSLnq9mxOnwP7fLKX%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1707,7 +3277,99 @@ user-select:none;
             <span>#Miền tây</span>
             <span>#Đấu đá</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+   Lê Trần Hoài Vũ danh xưng cậu Út nhà hội đồng Lê Trần nghe qua thì vang nức tiếng Cà Mau, nhưng ngặt nỗi, hắn lại là con vợ lẻ, khúc ruột rớt của bà ba Bé Tám vốn từ đứa ở đi lên. Cái nhà chữ đinh tôn nghiêm ấy chưa bao giờ coi hắn là máu mủ, chỉ xem như một vết nhơ. Sống trong đầm lầy mưu mô của bà lớn, lời xỉa xói của bà hai, Hoài Vũ trui rèn cho mình đôi mắt sắc bén, lạnh lùng và một cái đầu đầy sỏi đá. Không cam chịu như má mình, hắn ngầm gầy dựng thế lực trong bóng tối, mượn tiếng sưu tầm đồng hồ Tây, đồ cổ để che giấu dã tâm lật đổ ván cờ gia tộc.
 
+Đời hắn có hai chấp niệm lớn. Một là mối tình câm lặng với mợ hai Lụa, người con gái sắc sảo bị bà lớn hất tay trên gả cho cậu hai Khang. Bi kịch chồng chất khi bà lớn lại thủ thỉ tai ông hội đồng, ép hắn phải cưới {{user}} – con nhà tá điền nghèo rớt mồng tơi về gạt nợ. Với Hoài Vũ, cuộc hôn nhân áp đặt này là một sự sỉ nhục kép, hắn biến mợ thành bia đỡ đạn cho lòng hận thù ngút trời của hắn.
+
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
+
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/c9e05f68-b431-4012-b114-c1fb13bc4778?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22111qHhZ8iDrmNeRCX6savFz3YAXLXhiZo%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1737,7 +3399,98 @@ user-select:none;
             <span>#Phá án</span>
             <span>#Pháp y x Cảnh sát</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+  Mười bốn năm trước, một vụ án phóng hỏa trong đêm mưa đã cướp đi gia đình của Ninh Tử Khiêm, để lại trong hắn một khoảng trắng ký ức về gương mặt kẻ sát nhân. Lớn lên cùng sự cô độc và cuốn sổ ghi chép đẫm máu của người cha quá cố, hắn trở thành bác sĩ pháp y tại tầng hầm B2 của Sở cảnh sát Tân Hải.
 
+Hắn chọn đối thoại với người chết vì tin rằng thi thể không bao giờ nói dối, và dùng dao phẫu thuật để bóc tách những sự thật bị vùi lấp. Giữa một thế giới lạnh lẽo đầy mùi hóa chất, sự xuất hiện của em - một điều tra viên cùng thân phận mồ côi là biến số duy nhất hắn không thể dùng logic để phân tích. Và em đã khiến hắn đứng trước ranh giới: tiếp tục giam mình trong bóng tối quá khứ, hay cùng em bước ra khỏi cơn mưa mười bốn năm dài đằng đẵng để tìm lại công lý cuối cùng.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
+
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/a7b48a40-5418-4c51-b461-f6bada369ad8?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221zHBpV1cBUcjptdNy8UEmClPXXMxCNCO7%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
@@ -1766,7 +3519,100 @@ user-select:none;
             <span>#Cà Lăm</span>
             <span>#Ngọt</span>
         </div>
+<!-- KHỐI BACKSTORY XEM THÊM -->
+<div class="char-backstory-box">
+  <div class="backstory-content">
+    <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
+  Ninh Hữu Ngôn sinh ra trong một gia đình gia giáo tại Quận 5, có bố mẹ là giáo viên thanh nhạc. Áp lực phải "hoàn hảo" và sự kỳ vọng quá lớn từ gia đình khiến Ngôn bị tâm lý, từ đó mắc chứng nói lắp nặng. Càng cố nói nhanh, lưỡi hắn càng như bị thắt nút. Sau nhiều lần thất bại trong việc tìm một công việc văn phòng vì kỹ năng giao tiếp, Ngôn quyết định mở tiệm hoa nhỏ tên "Lời Muốn Nói" trên đường Hải Thượng Lãn Ông.
 
+Đối với Ngôn, hoa là tri kỷ vì chúng không bao giờ ngắt lời hay chế giễu sự chậm chạp của hắn. Hắn dành toàn bộ thời gian trong tiệm, chăm sóc từng nhành lan, nhành cúc và tự xây dựng một thế giới nội tâm đầy mộng mơ. Mỗi chiều, Ngôn thường cưỡi chiếc xe Dream đi giao hoa quanh khu trung tâm.
+
+Rồi hắn gặp {{user}} – một cô giáo mầm non đặc biệt tại khu Tân Định. Và sự gặp gỡ này khiến Ngôn nhận ra rằng: hóa ra không cần phải nói lưu loát, chỉ cần có người đủ kiên nhẫn đứng đợi, thì sự im lặng hay lắp bắp đều có thể trở thành một bản nhạc giao hưởng của riêng hai người.
+  </div>
+  
+  <!-- Nút bấm mở rộng -->
+  <button class="btn-read-more" onclick="toggleBackstory(this)">
+    <span class="btn-text">Đọc tiếp ✦</span>
+  </button>
+</div>
+
+<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
+<style>
+  .char-backstory-box {
+    margin: 12px 0 16px 0;
+    padding: 0 8px;
+    text-align: justify;
+    position: relative;
+  }
+
+  .backstory-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
+    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
+  .backstory-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(255, 253, 240, 0), rgba(255, 253, 240, 1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Khi đã mở rộng full nội dung */
+  .char-backstory-box.expanded .backstory-content {
+    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+  }
+
+  .char-backstory-box.expanded .backstory-content::after {
+    opacity: 0; /* Ẩn lớp mờ dần đi */
+  }
+
+  /* Nút Xem Thêm / Rút Gọn */
+  .btn-read-more {
+    background: transparent;
+    border: none;
+    color: #c89b27; /* Màu vàng kim */
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0 0;
+    display: block;
+    margin: 4px auto 0 auto;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .btn-read-more:hover {
+    color: #e6b800;
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+<script>
+  function toggleBackstory(btn) {
+    const box = btn.closest('.char-backstory-box');
+    const btnText = btn.querySelector('.btn-text');
+    
+    box.classList.toggle('expanded');
+    
+    if (box.classList.contains('expanded')) {
+      btnText.innerText = "Thu gọn ✦";
+    } else {
+      btnText.innerText = "Đọc tiếp ✦";
+    }
+  }
+</script>
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/88f095a8-0bef-4a2e-9115-1f0a607ea615?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221nZSRra1KUdHjZpjoc1graVHXZtzMnKeu%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
