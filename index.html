@@ -2274,5 +2274,73 @@ function toggleMusic(){
 })();
 </script>
 
+	<!-- Panda Nguyên Con Đầy Đủ Thân Hình -->
+<img id="pandaPet" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Zua3RydnpnbmFqMDRtOHdxcDR1dTh2NDFwdTllM2lsZm4yZXRvYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kL1yTC932MAM/giphy.gif" alt="Panda" title="Bấm vào tui đi!" />
+
+<style>
+  #pandaPet {
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+    width: 65px; /* Kích thước con gấu đầy đủ */
+    height: auto;
+    z-index: 2147483646 !important;
+    cursor: pointer;
+    user-select: none;
+    filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.25));
+  }
+</style>
+
+<script>
+(function() {
+  const panda = document.getElementById('pandaPet');
+  if (!panda) return;
+
+  let currentX = 20;
+  let targetX = 20;
+  let isIdle = false;
+
+  const getMaxX = () => window.innerWidth - 80;
+
+  function pandaLogic() {
+    if (Math.random() < 0.25) {
+      isIdle = true;
+      panda.style.transform = 'scaleX(1)';
+    } else {
+      isIdle = false;
+      targetX = Math.random() * getMaxX();
+    }
+  }
+
+  function updatePandaPosition() {
+    if (!isIdle && Math.abs(targetX - currentX) > 2) {
+      if (targetX > currentX) {
+        currentX += 1.2;
+        panda.style.transform = 'scaleX(-1)'; // Lật mặt quay sang phải
+      } else {
+        currentX -= 1.2;
+        panda.style.transform = 'scaleX(1)'; // Quay sang trái
+      }
+      panda.style.left = currentX + 'px';
+    }
+
+    requestAnimationFrame(updatePandaPosition);
+  }
+
+  setInterval(pandaLogic, 3000);
+  updatePandaPosition();
+
+  // Bấm vào thì nhún nhảy
+  panda.addEventListener('click', function() {
+    panda.style.transition = 'bottom 0.2s ease';
+    panda.style.bottom = '50px';
+    setTimeout(() => {
+      panda.style.bottom = '10px';
+      setTimeout(() => { panda.style.transition = 'none'; }, 200);
+    }, 200);
+  });
+})();
+</script>
+
 </body>
 </html>
