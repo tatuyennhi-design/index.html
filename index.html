@@ -8,8 +8,7 @@
     <title>Tiệm nhà Hy</title>
 
     <meta name="description" content="Trang tổng hợp các AI Character của Hyperion.">
-    <meta name="theme-color" content="#fff7dc">
-    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#071424">
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,14 +35,8 @@
     --shadow:rgba(0,0,0,.08);
     --transition-speed:.18s;
 }
-        
-         html{
-    color-scheme: light;
-}
 
 body {
-    color-scheme: light;
-    background:#fffdf7;
     font-family: "Be Vietnam Pro", sans-serif;
     color: var(--text-color);
     min-height: 100vh;
@@ -523,7 +516,6 @@ body {
 ======================= */
 .news-info{
     min-width:0;
-    margin-left:8px;
 }
 
 .news-info h3{
@@ -582,7 +574,7 @@ body {
 
 /* Scroll */
 #newsList::-webkit-scrollbar{
-    width:8px;
+      width:8px;
 }
 
 #newsList::-webkit-scrollbar-thumb{
@@ -591,150 +583,49 @@ body {
 }
 
 /* =======================
-   NEWS POPUP - DESKTOP
-======================= */
-
-#newsPanel{
-    width:min(760px,92vw);
-    max-width:760px;
-    max-height:82vh;
-}
-
-#newsList{
-    padding:22px;
-    gap:18px;
-}
-
-.news-card{
-    display:grid;
-    grid-template-columns:100px 1fr auto;
-    gap:20px;
-    align-items:center;
-    padding:18px;
-}
-
-.news-card img{
-    width:100px;
-}
-
-.news-info{
-    margin-left:8px;
-}
-
-.news-info h3{
-    font-size:20px;
-}
-
-.news-info p{
-    font-size:14px;
-    line-height:1.7;
-}
-
-.news-tags span{
-    padding:6px 12px;
-    font-size:12px;
-}
-
-.news-btn{
-    width:120px;
-    height:40px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:13px;
-    padding:0;
-    line-height:1;
-}
-        
-/* =======================
    NEWS POPUP - MOBILE
 ======================= */
 @media (max-width:768px){
-
     #newsOverlay{
-        padding:22px;
-        align-items:center;
+        padding:16px;
     }
 
     #newsPanel{
-        width:100%;
-        max-width:390px;
-        max-height:72vh;
-        border-radius:16px;
-        overflow:hidden;
-        box-shadow:
-            5px 5px 0 #ecd78b,
-            0 14px 26px rgba(0,0,0,.18);
+        width:92vw;
+        max-width:420px;
+        max-height:78vh;
+        border-radius:14px;
     }
 
     #newsPanel h2{
-        padding:14px 18px;
-        font-size:19px;
+        padding:18px;
+        font-size:22px;
     }
 
-    #newsList{
-        padding:12px;
-        gap:12px;
+    .news-card{
+        grid-template-columns:80px 1fr;
+        gap:14px;
+        padding:16px;
     }
 
-   .news-card{
-    grid-template-columns:60px 1fr;
-    gap:10px;
-    padding:10px;
-}
+    .news-card img{
+        width:80px;
+    }
 
-.news-card img{
-    width:60px;
-}
+    .news-info h3{
+        font-size:17px;
+    }
 
-.news-info h3{
-    font-size:14px;
-}
-
-.news-info p{
-    font-size:11px;
-    margin-bottom:6px;
-}
-
-.news-tags span{
-    font-size:9px;
-    padding:3px 6px;
-}
-
-    .news-tags span{
-        padding:3px 7px;
-        font-size:10px;
+    .news-info p{
+        font-size:13px;
+        line-height:1.7;
     }
 
     .news-btn{
-    grid-column:1 / -1;
-
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-
-    width:96px;
-    height:30px;
-
-    margin:8px auto 0;
-    padding:0;
-
-    font-size:11px;
-    font-weight:600;
-
-    border-radius:7px;
-
-    white-space:nowrap;
-    flex:none;
-
-    box-shadow:2px 2px 0 #ecd78b;
-}
-
-    .news-close-tip{
-        bottom:8px;
-        font-size:10px;
+        grid-column:1 / -1;
+        width:100%;
+        margin-top:8px;
+        text-align:center;
     }
 }
 
@@ -967,58 +858,14 @@ user-select:none;
 }
 
 /* Điện thoại */
-@media (max-width:768px){
-
-    .character-card{
-
-        grid-template-columns:1fr;
-        gap:18px;
-
-        padding:18px;
-
+@media(max-width:640px){
+    .music-player{
+        width:55px;
+        height:55px;
+        right:16px;
+        bottom:18px;
     }
-
-    .left h2{
-
-        font-size:26px;
-
-    }
-
-    .tagline{
-
-        font-size:14px;
-
-    }
-
-    .right{
-
-        order:-1;
-        padding:0;
-
-    }
-
-    .right img{
-
-        max-width:210px;
-
-    }
-
-    .button-group{
-
-        gap:10px;
-
-    }
-
-    .chat-btn{
-
-        height:46px;
-        min-width:0;
-        font-size:14px;
-
-    }
-
-}
-        
+}  
 </style>
 
 </head>
@@ -1027,7 +874,7 @@ user-select:none;
 <div class="container">
 
     <header class="hero">
-        <img class="banner" src="banner.JPG" alt="Banner" loading="lazy">
+        <img class="banner" src="banner.png" alt="Banner" loading="lazy">
         <div class="section-divider"></div>
         <p class="hero-note">
             Tiệm cổ nhà Hy xin gửi lời chào,
@@ -1061,20 +908,17 @@ user-select:none;
     <button class="category-btn" onclick="filterCategory('cổ trang',this)">
         Cổ trang
     </button>
-    <button class="category-btn" onclick="filterCategory('âu cổ',this)">
-        Âu cổ
-    </button>
     <button class="category-btn" onclick="filterCategory('hiện đại',this)">
         Hiện đại
+    </button>
+    <button class="category-btn" onclick="filterCategory('âu cổ',this)">
+        Âu cổ
     </button>
     <button class="category-btn" onclick="filterCategory('hệ thống',this)">
         Hệ thống
     </button>
     <button class="category-btn" onclick="filterCategory('xuyên không',this)">
         Xuyên không
-    </button>
-    <button class="category-btn" onclick="filterCategory('trinh thám',this)">
-        Trinh thám
     </button>
     <button class="category-btn" onclick="filterCategory('tận thế',this)">
         Tận thế
@@ -1092,7 +936,7 @@ user-select:none;
 
         <main class="character-list">
             <!-- Card 1 -->
-<section class="character-card"  id="card1" data-news="1">
+<section class="character-card" data-news="1">
 
     <div class="left">
         <h2>Nguyễn Vĩnh Hiên</h2>
@@ -1102,7 +946,7 @@ user-select:none;
 
         <div class="tags">
             <span>#Việt Nam xưa</span> 
-            <span>#1930s</span>
+            <span>1930s</span>
             <span>#Ông giáo trẻ</span>
             <span>#Miền Tây</span>
             <span>#Chữa lành</span>
@@ -1111,7 +955,7 @@ user-select:none;
 
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/4280df64-dc19-49c9-8102-fd7d657af585" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221otutEavYYlnT0zl68-BpI4KR3t_qzhuL%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221otutEavYYlnT0zl68-BpI4KR3t_qzhuL%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
@@ -1123,7 +967,7 @@ user-select:none;
 </section>
 
             <!-- Card 2 -->
-<section class="character-card" id="card2" data-news="2">
+<section class="character-card" data-news="2">
 
     <div class="left">
         <h2>Lê Phan Vĩnh Uy</h2>
@@ -1132,7 +976,7 @@ user-select:none;
         </p>
 
         <div class="tags">
-            <span>#Việt Nam xưa</span>
+            <span>#Việt Nam</span>
             <span>#1930s</span>
             <span>#Tranh giành</span>
             <span>#Miền Tây</span>
@@ -1140,133 +984,134 @@ user-select:none;
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/b9288038-556d-407e-bf65-a2eb3bc18e42" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2217lWQJt-Y0H--RjDqQU3QtTKWamrOweOi%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="https://www.dokichat.club/.../b9288038-556d-407e-bf65..." class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2217lWQJt-Y0H--RjDqQU3QtTKWamrOweOi%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="lpvu.png" alt="Ảnh  Character" loading="lazy">
+        <img src="plvu.png" alt="Phan Lê Vĩnh Uy" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 3 -->
-<section class="character-card" id="card3" data-news="3">
+<section class="character-card" data-news="3">
 
     <div class="left">
-        <h2>Ninh Hoài Thượng</h2>
-        <p class="">
-            Ở bên Trẫm, nàng có thể có tất cả, trừ một thứ duy nhất: Sự thật.
+        <h2>Tên nhân vật</h2>
+        <p class="tagline">
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Cổ trang</span>
-            <span>#Cung đấu</span>
-            <span>#Đấu đá</span>
-            <span>#Quyền lực</span>
-            <span>#Tranh sủng</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/role/2298b35c-5734-4a45-8b11-7fb43a963531" class="chat-btn" target="_blank">Dokichat</a>
-            <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221NWDMmDWwKZeTt9A7JiJKRuDNjTBuotHg%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="nht.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 4 -->
-<section class="character-card" id="card4" data-news="4">
+<section class="character-card" data-news="4">
 
     <div class="left">
-        <h2>Fujiwara no Kiyomitsu</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Tuyết lạnh Heian, ta đem sinh mệnh tàn úa hoá thành bỉ ngạn, chỉ cầu ành mắt ngoảnh lại của nàng
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Bệnh nan y</span>
-            <span>#Gia đấu</span>
-            <span>#Liên hôn gia tộc</span>
-            <span>#Thời Heian</span>
-            <span>#Cổ trang</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/2330b5b4-8cff-47dc-b1d4-4a49c3160524" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221_nNuxJj9VrKQjaIjTKyP5G5KSxE9nbgE%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="fnk.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 5 -->
-<section class="character-card" id="card5" data-news="5">
+<section class="character-card" data-news="5">
 
     <div class="left">
-        <h2>Trương Hoài Nam</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Anh gánh được con Lân trên thung cao mười mét, thì anh gánh em cả đời có gì không nổi.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Hiện đại</span>
-            <span>#Múa lân</span>
-            <span>#Cọc cằn</span>
-            <span>#Cục súc</span>
-            <span>#Slice of life</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/cb9f94a4-c192-4bd0-85b0-b898c1814011" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221MSHhJwDvq2eF0NjRNKKERYMYThFGb8rE%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="thn.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 6 -->
-<section class="character-card" id="card6" data-news="6">
+<section class="character-card" data-news="6">
 
     <div class="left">
-        <h2>Lục Thời Ngôn</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Cảm ơn em, mặt trời nhỏ.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Xuyên nhanh</span>
-            <span>#Hệ thống</span>
-            <span>#Nhiều thế giới</span>
-            <span>#Công Lược</span>
-            <span>#Hiện đại</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221Mb-yhKGnG5qBioxfDCZFuESGTFZEdO6_%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="ltn.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
@@ -1275,28 +1120,28 @@ user-select:none;
 <section class="character-card" data-news="7">
 
     <div class="left">
-        <h2>Hắc Vô Kỵ</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Phép thì linh nhưng tính thì lươn.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Hài hước</span>
-            <span>#Kinh dị (trá hình)</span>
-            <span>#Trừ ma diệt yêu</span>
-            <span>#Tà thần</span>
-            <span>#BL/BG</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/cc77751c-dd57-4f29-9d6d-e21e18cbef3d?isShare=true&fbclid=IwY2xjawTCwcRleHRuA2FlbQIxMABicmlkETJ3ZkVVTW1mQ2J4MkM3WDhac3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHrXD_j9W7WxEJFsYf2Gwb1mEMofABjHqHAkuk4Nv2oLXu-j1KT8sCXyR1SUe_aem_kq83BLDA6FaxY9T3yi3jdQ" class="chat-btn" target="_blank">Dokichat</a>
-            <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2218L7Zcf7p6vBUlaTaV3ImXIqYb4x2ykFJ%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="hvk.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
@@ -1305,27 +1150,28 @@ user-select:none;
 <section class="character-card" data-news="8">
 
     <div class="left">
-        <h2>Cedric Von Astriat</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Thưa tiểu thư, tiểu thư lại mất trí nhớ rồi à?
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Xuyên không</span>
-            <span>#Âu cổ</span>
-            <span>#Sống lại</span>
-            <span>#Liên hôn gia tộc</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/2da24096-02fa-4edc-ad78-116d4c98f887" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22158YY29jo_KuSXOV53x2cBy-l9Lnn_tjO%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="ac.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
@@ -1334,356 +1180,156 @@ user-select:none;
 <section class="character-card" data-news="9">
 
     <div class="left">
-        <h2>Đường Khuynh Vũ</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Nếu được sinh ra thêm lần nữa, ta nhất định sẽ đến tìm nàng.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Cổ trang</span>
-            <span>#Hiện đại</span>
-            <span>#Xuyên Không - thời gian</span>
-            <span>#Hai thế giới</span>
-            <span>#Huyền huyễn</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/e166b418-6840-4d3b-a29f-9aa89f323dc6" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221Fv0o1t8sV7dqJn6-L7I2OCHS9aCXaTB4%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="dkv.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 10 -->
-<section class="character-card" id="card10" data-news="10">
+<section class="character-card" data-news="10">
 
     <div class="left">
-        <h2>Yến Vô Hiết</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Ván cờ này nàng nghĩ xem, trẫm thắng hay nàng thắng?
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Cổ trang</span>
-            <span>#Cung đấu</span>
-            <span>#Chính trị</span>
-            <span>#Quyền lực</span>
-            <span>#Tranh đoạt</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221YMqJ9LUyvhCnJrBOWVyX5izXcAWs02TI%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="yvh.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 11 -->
-<section class="character-card" id="card11" data-news="11">
+<section class="character-card" data-news="11">
 
     <div class="left">
-        <h2>Ninh Dạ Thinh</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Người đời có thể gọi ta là ác nhân, nhưng nàng thì không được.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Cổ trang</span>
-            <span>#Nam phản diện</span>
-            <span>#Hầu gia</span>
-            <span>#Mỹ nam xú nữ</span>
-            <span>#Quan đấu</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/79f2b68d-ea14-417a-a2fd-66f283d3ac95" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221TfcTSRljA3kQO8PDUcpbE623h6j5mv1H%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="ndt.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 12 -->
-<section class="character-card" id="card12" data-news="12">
+<section class="character-card" data-news="12">
 
     <div class="left">
-        <h2>Lê Nguyễn Hoài Khanh</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Tiền rừng bạc bể tay ta giữ, lại để lầu xanh giữ mất tim.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Việt Nam Xưa</span>
-            <span>#Miền Tây</span>
-            <span>#1960s</span>
-            <span>#Tú bà</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/b138fd92-d326-4ef3-883d-0732a41335a0" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221f3TZ-BbMz7PQEmTO0gVf0twWPQWRpYSj%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="lnhk.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
             <!-- Card 13 -->
-<section class="character-card" id="card13" data-news="13">
+<section class="character-card" data-news="13">
 
     <div class="left">
-        <h2>Hà Dực Thần</h2>
+        <h2>Tên nhân vật</h2>
         <p class="tagline">
-            Đừng tưởng tôi không biết cô lại giả ngốc.
+            Slogan
         </p>
 
         <div class="tags">
-            <span>#Hệ thống</span>
-            <span>#Xuyên sách</span>
-            <span>#Hiện đại</span>
-            <span>#Hào môn</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
+            <span>#...</span>
         </div>
 
         <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/4c1f6464-1eb4-4ed6-b667-b8a728522bff" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221T0MoDXdQyDILKTGJhXmPShetqeERe04Y%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+            <a href="dán link doki, không có thì xóa dòng này" class="chat-btn chat-btn-secondary" target="_blank">Dokichat</a>
+            <a href="dán link ggai" class="chat-btn chat-btn-secondary" target="_blank">GGAI</a>
         </div>
 
     </div>
 
     <div class="right">
-        <img src="hdt.png" alt="Ảnh Character" loading="lazy">
+        <img src="tên file ảnh (vd: plvu.png)" alt="Ảnh Character" loading="lazy">
     </div>
 
 </section>
 
-            <!-- Card 14 -->
-<section class="character-card" id="card14" data-news="14">
-
-    <div class="left">
-        <h2>Trần Gia Thành</h2>
-        <p class="tagline">
-            Biển đông sóng dữ dập dềnh, Qua thương bậu thẳng, không hề đổi thay.
-        </p>
-
-        <div class="tags">
-            <span>#Việt Nam Xưa</span>
-            <span>#1930s</span>
-            <span>#Làng chài</span>
-            <span>#Miền Tây</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/f789adb0-043c-4bc4-9427-18212f73bfb9" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221pUE-VTZcBnmWqyjn2hJsqDNIQfaXiFOf%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="tgt.png" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
-
-            <!-- Card 15 -->
-<section class="character-card" id="card15" data-news="15">
-
-    <div class="left">
-        <h2>Cố Thinh Ngôn</h2>
-        <p class="tagline">
-            Trong thế giới thối rữa mang danh nhân loại, kẻ thuần khiết nhất lại là một con quái vật.
-        </p>
-
-        <div class="tags">
-            <span>#Tận thế</span>
-            <span>#Zombie (tang thi)</span>
-            <span>#Sinh tồn</span>
-            <span>#Slowburn</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/vi/role/3940b6ec-a90b-43a5-9e55-67101bb81825" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221C3Denff-077OD13yTgCAmt4nvj-PKZPt%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="ctn.JPG" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
-
-            <!-- Card 16 -->
-<section class="character-card" id="card16" data-news="16">
-
-    <div class="left">
-        <h2>Kỷ Tồn Hy</h2>
-        <p class="tagline">
-            北京的MVP，深圳的忠犬。
-        </p>
-
-        <div class="tags">
-            <span>#Hiện đại</span>
-            <span>#Hồng hài nhi</span>
-            <span>#Yêu qua mạng</span>
-            <span>#Cún con</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/vi/chat/5df31623-671a-43bd-9ac3-e161ed20df6e" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221tZBNeYb0-VRZGnm1EvI1H4wwK-l4yQBr%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="kth.png" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
-
-            <!-- Card 17 -->
-<section class="character-card" id="card17" data-news="17">
-
-    <div class="left">
-        <h2>Vệ Thành</h2>
-        <p class="tagline">
-            Không hứa nhiều, nhưng nói là làm
-        </p>
-
-        <div class="tags">
-            <span>#Hiện đại</span>
-            <span>#Thực tế</span>
-            <span>#Nghèo</span>
-            <span>#419</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/chat/2208f941-40af-454d-9f0d-679ad4e47eff?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2218-VTprCOwy-iR90eSLnq9mxOnwP7fLKX%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="vt.JPG" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
-            
-            <!-- Card 18 -->
-<section class="character-card" id="card18" data-news="18">
-
-    <div class="left">
-        <h2>Lê Trần Hoài Vũ</h2>
-        <p class="tagline">
-           Bậu bước chân vô nhà này bằng danh nghĩa gạt nợ, thì đừng mơ tưởng đến chuyện tự do.
-        </p>
-
-        <div class="tags">
-            <span>#Việt Nam xưa</span>
-            <span>#1930s</span>
-            <span>#Miền tây</span>
-            <span>#Đấu đá</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/chat/c9e05f68-b431-4012-b114-c1fb13bc4778?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22111qHhZ8iDrmNeRCX6savFz3YAXLXhiZo%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="lthv.png" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
-                       
-            <!-- Card 19 -->
-<section class="character-card" id="card19" data-news="19">
-
-    <div class="left">
-        <h2>Ninh Tử Khiêm</h2>
-        <p class="tagline">
-           Thế giới này ồn ào và dối trá, chỉ có hoàng hôn và những người đã khuất là biết giữ bí mật.
-        </p>
-
-        <div class="tags">
-            <span>#Hiện đại</span>
-            <span>#Trinh thám</span>
-            <span>#Điều tra</span>
-            <span>#Phá án</span>
-            <span>#Pháp y x Cảnh sát</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/chat/a7b48a40-5418-4c51-b461-f6bada369ad8?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221zHBpV1cBUcjptdNy8UEmClPXXMxCNCO7%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="ntk.png" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
-            <!-- Card 20 -->
-<section class="character-card" id="card20" data-news="20">
-
-    <div class="left">
-        <h2>Ninh Hữu Ngôn</h2>
-        <p class="tagline">
-          E-e-e-em...c-c-có...th-th-th-thích...h-h-hoa không?! A-aanh...th-th-thì...th-th-th-thích e-em...lắm!
-        </p>
-
-        <div class="tags">
-            <span>#Việt Nam xưa</span>
-            <span>#1990s</span>
-            <span>#Sài Gòn</span>
-            <span>#Cà Lăm</span>
-            <span>#Ngọt</span>
-        </div>
-
-        <div class="button-group">
-            <a href="https://www.dokichat.club/chat/88f095a8-0bef-4a2e-9115-1f0a607ea615?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221nZSRra1KUdHjZpjoc1graVHXZtzMnKeu%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <img src="nhn.png" alt="Ảnh Character" loading="lazy">
-    </div>
-
-</section>
         </main>
 
 <div class="music-player" onclick="toggleMusic()">
-    <img src="nhac.png" id="musicImage">
+    <img src="avatar.png" id="musicImage">
 </div>
 
 <audio id="bgMusic" autoplay loop>
@@ -1847,81 +1493,55 @@ function renderPagination(totalPages){
     createButton("»",totalPages,currentPage===totalPages);
 }
 
-    const newest = [...cards]
-    .sort((a, b) => Number(b.dataset.news) - Number(a.dataset.news))
-    .slice(0, 3);
+const newest=cards.slice(0,3);
+const newsList=document.getElementById("newsList");
 
-const newsList = document.getElementById("newsList");
+if(newsList){
 
-if (newsList) {
+    newest.forEach(card=>{
+        const name=card.querySelector("h2")?.innerText||"";
+        const tag=card.querySelector(".tagline")?.innerText||"";
+        const img=card.querySelector("img")?.src||"";
 
-    newest.forEach(card => {
-
-        const name = card.querySelector("h2")?.innerText || "";
-        const tag = card.querySelector(".tagline")?.innerText || "";
-        const img = card.querySelector("img")?.src || "";
-
-        const tags = [...card.querySelectorAll(".tags span")]
+        const tags=[...card.querySelectorAll(".tags span")]
             .slice(0,4)
-            .map(tag => tag.outerHTML)
+            .map(x=>x.outerHTML)
             .join("");
 
-        const index = cards.indexOf(card);
-
-        newsList.innerHTML += `
-            <div class="news-card">
-                <img src="${img}">
-                <div class="news-info">
-                    <h3>${name}</h3>
-                    <p>${tag}</p>
-                    <div class="news-tags">${tags}</div>
-                </div>
-
-                <a class="news-btn" data-index="${index}">
-                    Gọi món!
-                </a>
+        newsList.innerHTML+=`
+        <div class="news-card">
+            <img src="${img}">
+            <div class="news-info">
+                <h3>${name}</h3>
+                <p>${tag}</p>
+                <div class="news-tags">${tags}</div>
             </div>
-        `;
+            <a class="news-btn">Contempler</a>
+        </div>`;
     });
 
-    document.querySelectorAll(".news-btn").forEach(btn => {
+    document.querySelectorAll(".news-btn").forEach((btn,index)=>{
+        btn.onclick=()=>{
+            document.getElementById("newsOverlay").style.display="none";
 
-        btn.onclick = () => {
-
-            const index = Number(btn.dataset.index);
-
-            currentPage = Math.floor(index / cardsPerPage) + 1;
-
-            renderCards();
-
-            if(newsOverlay){
-                newsOverlay.style.display = "none";
-            }
-
-            setTimeout(() => {
-
-                cards[index].scrollIntoView({
-                    behavior:"smooth",
-                    block:"center"
-                });
-
-            },100);
-
+            newest[index].scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
         };
-
     });
-
 }
-    const newsOverlay = document.getElementById("newsOverlay");
+
+const newsOverlay=document.getElementById("newsOverlay");
 
 if(newsOverlay){
-    newsOverlay.onclick = e => {
-        if(e.target === newsOverlay){
-            newsOverlay.style.display = "none";
+    newsOverlay.onclick=e=>{
+        if(e.target===newsOverlay){
+            newsOverlay.style.display="none";
         }
     };
 }
-    
+
 const count=document.getElementById("characterCount");
 
 if(count){
@@ -1934,8 +1554,11 @@ console.log("Characters:",cards.length);
 console.log("Pagination loaded");
 
 function filterCategory(category,button){
+
     currentCategory=category;
+
     currentPage=1;
+
 
     document
     .querySelectorAll(".category-btn")
@@ -1943,31 +1566,34 @@ function filterCategory(category,button){
         btn.classList.remove("active");
     });
 
+
     button.classList.add("active");
+
+
     renderCards();
+
 }
 
-const music = document.getElementById("bgMusic");
-const musicPlayer = document.querySelector(".music-player");
+const music=document.getElementById("bgMusic");
+const musicPlayer=document.querySelector(".music-player");
 
-window.addEventListener("load", () => {
-    music.play()
-        .then(() => {
-            musicPlayer.classList.add("playing");
-        })
-        .catch(() => {
-            console.log("Autoplay bị trình duyệt chặn.");
-        });
-});
 
 function toggleMusic(){
+
     if(music.paused){
+
         music.play();
+
         musicPlayer.classList.add("playing");
+
     }else{
+
         music.pause();
+
         musicPlayer.classList.remove("playing");
+
     }
+
 }
 
 </script>
