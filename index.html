@@ -2343,11 +2343,15 @@ function getFilteredCards(){
         : "";
 
 
-    return cards.filter(card=>{
+    return cards.filter(card => {
+  const title = card.querySelector("h2")?.innerText || "";
+  const tagline = card.querySelector(".tagline")?.innerText || "";
+  const tags = Array.from(card.querySelectorAll(".tags span"))
+                    .map(s => s.innerText)
+                    .join(" ");
 
-        const text=removeVietnameseTones(
-            card.innerText.toLowerCase()
-        );
+  const cardContent = title + " " + tagline + " " + tags;
+  const text = removeVietnameseTones(cardContent.toLowerCase());
 
 
         const matchSearch=text.includes(key);
