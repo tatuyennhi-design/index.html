@@ -4029,7 +4029,7 @@ function toggleMusic(){
         height = canvas.height = window.innerHeight;
     });
 
-    var particleCount = 120; // Tăng từ 40 lên 120 hạt cho rơi dày dặn hơn
+    var particleCount = 120; // Tăng từ 40 lên 100 hạt cho rơi dày dặn hơn
     const particles = [];
 
     // Bảng màu Ai Cập: Vàng chanh + Trắng tinh
@@ -4120,5 +4120,156 @@ function toggleMusic(){
 })();
 </script>
 
+<script>
+(function() {
+  // Bảng màu đá quý: Tím, Hồng Đào, Xanh Ngọc
+  let colors = ['#a855f7', '#c084fc', '#f472b6', '#2dd4bf', '#e879f9'];
+  
+  window.addEventListener('mousemove', function(e) {
+    if (Math.random() < 0.35) createSparkle(e.clientX, e.clientY);
+  });
+  
+  window.addEventListener('touchmove', function(e) {
+    if (Math.random() < 0.35) {
+      let touch = e.touches[0];
+      createSparkle(touch.clientX, touch.clientY);
+    }
+  });
+
+  function createSparkle(x, y) {
+    let sparkle = document.createElement('div');
+    sparkle.className = 'cursor-sparkle-gem';
+    document.body.appendChild(sparkle);
+
+    let size = Math.random() * 9 + 4; // Kích thước hạt
+    let color = colors[Math.floor(Math.random() * colors.length)];
+
+    sparkle.style.left = (x - size / 2) + 'px';
+    sparkle.style.top = (y - size / 2) + 'px';
+    sparkle.style.width = size + 'px';
+    sparkle.style.height = size + 'px';
+    sparkle.style.background = color;
+    // Glow phát sáng nhẹ theo đúng màu hạt
+    sparkle.style.boxShadow = `0 0 8px ${color}, 0 0 3px #ffffff`;
+
+    let duration = Math.random() * 650 + 450;
+    sparkle.animate([
+      { transform: 'scale(1) rotate(0deg)', opacity: 1 },
+      { transform: `scale(0) translate(${(Math.random()-0.5)*35}px, ${(Math.random()-0.5)*35}px) rotate(180deg)`, opacity: 0 }
+    ], { duration: duration, easing: 'ease-out' });
+
+    setTimeout(() => sparkle.remove(), duration);
+  }
+})();
+</script>
+
+<style>
+  .cursor-sparkle-gem {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: 2147483645;
+    /* Dáng ngôi sao 4 cánh kim cương */
+    clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+  }
+</style>
+<!-- CỤM HIỆU ỨNG: CLICK NỞ HOA DAISY + CHUÔNG THỦY TINH CỔ ĐIỂN -->
+<script>
+(function() {
+  let audioCtx = null;
+
+  // TIẾNG CHUÔNG THỦY TINH HOÀNG GIA (HÒA ÂM 3 NỐT NGÂN VANG)
+  function playRoyalChime() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Hợp âm 3 nốt thủy tinh: C6 (1046Hz), E6 (1318Hz), G6 (1567Hz)
+      const freqs = [1046.50, 1318.51, 1567.98];
+      const now = audioCtx.currentTime;
+
+      freqs.forEach((freq, index) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + index * 0.03); // Đánh lệch nhẹ 0.03s tạo hiệu ứng gảy chuông
+
+        // Âm lượng ngân vang dài 1.2s mềm mại
+        gain.gain.setValueAtTime(0.08, now + index * 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.03 + 1.2);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now + index * 0.03);
+        osc.stop(now + index * 0.03 + 1.2);
+      });
+    } catch (e) {
+      // Bỏ qua lỗi tự động phát âm thanh
+    }
+  }
+
+  // HIỆU ỨNG CLICK
+  const daisyIcons = ['🌼', '🌸', '🌼', '✨'];
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('button, .btn, a, .btn-read-more, .card, #pandaCssPet')) {
+      
+      // Phát tiếng chuông thủy tinh
+      playRoyalChime();
+
+      // Nở hoa Daisy
+      createDaisy(e.clientX, e.clientY, true);
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => createDaisy(e.clientX, e.clientY, false), i * 60);
+      }
+    }
+  });
+
+  function createDaisy(x, y, isMain) {
+    const flower = document.createElement('div');
+    flower.className = 'click-daisy-flower';
+    flower.innerText = daisyIcons[Math.floor(Math.random() * daisyIcons.length)];
+    document.body.appendChild(flower);
+
+    const size = isMain ? 32 : Math.random() * 8 + 18;
+    flower.style.fontSize = size + 'px';
+    flower.style.left = x + 'px';
+    flower.style.top = y + 'px';
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = isMain ? 12 : Math.random() * 45 + 20;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist - (isMain ? 22 : 0);
+
+    flower.animate([
+      { transform: 'translate(-50%, -50%) scale(0.2) rotate(0deg)', opacity: 1 },
+      { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.2) rotate(${Math.random() * 60 - 30}deg)`, opacity: 0.9, offset: 0.6 },
+      { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px - 15px)) scale(1) rotate(${Math.random() * 90 - 45}deg)`, opacity: 0 }
+    ], {
+      duration: isMain ? 750 : 650,
+      easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+    });
+
+    setTimeout(() => flower.remove(), 750);
+  }
+})();
+</script>
+
+<style>
+  .click-daisy-flower {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2147483647;
+    user-select: none;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.18));
+    line-height: 1;
+  }
+</style>
 </body>
 </html>
