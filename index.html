@@ -2274,105 +2274,271 @@ function toggleMusic(){
 })();
 </script>
 
-	<!-- Panda Nhún Nhảy Chạy Dạo (Đã mã hóa trực tiếp - Không lo lỗi hình) -->
-<div id="pandaPetContainer">
-  <img id="pandaPetImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g><circle cx='30' cy='28' r='12' fill='%23222'/><circle cx='70' cy='28' r='12' fill='%23222'/><circle cx='32' cy='28' r='5' fill='%23ffb7c5'/><circle cx='68' cy='28' r='5' fill='%23ffb7c5'/><ellipse cx='50' cy='52' rx='34' ry='30' fill='%23fff' stroke='%23222' stroke-width='3'/><ellipse cx='36' cy='48' rx='8' ry='10' fill='%23222' transform='rotate(-15 36 48)'/><ellipse cx='64' cy='48' rx='8' ry='10' fill='%23222' transform='rotate(15 64 48)'/><circle cx='38' cy='46' r='3' fill='%23fff'/><circle cx='62' cy='46' r='3' fill='%23fff'/><ellipse cx='50' cy='58' rx='6' ry='4' fill='%23222'/><path d='M46 63 Q50 67 54 63' stroke='%23222' stroke-width='2.5' fill='none'/><ellipse cx='28' cy='56' rx='5' ry='3' fill='%23ffb7c5' opacity='0.7'/><ellipse cx='72' cy='56' rx='5' ry='3' fill='%23ffb7c5' opacity='0.7'/><ellipse cx='50' cy='82' rx='28' ry='18' fill='%23fff' stroke='%23222' stroke-width='3'/><path d='M 24 70 Q 50 64 76 70 C 80 82 75 92 50 90 C 25 92 20 82 24 70 Z' fill='%23222'/><ellipse cx='50' cy='80' rx='18' ry='10' fill='%23fff'/><circle cx='32' cy='95' r='7' fill='%23222'/><circle cx='68' cy='95' r='7' fill='%23222'/></g></svg>" alt="Panda" />
+	<!-- Cụm Panda CSS Động (Di chuyển tay chân 100%) -->
+<div id="pandaCssPet">
+  <div class="panda-body-wrap">
+    <div class="p-ear p-ear-l"></div>
+    <div class="p-ear p-ear-r"></div>
+    <div class="p-head">
+      <div class="p-eye p-eye-l"><div class="p-pupil"></div></div>
+      <div class="p-eye p-eye-r"><div class="p-pupil"></div></div>
+      <div class="p-nose"></div>
+      <div class="p-blush p-blush-l"></div>
+      <div class="p-blush p-blush-r"></div>
+    </div>
+    <div class="p-body">
+      <div class="p-tummy"></div>
+    </div>
+    <div class="p-hand p-hand-l"></div>
+    <div class="p-hand p-hand-r"></div>
+    <div class="p-foot p-foot-l"></div>
+    <div class="p-foot p-foot-r"></div>
+  </div>
 </div>
 
 <style>
-  #pandaPetContainer {
+  #pandaCssPet {
     position: fixed;
-    bottom: 15px;
+    bottom: 12px;
     left: 20px;
-    width: 65px;
-    height: 65px;
+    width: 55px;
+    height: 60px;
     z-index: 2147483646 !important;
     cursor: pointer;
     user-select: none;
-    transition: left 0.1s linear;
+    transition: left 0.15s linear;
   }
 
-  #pandaPetImg {
+  .panda-body-wrap {
+    position: relative;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.25));
-    animation: pandaBounce 0.6s infinite alternate ease-in-out;
+    transform-origin: bottom center;
   }
 
-  /* Nhún nhảy khi chạy dạo */
-  @keyframes pandaBounce {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(-6px) rotate(4deg); }
+  /* Tai gấu */
+  .p-ear {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #222;
+    border-radius: 50%;
+    top: 0;
+  }
+  .p-ear-l { left: 4px; }
+  .p-ear-r { right: 4px; }
+
+  /* Đầu gấu */
+  .p-head {
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    width: 45px;
+    height: 36px;
+    background: #fff;
+    border: 2px solid #222;
+    border-radius: 50% 50% 45% 45%;
+    z-index: 3;
   }
 
-  .panda-scratch {
-    animation: pandaScratch 0.3s infinite alternate !important;
+  /* Mắt & Tròng */
+  .p-eye {
+    position: absolute;
+    width: 12px;
+    height: 15px;
+    background: #222;
+    border-radius: 50%;
+    top: 8px;
+  }
+  .p-eye-l { left: 6px; transform: rotate(15deg); }
+  .p-eye-r { right: 6px; transform: rotate(-15deg); }
+
+  .p-pupil {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
   }
 
-  /* Rung lắc khi gãi tai */
-  @keyframes pandaScratch {
-    0% { transform: rotate(-8deg) scale(0.95); }
-    100% { transform: rotate(8deg) scale(1.05); }
+  /* Mũi & Má hồng */
+  .p-nose {
+    position: absolute;
+    width: 8px;
+    height: 5px;
+    background: #222;
+    border-radius: 50%;
+    top: 20px;
+    left: 17px;
+  }
+
+  .p-blush {
+    position: absolute;
+    width: 7px;
+    height: 4px;
+    background: #ffb7c5;
+    border-radius: 50%;
+    top: 22px;
+  }
+  .p-blush-l { left: 4px; }
+  .p-blush-r { right: 4px; }
+
+  /* Thân gấu & Bụng */
+  .p-body {
+    position: absolute;
+    bottom: 6px;
+    left: 9px;
+    width: 37px;
+    height: 30px;
+    background: #222;
+    border-radius: 40% 40% 50% 50%;
+    z-index: 1;
+  }
+
+  .p-tummy {
+    position: absolute;
+    width: 23px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    bottom: 2px;
+    left: 7px;
+  }
+
+  /* Tay gấu */
+  .p-hand {
+    position: absolute;
+    width: 12px;
+    height: 18px;
+    background: #222;
+    border-radius: 10px;
+    top: 28px;
+    z-index: 4;
+    transform-origin: top center;
+  }
+  .p-hand-l { left: 3px; }
+  .p-hand-r { right: 3px; }
+
+  /* Chân gấu */
+  .p-foot {
+    position: absolute;
+    width: 14px;
+    height: 10px;
+    background: #222;
+    border-radius: 8px 8px 5px 5px;
+    bottom: 0;
+    z-index: 2;
+    transform-origin: top center;
+  }
+  .p-foot-l { left: 10px; }
+  .p-foot-r { right: 10px; }
+
+  /* --- HIỆU ỨNG HOẠT HỌA CỬ ĐỘNG TAY CHÂN --- */
+
+  /* Khi Đang Đi: Chân bước, Tay đung đưa, Thân nhún nhảy */
+  .is-walking .panda-body-wrap {
+    animation: bodyWobble 0.4s infinite alternate ease-in-out;
+  }
+  .is-walking .p-foot-l { animation: stepLeft 0.4s infinite alternate ease-in-out; }
+  .is-walking .p-foot-r { animation: stepRight 0.4s infinite alternate ease-in-out; }
+  .is-walking .p-hand-l { animation: armSwingL 0.4s infinite alternate ease-in-out; }
+  .is-walking .p-hand-r { animation: armSwingR 0.4s infinite alternate ease-in-out; }
+
+  @keyframes bodyWobble {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-4px) rotate(3deg); }
+  }
+  @keyframes stepLeft {
+    0% { transform: translateY(-3px) rotate(-15deg); }
+    100% { transform: translateY(0) rotate(10deg); }
+  }
+  @keyframes stepRight {
+    0% { transform: translateY(0) rotate(10deg); }
+    100% { transform: translateY(-3px) rotate(-15deg); }
+  }
+  @keyframes armSwingL {
+    0% { transform: rotate(20deg); }
+    100% { transform: rotate(-20deg); }
+  }
+  @keyframes armSwingR {
+    0% { transform: rotate(-20deg); }
+    100% { transform: rotate(20deg); }
+  }
+
+  /* Khi Đứng Dừng Lại: Giơ tay vẫy chào / Ngoáy tai */
+  .is-idle .p-hand-r {
+    animation: waveHand 0.5s infinite alternate ease-in-out;
+  }
+  @keyframes waveHand {
+    0% { transform: rotate(-40deg); }
+    100% { transform: rotate(-110deg); }
   }
 </style>
 
 <script>
 (function() {
-  const container = document.getElementById('pandaPetContainer');
-  const img = document.getElementById('pandaPetImg');
-  if (!container || !img) return;
+  const pet = document.getElementById('pandaCssPet');
+  if (!pet) return;
 
   let currentX = 20;
   let targetX = 20;
-  let isIdle = false;
+  let isWalking = false;
 
-  const getMaxX = () => window.innerWidth - 80;
+  const getMaxX = () => window.innerWidth - 75;
 
-  function thinkNextMove() {
+  function decideNextAction() {
     if (Math.random() < 0.4) {
-      // Đứng lại gãi tai / lắc lắc
-      isIdle = true;
-      img.classList.add('panda-scratch');
+      // Đứng lại vẫy tay chào
+      isWalking = false;
+      pet.classList.remove('is-walking');
+      pet.classList.add('is-idle');
     } else {
-      // Tiếp tục đi dạo
-      isIdle = false;
-      img.classList.remove('panda-scratch');
+      // Bước đi dạo
+      isWalking = true;
+      pet.classList.remove('is-idle');
+      pet.classList.add('is-walking');
       targetX = Math.random() * getMaxX();
     }
   }
 
-  function updateLoop() {
-    if (!isIdle && Math.abs(targetX - currentX) > 2) {
+  function gameLoop() {
+    if (isWalking && Math.abs(targetX - currentX) > 2) {
       if (targetX > currentX) {
-        currentX += 1.2;
-        container.style.transform = 'scaleX(-1)'; // Quay sang phải
+        currentX += 1.1; // Tốc độ bước đi
+        pet.style.transform = 'scaleX(-1)'; // Quay mặt sang phải
       } else {
-        currentX -= 1.2;
-        container.style.transform = 'scaleX(1)';  // Quay sang trái
+        currentX -= 1.1;
+        pet.style.transform = 'scaleX(1)';  // Quay mặt sang trái
       }
-      container.style.left = currentX + 'px';
+      pet.style.left = currentX + 'px';
+    } else if (isWalking) {
+      // Khi đã đi tới nơi thì dừng lại vẫy tay
+      isWalking = false;
+      pet.classList.remove('is-walking');
+      pet.classList.add('is-idle');
     }
 
-    requestAnimationFrame(updateLoop);
+    requestAnimationFrame(gameLoop);
   }
 
-  setInterval(thinkNextMove, 3000);
-  updateLoop();
+  setInterval(decideNextAction, 3200);
+  gameLoop();
 
-  // Bấm vào thì nhảy cổng mông lên
-  container.addEventListener('click', function() {
-    isIdle = false;
-    img.classList.remove('panda-scratch');
-    container.style.transition = 'bottom 0.2s ease, left 0.1s linear';
-    container.style.bottom = '50px';
+  // Bấm vào em nó thì giật mình nhảy lên!
+  pet.addEventListener('click', function() {
+    pet.style.transition = 'bottom 0.2s ease, left 0.15s linear';
+    pet.style.bottom = '45px';
     setTimeout(() => {
-      container.style.bottom = '15px';
-      setTimeout(() => { container.style.transition = 'left 0.1s linear'; }, 200);
-      targetX = Math.random() * getMaxX();
+      pet.style.bottom = '12px';
+      setTimeout(() => { pet.style.transition = 'left 0.15s linear'; }, 200);
+      decideNextAction();
     }, 200);
   });
 })();
 </script>
+
 
 </body>
 </html>
