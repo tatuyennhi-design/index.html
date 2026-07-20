@@ -2274,27 +2274,53 @@ function toggleMusic(){
 })();
 </script>
 
-	<!-- Panda Nguyên Con Đầy Đủ Thân Hình -->
-<img id="pandaPet" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Zua3RydnpnbmFqMDRtOHdxcDR1dTh2NDFwdTllM2lsZm4yZXRvYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kL1yTC932MAM/giphy.gif" alt="Panda" title="Bấm vào tui đi!" />
+	<!-- Panda Nhún Nhảy Chạy Dạo (Đã mã hóa trực tiếp - Không lo lỗi hình) -->
+<div id="pandaPetContainer">
+  <img id="pandaPetImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g><circle cx='30' cy='28' r='12' fill='%23222'/><circle cx='70' cy='28' r='12' fill='%23222'/><circle cx='32' cy='28' r='5' fill='%23ffb7c5'/><circle cx='68' cy='28' r='5' fill='%23ffb7c5'/><ellipse cx='50' cy='52' rx='34' ry='30' fill='%23fff' stroke='%23222' stroke-width='3'/><ellipse cx='36' cy='48' rx='8' ry='10' fill='%23222' transform='rotate(-15 36 48)'/><ellipse cx='64' cy='48' rx='8' ry='10' fill='%23222' transform='rotate(15 64 48)'/><circle cx='38' cy='46' r='3' fill='%23fff'/><circle cx='62' cy='46' r='3' fill='%23fff'/><ellipse cx='50' cy='58' rx='6' ry='4' fill='%23222'/><path d='M46 63 Q50 67 54 63' stroke='%23222' stroke-width='2.5' fill='none'/><ellipse cx='28' cy='56' rx='5' ry='3' fill='%23ffb7c5' opacity='0.7'/><ellipse cx='72' cy='56' rx='5' ry='3' fill='%23ffb7c5' opacity='0.7'/><ellipse cx='50' cy='82' rx='28' ry='18' fill='%23fff' stroke='%23222' stroke-width='3'/><path d='M 24 70 Q 50 64 76 70 C 80 82 75 92 50 90 C 25 92 20 82 24 70 Z' fill='%23222'/><ellipse cx='50' cy='80' rx='18' ry='10' fill='%23fff'/><circle cx='32' cy='95' r='7' fill='%23222'/><circle cx='68' cy='95' r='7' fill='%23222'/></g></svg>" alt="Panda" />
+</div>
 
 <style>
-  #pandaPet {
+  #pandaPetContainer {
     position: fixed;
-    bottom: 10px;
+    bottom: 15px;
     left: 20px;
-    width: 65px; /* Kích thước con gấu đầy đủ */
-    height: auto;
+    width: 65px;
+    height: 65px;
     z-index: 2147483646 !important;
     cursor: pointer;
     user-select: none;
+    transition: left 0.1s linear;
+  }
+
+  #pandaPetImg {
+    width: 100%;
+    height: 100%;
     filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.25));
+    animation: pandaBounce 0.6s infinite alternate ease-in-out;
+  }
+
+  /* Nhún nhảy khi chạy dạo */
+  @keyframes pandaBounce {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-6px) rotate(4deg); }
+  }
+
+  .panda-scratch {
+    animation: pandaScratch 0.3s infinite alternate !important;
+  }
+
+  /* Rung lắc khi gãi tai */
+  @keyframes pandaScratch {
+    0% { transform: rotate(-8deg) scale(0.95); }
+    100% { transform: rotate(8deg) scale(1.05); }
   }
 </style>
 
 <script>
 (function() {
-  const panda = document.getElementById('pandaPet');
-  if (!panda) return;
+  const container = document.getElementById('pandaPetContainer');
+  const img = document.getElementById('pandaPetImg');
+  if (!container || !img) return;
 
   let currentX = 20;
   let targetX = 20;
@@ -2302,41 +2328,47 @@ function toggleMusic(){
 
   const getMaxX = () => window.innerWidth - 80;
 
-  function pandaLogic() {
-    if (Math.random() < 0.25) {
+  function thinkNextMove() {
+    if (Math.random() < 0.4) {
+      // Đứng lại gãi tai / lắc lắc
       isIdle = true;
-      panda.style.transform = 'scaleX(1)';
+      img.classList.add('panda-scratch');
     } else {
+      // Tiếp tục đi dạo
       isIdle = false;
+      img.classList.remove('panda-scratch');
       targetX = Math.random() * getMaxX();
     }
   }
 
-  function updatePandaPosition() {
+  function updateLoop() {
     if (!isIdle && Math.abs(targetX - currentX) > 2) {
       if (targetX > currentX) {
         currentX += 1.2;
-        panda.style.transform = 'scaleX(-1)'; // Lật mặt quay sang phải
+        container.style.transform = 'scaleX(-1)'; // Quay sang phải
       } else {
         currentX -= 1.2;
-        panda.style.transform = 'scaleX(1)'; // Quay sang trái
+        container.style.transform = 'scaleX(1)';  // Quay sang trái
       }
-      panda.style.left = currentX + 'px';
+      container.style.left = currentX + 'px';
     }
 
-    requestAnimationFrame(updatePandaPosition);
+    requestAnimationFrame(updateLoop);
   }
 
-  setInterval(pandaLogic, 3000);
-  updatePandaPosition();
+  setInterval(thinkNextMove, 3000);
+  updateLoop();
 
-  // Bấm vào thì nhún nhảy
-  panda.addEventListener('click', function() {
-    panda.style.transition = 'bottom 0.2s ease';
-    panda.style.bottom = '50px';
+  // Bấm vào thì nhảy cổng mông lên
+  container.addEventListener('click', function() {
+    isIdle = false;
+    img.classList.remove('panda-scratch');
+    container.style.transition = 'bottom 0.2s ease, left 0.1s linear';
+    container.style.bottom = '50px';
     setTimeout(() => {
-      panda.style.bottom = '10px';
-      setTimeout(() => { panda.style.transition = 'none'; }, 200);
+      container.style.bottom = '15px';
+      setTimeout(() => { container.style.transition = 'left 0.1s linear'; }, 200);
+      targetX = Math.random() * getMaxX();
     }, 200);
   });
 })();
