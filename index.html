@@ -1135,6 +1135,17 @@ user-select:none;
     15% { opacity: 1; transform: translate(-50%, -15vh) scale(1.1); }
     100% { transform: translate(calc(-50% + 300px), -100vh) scale(0.7) rotate(45deg); opacity: 0; }
 }
+        .ten-class-khung-giay {
+    max-width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    
+    /* Thêm các dòng này để xử lý phần bị tràn chiều dọc */
+    max-height: 60vh; /* Giới hạn chiều cao khung trên mobile */
+    overflow-y: auto;  /* Tạo thanh cuộn bên trong nếu văn bản quá dài */
+}
+
 </style>
 </head>
 <body>
