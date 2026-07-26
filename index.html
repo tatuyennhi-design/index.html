@@ -1287,12 +1287,6 @@ Hiên về đây không chỉ với mảnh bằng sư phạm loại ưu hay cái
 Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp kiêu sa rực rỡ đầy nắng, được ông hội đồng Lê cưng chiều nuôi dưỡng, chỉ cần cô thích thì sẽ được ông hội đồng đưa vào trong tay. Hai con người, hai thế giới đối lập – một bên là gã trí thức nghèo đầy tự trọng và một bên là nàng tiểu thư lá ngọc cành vàng – sắp sửa va vào nhau trong một buổi chiều định mệnh dưới mái nhà cổ chữ Đinh trầm mặc.
   </div>
   
-  <!-- Nút bấm mở rộng -->
-  <button class="btn-read-more" onclick="toggleBackstory(this)">
-    <span class="btn-text">Đọc tiếp ✦</span>
-  </button>
-</div>
-<!-- STYLE DÀNH RIÊNG CHO KHỐI BACKSTORY -->
 <style>
   .char-backstory-box {
     margin: 12px 0 16px 0;
@@ -1300,23 +1294,18 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
     text-align: justify;
     position: relative;
   }
+  
   .backstory-content {
     font-size: 14px;
     line-height: 1.6;
     color: #5a4b38;
-    max-height: 48px; /* Mặc định thu gọn */
+    max-height: 48px; /* Mặc định thu gọn khoảng 2-3 dòng */
     overflow: hidden;
     position: relative;
     transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     word-wrap: break-word;
     overflow-wrap: break-word;
-}
-
-/* Khi bấm mở rộng (thường JS sẽ add thêm class kiểu .expanded hoặc .show vào) */
-.backstory-content.expanded {
-    max-height: 500px; /* Hoặc chỉnh số lớn hơn tuỳ độ dài bài viết */
-    overflow-y: auto;  /* Tự động hiện thanh cuộn nếu văn bản cực kỳ dài */
-}
+  }
 
   /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
   .backstory-content::after {
@@ -1330,18 +1319,22 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
-  /* Khi đã mở rộng full nội dung */
+
+  /* --- KHI ĐÃ MỞ RỘNG (Đồng bộ với JS) --- */
   .char-backstory-box.expanded .backstory-content {
-    max-height: 1000px; /* Cho phép mở rộng hết cỡ */
+    max-height: 45vh;      /* Giới hạn chiều cao tối đa trên màn hình điện thoại */
+    overflow-y: auto;       /* BẮT BUỘC CÓ DÒNG NÀY ĐỂ HIỆN THANH CUỘN KHI DÀI */
   }
+  
   .char-backstory-box.expanded .backstory-content::after {
-    opacity: 0; /* Ẩn lớp mờ dần đi */
+    opacity: 0;             /* Ẩn lớp hiệu ứng mờ đi khi mở rộng */
   }
+
   /* Nút Xem Thêm / Rút Gọn */
   .btn-read-more {
     background: transparent;
     border: none;
-    color: #c89b27; /* Màu vàng kim */
+    color: #c89b27;
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
@@ -1356,7 +1349,7 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
     transform: translateY(1px);
   }
 </style>
-<!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
+    <!-- SCRIPT XỬ LÝ ẨN/HIỆN -->
 <script>
   function toggleBackstory(btn) {
     const box = btn.closest('.char-backstory-box');
@@ -1371,6 +1364,7 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
     }
   }
 </script>
+
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/4280df64-dc19-49c9-8102-fd7d657af585" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221otutEavYYlnT0zl68-BpI4KR3t_qzhuL%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
