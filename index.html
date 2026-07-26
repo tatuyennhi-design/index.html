@@ -1135,16 +1135,7 @@ user-select:none;
     15% { opacity: 1; transform: translate(-50%, -15vh) scale(1.1); }
     100% { transform: translate(calc(-50% + 300px), -100vh) scale(0.7) rotate(45deg); opacity: 0; }
 }
-        .backstory-content {
-    max-width: 100%;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    max-height: 60vh; /* Giới hạn chiều cao khung trên mobile để không bị đè nút */
-    overflow-y: auto;  /* Tạo thanh cuộn dọc bên trong */
-}
-
-
+    
 </style>
 </head>
 <body>
@@ -1312,12 +1303,21 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
   .backstory-content {
     font-size: 14px;
     line-height: 1.6;
-    color: #5a4b38; /* Màu chữ nâu gỗ trầm hợp tông vàng chanh */
-    max-height: 48px; /* Chiều cao hiển thị khoảng 2-3 dòng đầu */
+    color: #5a4b38;
+    max-height: 48px; /* Mặc định thu gọn */
     overflow: hidden;
     position: relative;
     transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  }
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Khi bấm mở rộng (thường JS sẽ add thêm class kiểu .expanded hoặc .show vào) */
+.backstory-content.expanded {
+    max-height: 500px; /* Hoặc chỉnh số lớn hơn tuỳ độ dài bài viết */
+    overflow-y: auto;  /* Tự động hiện thanh cuộn nếu văn bản cực kỳ dài */
+}
+
   /* Lớp phủ mờ dần ở đuôi chữ khi chưa bấm xem thêm */
   .backstory-content::after {
     content: "";
