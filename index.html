@@ -1241,8 +1241,8 @@ user-select:none;
     content: "✦\AORIGINAL\A✦";
     white-space: pre-wrap;
     position: absolute;
-    top: 10px !important;    
-    right: 5px !important; 
+    top:10px !important;    /* Nhích xuống vào trong 3px */
+    right: 5px !important;  /* Nhích vào trong ảnh 5px theo ý bạn */
     width: 54px;
     height: 54px;
     background: radial-gradient(circle at 35% 35%, #ffeb99 0%, #d89b1c 60%, #8c5b00 100%);
@@ -3161,15 +3161,34 @@ function enterWebsite() {
 </script>
 
 <script>
-// --- 1. FIREBASE LOGIC (Tăng tim) --
+// --- 1. FIREBASE LOGIC (TĂNG TIM CHỐNG SPAM TRÊN ĐIỆN THOẠI) ---
 const VOTE_KEY = "hy_voted_chars_v5";
+
+// Tự động kiểm tra và khóa nút đã thả tim ngay khi vừa mở web
+function checkUserVotes() {
+    let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
+    votedList.forEach(charId => {
+        const btns = document.querySelectorAll(`.fav-btn[data-id="${charId}"]`);
+        btns.forEach(btn => {
+            btn.classList.add('active', 'voted');
+        });
+    });
+}
 
 function handleFavorite(charId, btn) {
     let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
-    if (votedList.includes(charId)) {
+
+    // LỚP BẢO VỆ 1: Khóa nút NGAY LẬP TỨC để chống chạm nhấp đúp nhanh trên điện thoại
+    if (btn.classList.contains('voted') || votedList.includes(charId)) {
         showToast("✨ Bạn đã tặng tim cho người này rồi!");
+        btn.classList.add('active', 'voted');
         return;
     }
+
+    // Đánh dấu đã thả tim NGAY TẠI DÒNG ĐẦU TIÊN
+    btn.classList.add('active', 'voted');
+    votedList.push(charId);
+    localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
 
     // Hiệu ứng tim bay lên
     const rect = btn.getBoundingClientRect();
@@ -3181,23 +3200,22 @@ function handleFavorite(charId, btn) {
         setTimeout(() => h.remove(), 1500);
     }
 
-    // Gửi lên Firebase
+    // Gửi số liệu lên Firebase
     const charRef = window.dbRef(window.db, 'stats/' + charId);
     window.runTransaction(charRef, (curr) => {
         const now = Date.now();
         if (!curr) curr = { total: 0, week: 0, month: 0, lastW: now, lastM: now };
-        // Reset tuần/tháng
+        if (!curr.lastW) curr.lastW = now;
+        if (!curr.lastM) curr.lastM = now;
+
         if (now - curr.lastW > 7*24*60*60*1000) { curr.week = 0; curr.lastW = now; }
-        if (now - curr.lastM > 30*24*60*60*1000) { curr.month = 0; curr.lastM = now; }
-        curr.total = (curr.total || 0) + 1;
-        curr.week = (curr.week || 0) + 1;
-        curr.month = (curr.month || 0) + 1;
+        if (now - curr.lastM > 2592000000) { curr.month = 0; curr.lastM = now; }
+
+        curr.total = (Number(curr.total) || 0) + 1;
+        curr.week = (Number(curr.week) || 0) + 1;
+        curr.month = (Number(curr.month) || 0) + 1;
         return curr;
     });
-
-    votedList.push(charId);
-    localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
-    btn.classList.add('active');
 }
 
 // --- 2. ĐỒNG BỘ SỐ TIM REALTIME VÀ TỰ ĐỘNG XẾP HẠNG ---
@@ -3207,54 +3225,45 @@ function initStats() {
         if (!data) return;
         window.allStats = data;
         
-        // 1. Cập nhật số tim lên giao diện cho toàn bộ các nút
+        // 1. Cập nhật số tim hiển thị
         Object.keys(data).forEach(id => {
             const count = data[id].total || 0;
             const btn = document.querySelector(`.fav-btn[data-id="${id}"] .fav-count`);
             if (btn) btn.innerText = count;
         });
+
+        // 2. Khóa lại các nút người dùng đã thả tim trước đó
+        checkUserVotes();
         
-        // 2. ĐẢO LẠI VỊ TRÍ CARD NHÂN VẬT THEO TIM
+        // 3. Đảo lại vị trí Card theo tim
         if (typeof cards !== 'undefined') {
             cards.sort((a, b) => {
                 const timA = (data[a.id] && data[a.id].total) ? data[a.id].total : 0;
                 const timB = (data[b.id] && data[b.id].total) ? data[b.id].total : 0;
-                
-                // Ai nhiều tim hơn thì lên trước
                 if (timB !== timA) return timB - timA;
-                
-                // Nếu bằng tim nhau, ai mới ra mắt hơn (data-news to hơn) thì lên trước
                 return Number(b.dataset.news) - Number(a.dataset.news);
             });
 
-            // 3. XỬ LÝ CHỮ "NỔI BẬT" CHUẨN XÁC
-            // Tắt tất cả chữ NỔI BẬT đang hiện ở các card cũ
+            // Hiện chữ NỔI BẬT cho Top 1
             document.querySelectorAll('.hot-badge').forEach(b => b.style.display = 'none');
-
-            // Bật chữ NỔI BẬT cho chính xác card đang đứng hạng 1 (sau khi đã xếp xong ở trên)
             if (cards.length > 0) {
                 const topCard = cards[0];
                 const maxTim = (data[topCard.id] && data[topCard.id].total) ? data[topCard.id].total : 0;
-                
-                // Chỉ hiện Nổi Bật nếu nhân vật đó có từ 1 tim trở lên
                 if (maxTim > 0) {
                     const badge = document.getElementById('badge-' + topCard.id);
                     if (badge) badge.style.display = 'block';
                 }
             }
 
-            // 4. Chèn lại vào giao diện web
             const listNode = document.querySelector(".character-list");
             if (listNode) {
                 cards.forEach(card => listNode.appendChild(card));
             }
 
-            // 5. Render lại phân trang (10 card/trang)
             if (typeof renderCards === 'function') renderCards();
         }
     });
 } 
-
 // --- 3. BẢNG XU HƯỚNG CÓ VƯƠNG MIỆN ---
 function openTrending() {
     document.getElementById('trendingModal').style.display = 'flex';
