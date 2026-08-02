@@ -3108,37 +3108,34 @@ function openTrending() {
     document.getElementById('trendingModal').style.display = 'flex';
     showTab('total', document.querySelector('.tab-btn'));
 }
-
 function showTab(type, btn) {
     if (type === 'all') type = 'total'; 
 
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    const list = document.getElementById('trendingList');
-    list.innerHTML = "Đang tải...";
-    if (!window.allStats) return;
+    // Ép màu chữ lại cho chuẩn
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.color = '#8d7237';
+    });
+    if(btn) {
+        btn.classList.add('active');
+        btn.style.color = '#48350d';
+    }
 
-    // Sắp xếp lấy Top 5 (Đã thêm luật xử lý ĐỒNG TIM)
-    const sorted = Object.keys(window.allStats).map(id => {
-        const card = document.getElementById(id);
-        const name = card ? card.querySelector('h2').innerText : id;
-        
-        // Lấy thêm chỉ số data-news (độ mới) để làm tiêu chí phụ
-        const newsIndex = card ? Number(card.dataset.news) : 0; 
-        
-        return { name, count: window.allStats[id][type] || 0, newsIndex };
+    const data = window.allStats || {};
+
+    // Lấy Top 20
+    const sorted = cards.map(card => {
+        const name = card.querySelector('h2').innerText;
+        const newsIndex = Number(card.dataset.news) || 0;
+        const count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
+        return { name, count, newsIndex };
     }).sort((a, b) => {
-        // 1. So sánh số tim trước, ai nhiều tim hơn đứng trên
         if (b.count !== a.count) return b.count - a.count;
-        
-        // 2. Nếu bằng tim nhau, ai mới ra mắt hơn (newsIndex lớn hơn) sẽ đứng trên
         return b.newsIndex - a.newsIndex;
-    }).slice(0, 5);
+    }).slice(0, 20); // LẤY ĐỦ TOP 20
 
-    // In ra danh sách cùng Vương Miện
-    list.innerHTML = sorted.map((item, i) => {
-        
-        // Cấp phát Vương miện cho Top 1, 2, 3
+    // Tạo HTML danh sách
+    const htmlContent = sorted.map((item, i) => {
         let rankIcon = `<b style="width:30px; color:#d8a91d;">#${i+1}</b>`;
         if (i === 0) rankIcon = `<b style="width:30px; font-size:18px;">👑</b>`;
         else if (i === 1) rankIcon = `<b style="width:30px; font-size:18px;">🥈</b>`;
@@ -3147,11 +3144,19 @@ function showTab(type, btn) {
         return `
         <div style="display:flex; align-items:center; padding:12px 10px; border-bottom:1px dashed #ecd78b;">
             ${rankIcon}
-            <span style="flex:1; font-weight: 500;">${item.name}</span>
+            <span style="flex:1; font-weight: 500; color: #5b430a;">${item.name}</span>
             <span style="color:#e74c3c; font-weight: bold;">❤ ${item.count}</span>
         </div>
         `;
     }).join('');
+
+    // ÉP TẤT CẢ CÁC BẢNG XẾP HẠNG BẬT THANH CUỘN LƯỚT TOP 20
+    document.querySelectorAll('#trendingList').forEach(list => {
+        list.style.maxHeight = '350px';
+        list.style.overflowY = 'auto';
+        list.style.paddingRight = '5px';
+        list.innerHTML = htmlContent;
+    });
 } 
 
 function showTab(type, btn) {
@@ -3164,23 +3169,6 @@ function showTab(type, btn) {
     
     // Lấy dữ liệu tim hiện tại (nếu chưa có thì để trống)
     const data = window.allStats || {};
-
-    // LẤY DANH SÁCH TỪ CHÍNH CÁC THẺ CARD TRÊN WEB ĐỂ ĐẢM BẢO ĐỒNG BỘ 100% VỚI BÊN NGOÀI
-    const sorted = cards.map(card => {
-        const name = card.querySelector('h2').innerText;
-        const newsIndex = Number(card.dataset.news) || 0;
-        
-        // Lấy số tim tương ứng (tất cả, tuần, tháng) dựa theo ID của card
-        const count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
-        
-        return { name, count, newsIndex };
-    }).sort((a, b) => {
-        // 1. So sánh số tim trước
-        if (b.count !== a.count) return b.count - a.count;
-        
-        // 2. Nếu bằng tim nhau, ai mới ra mắt hơn (newsIndex lớn hơn) sẽ đứng trên
-        return b.newsIndex - a.newsIndex;
-    }).slice(0, 5); // Cắt lấy top 5
 
     // In ra danh sách cùng Vương Miện
     list.innerHTML = sorted.map((item, i) => {
@@ -3231,6 +3219,22 @@ function enterWebsite() {
 }
 ::-webkit-scrollbar-thumb {
     background:  #c89b27 !important;
+    border-radius: 10px !important;
+}  
+
+/* Thanh cuộn chuyên nghiệp cho Bảng Xếp Hạng Top 20 */
+#trendingList {
+    max-height: 350px !important; /* Giới hạn chiều cao khung */
+    overflow-y: auto !important;  /* BẮT BUỘC BẬT THANH CUỘN ĐỂ LƯỚT */
+    padding-right: 5px;
+}
+
+#trendingList::-webkit-scrollbar {
+    width: 6px !important; /* Độ rộng thanh cuộn */
+}
+
+#trendingList::-webkit-scrollbar-thumb {
+    background: #c89b27 !important; /* Màu vàng kim cho thanh cuộn */
     border-radius: 10px !important;
 } 
 </style>
@@ -3359,6 +3363,69 @@ function enterWebsite() {
       document.title = originalTitle; // Trả lại tiêu đề gốc sau 5 giây
     }, 5000);
   });
+</script>
+<!-- DÁN ĐOẠN NÀY VÀO CUỐI FILE, NGAY TRƯỚC THẺ </body> -->
+<script>
+// Ghi đè triệt để hàm mở Bảng xếp hạng
+window.openTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) modal.style.display = 'flex';
+    var activeTab = document.querySelector('.tab-btn.active') || document.querySelector('.tab-btn');
+    showTab('total', activeTab);
+};
+
+// Ghi đè triệt để hàm hiển thị Top 20
+window.showTab = function(type, btn) {
+    if (type === 'all') type = 'total'; 
+
+    // Đổi màu chữ nút bấm
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.remove('active');
+        b.style.color = '#8d7237';
+    });
+    if (btn) {
+        btn.classList.add('active');
+        btn.style.color = '#48350d';
+    }
+
+    var data = window.allStats || {};
+    
+    // Tự động quét trực tiếp toàn bộ 24 nhân vật trên trang web
+    var allCards = (typeof cards !== 'undefined' && cards.length) ? cards : Array.from(document.querySelectorAll('.character-card'));
+
+    // Sắp xếp và lấy đủ TOP 20
+    var sorted = allCards.map(function(card) {
+        var name = card.querySelector('h2') ? card.querySelector('h2').innerText : 'Nhân vật';
+        var newsIndex = Number(card.dataset.news) || 0;
+        var count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
+        return { name: name, count: count, newsIndex: newsIndex };
+    }).sort(function(a, b) {
+        if (b.count !== a.count) return b.count - a.count;
+        return b.newsIndex - a.newsIndex;
+    }).slice(0, 20); // LẤY ĐỦ TOP 20
+
+    // Tạo giao diện có Vương miện
+    var htmlContent = sorted.map(function(item, i) {
+        var rankIcon = '<b style="width:30px; color:#d8a91d;">#' + (i + 1) + '</b>';
+        if (i === 0) rankIcon = '<b style="width:30px; font-size:18px;">👑</b>';
+        else if (i === 1) rankIcon = '<b style="width:30px; font-size:18px;">🥈</b>';
+        else if (i === 2) rankIcon = '<b style="width:30px; font-size:18px;">🥉</b>';
+
+        return '<div style="display:flex; align-items:center; padding:10px; border-bottom:1px dashed #ecd78b;">' +
+            rankIcon +
+            '<span style="flex:1; font-weight: 500; color: #5b430a;">' + item.name + '</span>' +
+            '<span style="color:#e74c3c; font-weight: bold;">❤ ' + item.count + '</span>' +
+        '</div>';
+    }).join('');
+
+    // Ép bật thanh cuộn (Scroll) cho Bảng xếp hạng Top 20
+    document.querySelectorAll('#trendingList').forEach(function(list) {
+        list.style.maxHeight = '400px';
+        list.style.overflowY = 'auto';
+        list.style.display = 'block';
+        list.innerHTML = htmlContent;
+    });
+};
 </script>
 </body>
 </html>
