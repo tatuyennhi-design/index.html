@@ -1191,15 +1191,15 @@ user-select:none;
 <!-- Màn hình chào mừng chuẩn style sáng sủa: Vàng chanh phối Trắng -->
 <div id="welcome-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff9e6; background-image: linear-gradient(rgba(245, 230, 185, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(245, 230, 185, 0.3) 1px, transparent 1px); background-size: 25px 25px; display: flex; justify-content: center; align-items: center; z-index: 999999999; transition: opacity 0.8s ease; font-family: 'Georgia', serif;">
     
-    <!-- Nút bật nhạc góc trên giống mẫu -->
+    <!-- Nút bật nhạc góc trên -->
     <div onclick="toggleWelcomeMusic()" style="position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.9); border: 1px solid #f2e3be; padding: 8px 16px; border-radius: 20px; font-size: 12px; color: #b8860b; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 6px;">
         <span>🎵</span> <span id="music-text">BẬT NHẠC</span>
     </div>
 
-    <!-- Hộp card chính màu trắng bo tròn trên nền vàng chanh -->
+    <!-- Hộp card chính màu trắng bo tròn -->
     <div style="background: #ffffff; padding: 35px 30px; border-radius: 24px; box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15); width: 85%; max-width: 340px; text-align: center; border: 1px solid #f9f1d9;">
         
-        <!-- Avatar / Biểu tượng tròn ở giữa -->
+        <!-- Avatar -->
         <div style="width: 75px; height: 75px; background: #fffdf5; border-radius: 50%; margin: 0 auto 15px; border: 2px solid #fcebbc; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
             <img src="hy.png" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
@@ -1208,13 +1208,19 @@ user-select:none;
         <h2 style="color: #333333; font-size: 22px; font-weight: bold; margin-bottom: 6px; letter-spacing: 0.5px;">Tiệm Nhà Hyperion</h2>
         <p style="color: #666666; font-size: 12px; margin-bottom: 22px; font-family: 'Be Vietnam Pro', sans-serif; letter-spacing: 0.5px;">Góc nhỏ bình yên giữa lòng thành phố.</p>
        
-        <!-- Thanh tiến trình (Loading bar) dễ thương -->
-        <div style="width: 100%; height: 6px; background: #f5f1e6; border-radius: 3px; margin-bottom: 20px; overflow: hidden;">
-            <div style="width: 100%; height: 100%; background: linear-gradient(90deg, #ffe066, #ff922b); border-radius: 3px;"></div>
+        <!-- THANH TIẾN TRÌNH LOẠI CHẠY TỪ 0% TỚI 100% -->
+        <div style="margin-bottom: 20px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b6821; font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; margin-bottom: 6px;">
+                <span id="loading-status-text">Đang chuẩn bị mứt trà...</span>
+                <span id="loading-percent-text">0%</span>
+            </div>
+            <div style="width: 100%; height: 8px; background: #f5f1e6; border-radius: 4px; overflow: hidden; position: relative;">
+                <div id="welcome-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ffe066, #ff922b); border-radius: 4px; transition: width 0.12s ease-out;"></div>
+            </div>
         </div>
         
-        <!-- Nút bấm vào website -->
-        <button onclick="enterWebsite()" style="width: 100%; background: #fff2cc; color: #7a5c00; border: 1px solid #ffe066; padding: 12px; font-size: 13px; font-weight: bold; border-radius: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 224, 102, 0.3); transition: all 0.3s ease; letter-spacing: 0.5px;">
+        <!-- NÚT BẤM VÀO WEBSITE (BAN ĐẦU ẨN ĐI - 100% MỚI HIỆN) -->
+        <button id="enter-btn" onclick="enterWebsite()" style="width: 100%; background: #fff2cc; color: #7a5c00; border: 1px solid #ffe066; padding: 12px; font-size: 13px; font-weight: bold; border-radius: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 224, 102, 0.3); transition: all 0.5s ease; letter-spacing: 0.5px; opacity: 0; pointer-events: none; transform: translateY(10px);">
             Bước vào cửa tiệm
         </button>
         
@@ -1223,6 +1229,7 @@ user-select:none;
 
 <audio id="bg-music" src="nhac.mp3" preload="auto" loop></audio>
 
+<!-- SCRIPT CHẠY THANH TIẾN TRÌNH VÀ HIỆN NÚT KHI ĐẠT 100% -->
 <script>
     function toggleWelcomeMusic() {
         var music = document.getElementById('bg-music');
@@ -1241,9 +1248,44 @@ user-select:none;
         screen.style.opacity = '0';
         setTimeout(function() {
             screen.style.display = 'none';
+            if (typeof initStats === 'function') initStats();
+            var news = document.getElementById('newsOverlay');
+            if (news) news.style.display = 'flex';
         }, 800);
     }
-</script>
+
+    // Hiệu ứng nhảy phần trăm từ 0% -> 100% mới hiện nút
+    window.addEventListener('DOMContentLoaded', function() {
+        var percentText = document.getElementById('loading-percent-text');
+        var statusText = document.getElementById('loading-status-text');
+        var progressBar = document.getElementById('welcome-progress-bar');
+        var enterBtn = document.getElementById('enter-btn');
+        
+        if (!percentText || !progressBar) return;
+        
+        var progress = 0;
+        var interval = setInterval(function() {
+            // Tăng ngẫu nhiên từ 3% đến 10% mỗi nhịp
+            progress += Math.floor(Math.random() * 8) + 3; 
+            
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                if (statusText) statusText.innerText = "Đã sẵn sàng!";
+                
+                // KHI ĐẠT 100% -> TỰ ĐỘNG HIỆN NÚT "BƯỚC VÀO CỬA TIỆM"
+                if (enterBtn) {
+                    enterBtn.style.opacity = '1';
+                    enterBtn.style.pointerEvents = 'auto';
+                    enterBtn.style.transform = 'translateY(0)';
+                }
+            }
+            
+            percentText.innerText = progress + '%';
+            progressBar.style.width = progress + '%';
+        }, 75); // Tốc độ chạy khoảng 1.5 giây
+    });
+</script> 
 <div class="container">
     <header class="hero">
         <img class="banner" src="banner.JPG" alt="Banner" loading="lazy">
