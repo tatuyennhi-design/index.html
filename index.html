@@ -12,6 +12,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+ <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8ksReOeGVbSPlybFhGaO6wue46ID9YME",
+            authDomain: "xuhuong-6949e.firebaseapp.com",
+            projectId: "xuhuong-6949e",
+            databaseURL: "https://xuhuong-6949e-default-rtdb.firebaseio.com",
+            storageBucket: "xuhuong-6949e.firebasestorage.app",
+            messagingSenderId: "454402686292",
+            appId: "1:454402686292:web:1b188b7cd86785df9f1cc1",
+            measurementId: "G-1GF4SXRWZQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        window.db = db; window.dbRef = ref; window.runTransaction = runTransaction; window.onValue = onValue;
+    </script>
 </head>
     <style>
 :root{
@@ -131,6 +151,7 @@ body {
    Character Card
 ======================= */
 .character-card{
+    position: relative;
     display:grid;
     grid-template-columns:minmax(0,1fr) 260px;
     gap:32px;
@@ -232,6 +253,19 @@ body {
     border-color:#b88d16;
     box-shadow: 6px 6px 0 #ead07d, 0 10px 20px rgba(0,0,0,.10);
 }
+
+/* FAV BUTTON & BADGE */
+.fav-btn {
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    background:#fff; border:2px solid #ecd78b; border-radius:10px; padding:0 15px;
+    height:45px; cursor:pointer; font-weight:700; color:#8d7237; box-shadow: 4px 4px 0 #efd886;
+}
+.fav-btn.active { color:#e74c3c; border-color:#e74c3c; background:#fff5f5; }
+.hot-badge {
+    position: absolute; top: -12px; left: 20px; background: linear-gradient(45deg, #ff4e50, #f9d423);
+    color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800;
+    box-shadow: 0 4px 10px rgba(255,78,80,0.4); z-index: 10; display: none;
+}
 /* =======================
    Card Right (Image)
 ======================= */
@@ -258,6 +292,21 @@ body {
     border-color:#b88712;
    box-shadow: 7px 7px 0 #e4c866, 0 14px 26px rgba(0,0,0,.14);
 }
+
+/* Modal Xu Hướng */
+.trending-modal {
+    display: none; position: fixed; inset: 0; background: rgba(45,35,12,0.6);
+    z-index: 2000000; justify-content: center; align-items: center; backdrop-filter: blur(4px);
+}
+.trending-content {
+    background: #fffef9; width: min(450px, 95%); border-radius: 20px; padding: 25px;
+    border: 3px solid #d8a91d; box-shadow: 8px 8px 0 #ecd78b; position: relative;
+}
+.trending-tab { display: flex; gap: 8px; margin: 15px 0; }
+.tab-btn { flex: 1; padding: 10px; border: 2px solid #ecd78b; background: #fff8de; cursor: pointer; border-radius: 10px; font-weight: 600; }
+.tab-btn.active { background: #f6cb4b; }
+.trending-item { display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px dashed #ecd78b; }
+
 /* =======================
    Footer
 ======================= */
@@ -1209,6 +1258,9 @@ user-select:none;
             <b>@Luna Bloom</b>
         </p>
         <div class="section-divider"></div>
+		
+<button onclick="openTrending()" class="nav-btn-wish" style="background:#f6cb4b; border-style:solid;">🔥 Bảng Xu Hướng</button> 
+		
          <!-- Nút Fanpage -->
 <a href="https://www.facebook.com/profile.php?id=61589739301065" class="nav-btn-wish" style="display: inline-block; margin-bottom: 25px;">
     ✨ Fanpage ✨
@@ -1218,6 +1270,7 @@ user-select:none;
 <a href="https://tatuyennhi-design.github.io/file-C-Windows-System32-index.html/" class="nav-btn-wish" style="display: inline-block;">
     ✨ Góc Ước Nguyện Giao Lưu & Feedback Char ✨
 </a>
+
         <div class="search-box">
             <input
                 type="text"
@@ -1267,6 +1320,7 @@ user-select:none;
         <main class="character-list">
              <!-- Card 1 -->
 <section class="character-card" id="card1" data-news="1">
+       <div class="hot-badge" id="badge-card1">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Nguyễn Vĩnh Hiên</h2>
         <p class="tagline">
@@ -1374,7 +1428,8 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/4280df64-dc19-49c9-8102-fd7d657af585" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221otutEavYYlnT0zl68-BpI4KR3t_qzhuL%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card1', this)" data-id="card1">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="nvh.png" alt="Nguyễn Vĩnh Hiên" loading="lazy">
@@ -1382,6 +1437,7 @@ Cô út, vị tiểu thư lá ngọc cành vàng gắn liền với vẻ đẹp 
 </section>
             <!-- Card 2 -->
 <section class="character-card" id="card2" data-news="2">
+ <div class="hot-badge" id="badge-card2">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Lê Phan Vĩnh Uy</h2>
         <p class="tagline">
@@ -1410,7 +1466,8 @@ Cái tên Lê Phan Vĩnh Uy từ lâu đã là một bóng ma uy quyền bao tr�
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/b9288038-556d-407e-bf65-a2eb3bc18e42" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2217lWQJt-Y0H--RjDqQU3QtTKWamrOweOi%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+         <button class="fav-btn" onclick="handleFavorite('card2', this)" data-id="card2">❤ <span class="fav-count">0</span></button>
+		</div>
     </div>
     <div class="right">
         <img src="lpvu.png" alt="Ảnh  Character" loading="lazy">
@@ -1418,6 +1475,7 @@ Cái tên Lê Phan Vĩnh Uy từ lâu đã là một bóng ma uy quyền bao tr�
 </section>
             <!-- Card 3 -->
 <section class="character-card" id="card3" data-news="3">
+ <div class="hot-badge" id="badge-card3">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Ninh Hoài Thượng</h2>
         <p class="">
@@ -1447,7 +1505,8 @@ Cả phủ rúng động. Việc sắc phong giữa lúc không phải mùa tuy�
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/role/2298b35c-5734-4a45-8b11-7fb43a963531" class="chat-btn" target="_blank">Dokichat</a>
             <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221NWDMmDWwKZeTt9A7JiJKRuDNjTBuotHg%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card3', this)" data-id="card3">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="nht.png" alt="Ảnh Character" loading="lazy">
@@ -1455,6 +1514,7 @@ Cả phủ rúng động. Việc sắc phong giữa lúc không phải mùa tuy�
 </section>
             <!-- Card 4 -->
 <section class="character-card" id="card4" data-news="4">
+ <div class="hot-badge" id="badge-card4">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Fujiwara no Kiyomitsu</h2>
         <p class="tagline">
@@ -1484,7 +1544,8 @@ Kiyomitsu rơi vào bi kịch tột cùng. Cha mẹ coi hắn như quân cờ l�
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/2330b5b4-8cff-47dc-b1d4-4a49c3160524" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221_nNuxJj9VrKQjaIjTKyP5G5KSxE9nbgE%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card4', this)" data-id="card4">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="fnk.png" alt="Ảnh Character" loading="lazy">
@@ -1492,6 +1553,7 @@ Kiyomitsu rơi vào bi kịch tột cùng. Cha mẹ coi hắn như quân cờ l�
 </section>
             <!-- Card 5 -->
 <section class="character-card" id="card5" data-news="5">
+ <div class="hot-badge" id="badge-card5">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Trương Hoài Nam</h2>
         <p class="tagline">
@@ -1520,7 +1582,8 @@ Khi ông ngoại đột ngột qua đời thì cuộc đời hắn cũng xảy r
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/cb9f94a4-c192-4bd0-85b0-b898c1814011" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221MSHhJwDvq2eF0NjRNKKERYMYThFGb8rE%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card5', this)" data-id="card5">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="thn.png" alt="Ảnh Character" loading="lazy">
@@ -1528,6 +1591,7 @@ Khi ông ngoại đột ngột qua đời thì cuộc đời hắn cũng xảy r
 </section>
             <!-- Card 6 -->
 <section class="character-card" id="card6" data-news="6">
+ <div class="hot-badge" id="badge-card6">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Lục Thời Ngôn</h2>
         <p class="tagline">
@@ -1557,7 +1621,8 @@ Không một giây do dự, cô lập tức chấp nhận khế ước. Cô áp 
 </div>
         <div class="button-group">
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221Mb-yhKGnG5qBioxfDCZFuESGTFZEdO6_%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+         <button class="fav-btn" onclick="handleFavorite('card6', this)" data-id="card6">❤ <span class="fav-count">0</span></button>
+		</div>
     </div>
     <div class="right">
         <img src="ltn.png" alt="Ảnh Character" loading="lazy">
@@ -1565,6 +1630,7 @@ Không một giây do dự, cô lập tức chấp nhận khế ước. Cô áp 
 </section>
             <!-- Card 7 -->
 <section class="character-card" id="card7" data-news="7">
+ <div class="hot-badge" id="badge-card7">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Hắc Vô Kỵ</h2>
         <p class="tagline">
@@ -1594,7 +1660,8 @@ Sau vụ tai nạn khiến em mở nhãn thần, hắn cứu người chỉ vì:
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/cc77751c-dd57-4f29-9d6d-e21e18cbef3d?isShare=true&fbclid=IwY2xjawTCwcRleHRuA2FlbQIxMABicmlkETJ3ZkVVTW1mQ2J4MkM3WDhac3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHrXD_j9W7WxEJFsYf2Gwb1mEMofABjHqHAkuk4Nv2oLXu-j1KT8sCXyR1SUe_aem_kq83BLDA6FaxY9T3yi3jdQ" class="chat-btn" target="_blank">Dokichat</a>
             <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2218L7Zcf7p6vBUlaTaV3ImXIqYb4x2ykFJ%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card7', this)" data-id="card7">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="hvk.png" alt="Ảnh Character" loading="lazy">
@@ -1602,6 +1669,7 @@ Sau vụ tai nạn khiến em mở nhãn thần, hắn cứu người chỉ vì:
 </section>
             <!-- Card 8 -->
 <section class="character-card" id="card8" data-news="8">
+ <div class="hot-badge" id="badge-card8">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Cedric Von Astriat</h2>
         <p class="tagline">
@@ -1641,7 +1709,8 @@ Một cuộc đời cũ khép lại sau cú va chạm định mệnh dưới mà
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/2da24096-02fa-4edc-ad78-116d4c98f887" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22158YY29jo_KuSXOV53x2cBy-l9Lnn_tjO%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card8', this)" data-id="card8">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="ac.png" alt="Ảnh Character" loading="lazy">
@@ -1649,6 +1718,7 @@ Một cuộc đời cũ khép lại sau cú va chạm định mệnh dưới mà
 </section>
             <!-- Card 9 -->
 <section class="character-card" id="card9" data-news="9">
+ <div class="hot-badge" id="badge-card9">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Đường Khuynh Vũ</h2>
         <p class="tagline">
@@ -1681,7 +1751,8 @@ Từ trong góc tối của tiệm, nơi những bức tranh trục cuốn cổ 
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/e166b418-6840-4d3b-a29f-9aa89f323dc6" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221Fv0o1t8sV7dqJn6-L7I2OCHS9aCXaTB4%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+         <button class="fav-btn" onclick="handleFavorite('card9', this)" data-id="card9">❤ <span class="fav-count">0</span></button>
+		</div>
     </div>
     <div class="right">
         <img src="dkv.png" alt="Ảnh Character" loading="lazy">
@@ -1689,6 +1760,7 @@ Từ trong góc tối của tiệm, nơi những bức tranh trục cuốn cổ 
 </section>
             <!-- Card 10 -->
 <section class="character-card" id="card10" data-news="10">
+ <div class="hot-badge" id="badge-card10">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Yến Vô Hiết</h2>
         <p class="tagline">
@@ -1717,7 +1789,8 @@ Vào ngày phong phi định vị cuối cùng, đối mặt với đôi mắt p
 </div>
         <div class="button-group">
             <a href=" https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221YMqJ9LUyvhCnJrBOWVyX5izXcAWs02TI%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+       <button class="fav-btn" onclick="handleFavorite('card10', this)" data-id="card10">❤ <span class="fav-count">0</span></button>
+	  </div>
     </div>
     <div class="right">
         <img src="yvh.png" alt="Ảnh Character" loading="lazy">
@@ -1725,6 +1798,7 @@ Vào ngày phong phi định vị cuối cùng, đối mặt với đôi mắt p
 </section>
             <!-- Card 11 -->
 <section class="character-card" id="card11" data-news="11">
+ <div class="hot-badge" id="badge-card11">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Ninh Dạ Thinh</h2>
         <p class="tagline">
@@ -1753,7 +1827,8 @@ Lúc bấy giờ, triều đình đang rung chuyển bởi quy tắc đổi mớ
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/79f2b68d-ea14-417a-a2fd-66f283d3ac95" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221TfcTSRljA3kQO8PDUcpbE623h6j5mv1H%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card11', this)" data-id="card11">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="ndt.png" alt="Ảnh Character" loading="lazy">
@@ -1761,6 +1836,7 @@ Lúc bấy giờ, triều đình đang rung chuyển bởi quy tắc đổi mớ
 </section>
             <!-- Card 12 -->
 <section class="character-card" id="card12" data-news="12">
+ <div class="hot-badge" id="badge-card12">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Lê Nguyễn Hoài Khanh</h2>
         <p class="tagline">
@@ -1790,7 +1866,8 @@ Tiền có, quyền có, nhưng bên trong vẫn trống rỗng. Cho đến ngà
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/b138fd92-d326-4ef3-883d-0732a41335a0" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221f3TZ-BbMz7PQEmTO0gVf0twWPQWRpYSj%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card12', this)" data-id="card12">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="lnhk.png" alt="Ảnh Character" loading="lazy">
@@ -1798,6 +1875,7 @@ Tiền có, quyền có, nhưng bên trong vẫn trống rỗng. Cho đến ngà
 </section>
             <!-- Card 13 -->
 <section class="character-card" id="card13" data-news="13">
+ <div class="hot-badge" id="badge-card13">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Hà Dực Thần</h2>
         <p class="tagline">
@@ -1836,7 +1914,8 @@ Một luồng sáng mạnh mẽ hút thẳng linh hồn cô vào thế giới ti
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/4c1f6464-1eb4-4ed6-b667-b8a728522bff" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221T0MoDXdQyDILKTGJhXmPShetqeERe04Y%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card13', this)" data-id="card13">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="hdt.png" alt="Ảnh Character" loading="lazy">
@@ -1844,6 +1923,7 @@ Một luồng sáng mạnh mẽ hút thẳng linh hồn cô vào thế giới ti
 </section>
             <!-- Card 14 -->
 <section class="character-card" id="card14" data-news="14">
+ <div class="hot-badge" id="badge-card14">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Trần Gia Thành</h2>
         <p class="tagline">
@@ -1871,7 +1951,8 @@ Cuộc đời gã đảo lộn khi cô – cô tiểu thư đài các từ miề
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/f789adb0-043c-4bc4-9427-18212f73bfb9" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221pUE-VTZcBnmWqyjn2hJsqDNIQfaXiFOf%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card14', this)" data-id="card14">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="tgt.png" alt="Ảnh Character" loading="lazy">
@@ -1879,6 +1960,7 @@ Cuộc đời gã đảo lộn khi cô – cô tiểu thư đài các từ miề
 </section>
             <!-- Card 15 -->
 <section class="character-card" id="card15" data-news="15">
+ <div class="hot-badge" id="badge-card15">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Cố Thinh Ngôn</h2>
         <p class="tagline">
@@ -1906,7 +1988,8 @@ Ngay khoảnh khắc Lê Hiểu Nghi suýt bị xé xác, Thẩm Trường An c�
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/role/3940b6ec-a90b-43a5-9e55-67101bb81825" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221C3Denff-077OD13yTgCAmt4nvj-PKZPt%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+         <button class="fav-btn" onclick="handleFavorite('card15', this)" data-id="card15">❤ <span class="fav-count">0</span></button>
+		</div>
     </div>
     <div class="right">
         <img src="ctn.JPG" alt="Ảnh Character" loading="lazy">
@@ -1914,6 +1997,7 @@ Ngay khoảnh khắc Lê Hiểu Nghi suýt bị xé xác, Thẩm Trường An c�
 </section>
             <!-- Card 16 -->
 <section class="character-card" id="card16" data-news="16">
+ <div class="hot-badge" id="badge-card16">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Kỷ Tồn Hy</h2>
         <p class="tagline">
@@ -1942,7 +2026,8 @@ Có thể đối với cả thế giới, hắn là quái vật cao 1m92 thống
         <div class="button-group">
             <a href="https://www.dokichat.club/vi/chat/5df31623-671a-43bd-9ac3-e161ed20df6e" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221tZBNeYb0-VRZGnm1EvI1H4wwK-l4yQBr%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card16', this)" data-id="card16">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="kth.png" alt="Ảnh Character" loading="lazy">
@@ -1950,6 +2035,7 @@ Có thể đối với cả thế giới, hắn là quái vật cao 1m92 thống
 </section>
             <!-- Card 17 -->
 <section class="character-card" id="card17" data-news="17">
+ <div class="hot-badge" id="badge-card17">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Vệ Thành</h2>
         <p class="tagline">
@@ -1978,7 +2064,8 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/2208f941-40af-454d-9f0d-679ad4e47eff?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2218-VTprCOwy-iR90eSLnq9mxOnwP7fLKX%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card17', this)" data-id="card17">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="vt.JPG" alt="Ảnh Character" loading="lazy">
@@ -1987,6 +2074,7 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
             
             <!-- Card 18 -->
 <section class="character-card" id="card18" data-news="18">
+ <div class="hot-badge" id="badge-card18">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Lê Trần Hoài Vũ</h2>
         <p class="tagline">
@@ -2014,7 +2102,8 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/c9e05f68-b431-4012-b114-c1fb13bc4778?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22111qHhZ8iDrmNeRCX6savFz3YAXLXhiZo%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card18', this)" data-id="card18">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="lthv.png" alt="Ảnh Character" loading="lazy">
@@ -2023,6 +2112,7 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
                        
             <!-- Card 19 -->
 <section class="character-card" id="card19" data-news="19">
+ <div class="hot-badge" id="badge-card19">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Ninh Tử Khiêm</h2>
         <p class="tagline">
@@ -2050,8 +2140,9 @@ Hắn chọn đối thoại với người chết vì tin rằng thi thể khôn
 </div>
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/a7b48a40-5418-4c51-b461-f6bada369ad8?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
-            <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221zHBpV1cBUcjptdNy8UEmClPXXMxCNCO7%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+   		  <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221zHBpV1cBUcjptdNy8UEmClPXXMxCNCO7%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
+         <button class="fav-btn" onclick="handleFavorite('card19', this)" data-id="card19">❤ <span class="fav-count">0</span></button>
+		</div>
     </div>
     <div class="right">
         <img src="ntk.png" alt="Ảnh Character" loading="lazy">
@@ -2059,6 +2150,7 @@ Hắn chọn đối thoại với người chết vì tin rằng thi thể khôn
 </section>
             <!-- Card 20 -->
 <section class="character-card" id="card20" data-news="20">
+ <div class="hot-badge" id="badge-card20">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Ninh Hữu Ngôn</h2>
         <p class="tagline">
@@ -2088,7 +2180,8 @@ Rồi hắn gặp {{user}} – một cô giáo mầm non đặc biệt tại khu
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/88f095a8-0bef-4a2e-9115-1f0a607ea615?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221nZSRra1KUdHjZpjoc1graVHXZtzMnKeu%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card20', this)" data-id="card20">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="nhn.png" alt="Ảnh Character" loading="lazy">
@@ -2096,6 +2189,7 @@ Rồi hắn gặp {{user}} – một cô giáo mầm non đặc biệt tại khu
 </section>
             <!-- Card 21 -->
 <section class="character-card" id="card21" data-news="21">
+ <div class="hot-badge" id="badge-card21">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Ninh Dạ Tinh</h2>
         <p class="tagline">
@@ -2127,7 +2221,8 @@ Tại NE, sự đào thải diễn ra rõ ràng và không khoan nhượng. Nh�
         <div class="button-group">
             <a href="https://www.dokichat.club/chat/81cfc4f2-188d-43a4-a71b-c520a7a4493e?isShare=true" class="chat-btn" target="_blank">Dokichat</a>
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221t7uoAx4hxTLG2U0yTrDX0vMn8I8ukLQQ%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+         <button class="fav-btn" onclick="handleFavorite('card21', this)" data-id="card21">❤ <span class="fav-count">0</span></button>
+		</div>
     </div>
     <div class="right">
         <img src="IMG_6508.png" alt="Ảnh  Character" loading="lazy">
@@ -2135,6 +2230,7 @@ Tại NE, sự đào thải diễn ra rõ ràng và không khoan nhượng. Nh�
 </section>
             <!-- Card 22-->
 <section class="character-card" id="card22" data-news="22">
+ <div class="hot-badge" id="badge-card22">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Yến Vô Kỵ</h2>
         <p class="tagline">
@@ -2216,7 +2312,8 @@ Bảng thông tin bỗng cuộn tròn lại rồi đóng sầm một tiếng kh�
 </div>
         <div class="button-group">
          <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2212uuU5YPm-aUyJTwMxSqSgM3sDqPEjZLW%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card22', this)" data-id="card22">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="IMG_0478.jpeg" alt="Ảnh  Character" loading="lazy">
@@ -2224,6 +2321,7 @@ Bảng thông tin bỗng cuộn tròn lại rồi đóng sầm một tiếng kh�
 </section>
             <!-- Card 23 -->
 <section class="character-card" id="card23" data-news="23">
+ <div class="hot-badge" id="badge-card23">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Tiêu Cảnh Hạo</h2>
         <p class="tagline">
@@ -2271,7 +2369,8 @@ Thế nhưng, khi mở mắt ra, hơi ấm lại tràn về. Hắn kinh hoàng n
 </div>
         <div class="button-group">
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221ndO6WzCBjXB-kJz81tuxRs694lpPlOYt%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card23', this)" data-id="card23">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="IMG_0708.jpeg" alt="Ảnh  Character" loading="lazy">
@@ -2279,6 +2378,7 @@ Thế nhưng, khi mở mắt ra, hơi ấm lại tràn về. Hắn kinh hoàng n
 </section>
             <!-- Card 24-->
 <section class="character-card" id="card24" data-news="24">
+ <div class="hot-badge" id="badge-card24">🔥 NỔI BẬT</div>
     <div class="left">
         <h2>Lục Trạch</h2>
         <p class="tagline">
@@ -2336,7 +2436,8 @@ Nó vừa dứt lời, không gian màu trắng xung quanh bắt đầu vỡ v�
 </div>
         <div class="button-group">
             <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%22148vxGWbL2fTFPcx-r5aNx4u8i0NaX1Mv%22%5D,%22action%22:%22open%22,%22userId%22:%22100357821591707252635%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="chat-btn" target="_blank">GGAI</a>
-        </div>
+        <button class="fav-btn" onclick="handleFavorite('card24', this)" data-id="card24">❤ <span class="fav-count">0</span></button>
+	   </div>
     </div>
     <div class="right">
         <img src="IMG_0742.jpeg" alt="Ảnh Character" loading="lazy">
@@ -2350,6 +2451,19 @@ Nó vừa dứt lời, không gian màu trắng xung quanh bắt đầu vỡ v�
     <source src="nhac.mp3" type="audio/mpeg">
 </audio>
 <div class="pagination" id="pagination"></div>
+<!-- Khung hiện bảng xếp hạng -->
+<div id="trendingModal" class="trending-modal" style="display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9999999; justify-content: center; align-items: center; padding: 20px;">
+    <div class="trending-content" style="background: #fffef9; width: min(450px, 95%); border-radius: 20px; padding: 25px; border: 3px solid #d8a91d;">
+        <h2 style="text-align:center; color:#5b430a; margin:0;">🔥 Bảng Xếp Hạng</h2>
+        <div class="trending-tab" style="display: flex; gap: 8px; margin: 20px 0;">
+            <button class="tab-btn active" onclick="showTab('all', this)" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ecd78b; cursor:pointer;">Tất cả</button>
+            <button class="tab-btn" onclick="showTab('week', this)" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ecd78b; cursor:pointer;">Tuần</button>
+            <button class="tab-btn" onclick="showTab('month', this)" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ecd78b; cursor:pointer;">Tháng</button>
+        </div>
+        <div id="trendingList" style="max-height: 300px; overflow-y: auto;">Đang tải...</div>
+        <button class="chat-btn" style="margin-top:20px; height: 40px; width: 100%;" onclick="document.getElementById('trendingModal').style.display='none'">Đóng</button>
+    </div>
+</div>
         <footer class="footer">
             <p>© 2026 <a href="#">Hyperion</a> | <a href="#">Luna Bloom</a>. Website được tài trợ khởi tạo bởi @Le Bel Astre và tiếp tục phát triển bởi Hyperion. Cảm ơn Le đã đặt những nền móng đầu tiên cho Web! Chúc Le luôn tràn ngập niềm vui, vạn sự thuận lợi và mãi xinh đẹp rực rỡ. Cảm ơn mọi người đã ghé đến và ủng hộ mình, xin chúc mọi người có một trải nghiệm vui vẻ và hài lòng tại Tiệm Nhà Hyprion. </p>
         </footer>
@@ -2892,9 +3006,120 @@ function enterWebsite() {
       duration: isMain ? 750 : 650,
       easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
     });
-    setTimeout(() => flower.remove(), 750);
+  setTimeout(() => flower.remove(), 750);
   }
 })();
+</script>
+
+<script>
+// --- 1. FIREBASE LOGIC (Tăng tim) --
+const VOTE_KEY = "hy_voted_chars_v5";
+
+function handleFavorite(charId, btn) {
+    let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
+    if (votedList.includes(charId)) {
+        showToast("✨ Bạn đã tặng tim cho người này rồi!");
+        return;
+    }
+
+    // Hiệu ứng tim bay lên
+    const rect = btn.getBoundingClientRect();
+    for(let i=0; i<6; i++) {
+        const h = document.createElement('div');
+        h.className = 'floating-heart'; h.innerHTML = '❤';
+        h.style.cssText = `position:fixed; left:${rect.left + 20}px; top:${rect.top}px; color:#e74c3c; z-index:9999999; pointer-events:none; font-size:24px; animation: flyUp 1.5s forwards;`;
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 1500);
+    }
+
+    // Gửi lên Firebase
+    const charRef = window.dbRef(window.db, 'stats/' + charId);
+    window.runTransaction(charRef, (curr) => {
+        const now = Date.now();
+        if (!curr) curr = { total: 0, week: 0, month: 0, lastW: now, lastM: now };
+        // Reset tuần/tháng
+        if (now - curr.lastW > 7*24*60*60*1000) { curr.week = 0; curr.lastW = now; }
+        if (now - curr.lastM > 30*24*60*60*1000) { curr.month = 0; curr.lastM = now; }
+        curr.total = (curr.total || 0) + 1;
+        curr.week = (curr.week || 0) + 1;
+        curr.month = (curr.month || 0) + 1;
+        return curr;
+    });
+
+    votedList.push(charId);
+    localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
+    btn.classList.add('active');
+}
+
+// --- 2. ĐỒNG BỘ SỐ TIM REALTIME ---
+function initStats() {
+    window.onValue(window.dbRef(window.db, 'stats'), (snap) => {
+        const data = snap.val();
+        if (!data) return;
+        window.allStats = data;
+        let max = 0, topId = "";
+        Object.keys(data).forEach(id => {
+            const count = data[id].total || 0;
+            const btn = document.querySelector(`.fav-btn[data-id="${id}"] .fav-count`);
+            if (btn) btn.innerText = count;
+            if (count > max) { max = count; topId = id; }
+        });
+        // Hiện lửa cho TOP 1
+        document.querySelectorAll('.hot-badge').forEach(b => b.style.display = 'none');
+        if (topId) {
+            const badge = document.getElementById('badge-' + topId);
+            if(badge) badge.style.display = 'block';
+        }
+    });
+}
+
+// --- 3. BẢNG XU HƯỚNG ---
+function openTrending() {
+    document.getElementById('trendingModal').style.display = 'flex';
+    // Đã đổi chữ 'all' thành 'total'
+    showTab('total', document.querySelector('.tab-btn')); 
+}
+
+function showTab(type, btn) {
+    // Thêm dòng này: Nếu nút bấm lỡ gửi chữ 'all' thì tự động đổi thành 'total' để khớp Database
+    if (type === 'all') type = 'total'; 
+
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    const list = document.getElementById('trendingList');
+    list.innerHTML = "Đang tải...";
+    if (!window.allStats) return;
+
+    const sorted = Object.keys(window.allStats).map(id => {
+        const card = document.getElementById(id);
+        const name = card ? card.querySelector('h2').innerText : id;
+        return { name, count: window.allStats[id][type] || 0 };
+    }).sort((a, b) => b.count - a.count).slice(0, 5);
+
+    list.innerHTML = sorted.map((item, i) => `
+        <div style="display:flex; padding:10px; border-bottom:1px dashed #ecd78b;">
+            <b style="width:30px; color:#d8a91d;">#${i+1}</b>
+            <span style="flex:1;">${item.name}</span>
+            <span style="color:#e74c3c;">❤ ${item.count}</span>
+        </div>
+    `).join('');
+}
+
+// Thêm animation flyUp vào CSS thủ công bằng JS
+const style = document.createElement('style');
+style.innerHTML = `@keyframes flyUp { 0%{transform:translateY(0) scale(1); opacity:1} 100%{transform:translateY(-150px) scale(1.5); opacity:0} }`;
+document.head.appendChild(style);
+
+// Sửa lại hàm vào web để nó kích hoạt Firebase
+function enterWebsite() {
+    var screen = document.getElementById('welcome-screen');
+    screen.style.opacity = '0';
+    setTimeout(function() {
+        screen.style.display = 'none';
+        initStats(); // KÍCH HOẠT ĐẾM TIM
+        document.getElementById('newsOverlay').style.display = 'flex';
+    }, 800);
+}
 </script>
 <style>
   .click-daisy-flower {
@@ -2913,6 +3138,7 @@ function enterWebsite() {
     border-radius: 10px !important;
 } 
 </style>
+
  <!-- Widget Hòm Thư Bí Mật -->
 <div id="secret-mailbox" onclick="openMail()">
   <!-- Icon Hòm Thư (SVG nhẹ, mượt) -->
