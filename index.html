@@ -1185,25 +1185,25 @@ user-select:none;
     100% { transform: translate(calc(-50% + 300px), -100vh) scale(0.7) rotate(45deg); opacity: 0; }
 }
 /* ===================================================
-   FIX KHUNG ẢNH CHUẨN ĐẸP 100% (HẾT BỊ BÓP XẸP ẢNH)
+   FIX ẢNH TO RÕ 250PX TRÊN LAPTOP & CHUẨN GÓC TRÊN MOBILE
 =================================================== */
 
-/* 1. Khung chứa ảnh Flexbox chuẩn */
+/* 1. Khung chứa ảnh khóa 250px trên Laptop */
 .right {
     position: relative !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    padding: 10px !important;
-    width: auto !important;
-    margin: 0 !important;
+    width: 250px !important;  /* Khóa đúng độ rộng 250px trên Laptop */
+    margin: 0 auto !important;
 }
 
-/* 2. Bức ảnh LUÔN GIỮ ĐÚNG TỶ LỆ 7/10 (Dù ảnh lỗi vẫn giữ nguyên khung to 250px) */
+/* 2. Bức ảnh khóa 250px to đẹp chuẩn tỉ lệ 7/10 */
 .right img {
-    width: 100% !important;
-    max-width: 250px !important;
-    aspect-ratio: 7 / 10 !important; /* BẮT BUỘC GIỮ TỶ LỆ 7/10 HẾT BỊ XẸP KHUNG */
+    display: block !important;
+    width: 250px !important;  /* Ép ảnh to 250px trên Laptop, không bao giờ bị bóp nhỏ */
+    height: auto !important;
+    aspect-ratio: 7 / 10 !important;
     object-fit: cover !important;
     object-position: center top !important;
     border-radius: 10px !important;
@@ -1218,8 +1218,8 @@ user-select:none;
 .right::before {
     content: "";
     position: absolute;
-    top: 25px !important;
-    right: 15px !important;
+    top: 20px !important;
+    right: 20px !important;
     width: 55px;
     height: 24px;
     background: repeating-linear-gradient(
@@ -1236,13 +1236,13 @@ user-select:none;
     -webkit-mask-image: linear-gradient(to right, transparent, black 30%, black 70%, transparent);
 }
 
-/* 4. Con dấu Sáp Vàng Kim đè chuẩn lên góc trên bên phải */
+/* 4. Con dấu Sáp Vàng Kim hít chuẩn góc (Đã nhích vào trong 5px) */
 .right::after {
     content: "✦\AORIGINAL\A✦";
     white-space: pre-wrap;
     position: absolute;
-    top: 0px !important;     /* Căn chuẩn góc trên bên phải */
-    right: 0px !important;
+    top: 5px !important;    /* Nhích xuống vào trong 3px */
+    right: 3px !important;  /* Nhích vào trong ảnh 5px theo ý bạn */
     width: 54px;
     height: 54px;
     background: radial-gradient(circle at 35% 35%, #ffeb99 0%, #d89b1c 60%, #8c5b00 100%);
@@ -1264,11 +1264,16 @@ user-select:none;
     box-shadow: 2px 4px 10px rgba(140, 91, 0, 0.35), inset 0 0 6px rgba(255, 255, 255, 0.6);
     text-shadow: 0 1px 1px rgba(255, 235, 175, 0.8);
     z-index: 3;
-}
+} 
 
+/* 5. Tối ưu riêng cho Điện Thoại (Khóa ảnh 220px vừa vặn) */
 @media (max-width: 768px) {
+    .right {
+        width: 220px !important; /* Khóa khung 220px trên điện thoại */
+    }
     .right img {
-        max-width: 220px !important; /* Trên điện thoại co nhẹ 220px cho vừa vặn */
+        width: 220px !important; /* Khóa ảnh 220px trên điện thoại */
+        max-width: 85vw !important;
     }
     .banner-ticker {
         margin: -12px auto 20px auto !important;
@@ -1286,8 +1291,7 @@ user-select:none;
         width: 22px !important;
         height: 22px !important;
     }
-} 
-
+}
 </style>
 </head>
 <body>
