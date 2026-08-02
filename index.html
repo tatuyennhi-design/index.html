@@ -3364,39 +3364,47 @@ function enterWebsite() {
     }, 5000);
   });
 </script>
-<!-- DÁN ĐOẠN NÀY VÀO NGAY TRƯỚC THẺ </body> Ở CUỐI FILE HTML -->
+<!-- DÁN ĐOẠN NÀY THAY THẾ VÀO NGAY TRƯỚC THẺ </body> Ở CUỐI FILE HTML -->
 <script>
-// Ghi đè triệt để hàm mở Bảng xếp hạng
+// Hàm mở Bảng xếp hạng (Khóa cuộn trang web đằng sau)
 window.openTrending = function() {
     var modal = document.getElementById('trendingModal');
     if (modal) {
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Khóa trang web chính đứng im
+        document.body.style.overflow = 'hidden'; // Khóa cuộn trang chính
     }
     var activeTab = document.querySelector('.tab-btn.active') || document.querySelector('.tab-btn');
     showTab('total', activeTab);
 };
 
-// Hàm đóng Bảng xếp hạng
+// Hàm đóng Bảng xếp hạng (MỞ LẠI CUỘN TRANG WEB LẬP TỨC)
 window.closeTrending = function() {
     var modal = document.getElementById('trendingModal');
     if (modal) {
         modal.style.display = 'none';
-        document.body.style.overflow = ''; // Mở lại cuộn trang web
     }
+    document.body.style.overflow = ''; // Mở khóa cuộn trang web
 };
 
-// Sự kiện click đóng modal
+// Bắt sự kiện click sớm (Capture Phase) để mở khóa trang web trước khi nút đóng ẩn modal
 document.addEventListener('click', function(e) {
     var modal = document.getElementById('trendingModal');
-    if (modal && modal.style.display === 'flex') {
-        if (e.target === modal || (e.target.tagName === 'BUTTON' && e.target.innerText.trim() === 'Đóng')) {
-            closeTrending();
-        }
+    if (!modal) return;
+
+    // Bấm vào nền đen bên ngoài HOẶC bấm nút "Đóng"
+    if (e.target === modal || (e.target.tagName === 'BUTTON' && e.target.innerText.trim() === 'Đóng')) {
+        closeTrending();
+    }
+}, true);
+
+// Hỗ trợ bấm phím ESC trên bàn phím để đóng bảng và mở lại cuộn trang
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeTrending();
     }
 });
 
-// Ghi đè triệt để hàm hiển thị Top 20 (ĐÃ FIX LỖI ĐÈ CHỮ)
+// Ghi đè triệt để hàm hiển thị Top 20 (Đã fix lỗi đè chữ)
 window.showTab = function(type, btn) {
     if (type === 'all') type = 'total'; 
 
@@ -3426,7 +3434,6 @@ window.showTab = function(type, btn) {
 
     // Tạo giao diện có Vương miện và Fix khoảng cách
     var htmlContent = sorted.map(function(item, i) {
-        // Tăng độ rộng min-width lên 42px để số có 2 chữ số như #14, #20 không bị đè chữ
         var rankIcon = '<b style="min-width: 42px; color:#d8a91d; font-size: 14px; display: inline-block;">#' + (i + 1) + '</b>';
         if (i === 0) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">👑</b>';
         else if (i === 1) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">🥈</b>';
@@ -3446,6 +3453,16 @@ window.showTab = function(type, btn) {
         list.style.overscrollBehavior = 'contain';
         list.style.display = 'block';
         list.innerHTML = htmlContent;
+    });
+
+    // Thay đổi lệnh của nút Đóng để luôn luôn giải phóng trang web
+    document.querySelectorAll('#trendingModal button').forEach(function(b) {
+        if (b.innerText.trim() === 'Đóng') {
+            b.onclick = function(e) {
+                e.preventDefault();
+                closeTrending();
+            };
+        }
     });
 };
 </script>
