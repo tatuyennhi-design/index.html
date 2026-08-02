@@ -3200,7 +3200,7 @@ function handleFavorite(charId, btn) {
         setTimeout(() => h.remove(), 1500);
     }
 
-    // Gửi số liệu lên Firebase
+ // Gửi số liệu lên Firebase (Lịch Reset cố định 12h đêm Chủ Nhật & 12h đêm Mùng 1)
     const charRef = window.dbRef(window.db, 'stats/' + charId);
     window.runTransaction(charRef, (curr) => {
         const now = Date.now();
@@ -3208,16 +3208,36 @@ function handleFavorite(charId, btn) {
         if (!curr.lastW) curr.lastW = now;
         if (!curr.lastM) curr.lastM = now;
 
-        if (now - curr.lastW > 7*24*60*60*1000) { curr.week = 0; curr.lastW = now; }
-        if (now - curr.lastM > 2592000000) { curr.month = 0; curr.lastM = now; }
+        // Tính mốc 00:00:00 Chủ Nhật đầu tuần này
+        let dW = new Date(now);
+        dW.setDate(dW.getDate() - dW.getDay());
+        dW.setHours(0, 0, 0, 0);
+        let startOfWeek = dW.getTime();
+
+        // Tính mốc 00:00:00 Ngày mùng 1 đầu tháng này
+        let dM = new Date(now);
+        dM.setDate(1);
+        dM.setHours(0, 0, 0, 0);
+        let startOfMonth = dM.getTime();
+
+        // Nếu tim cũ thả ở tuần trước (trước 12h đêm Chủ Nhật) -> Reset về 0 trước khi +1
+        if (curr.lastW < startOfWeek) {
+            curr.week = 0;
+        }
+        // Nếu tim cũ thả ở tháng trước (trước 12h đêm Mùng 1) -> Reset về 0 trước khi +1
+        if (curr.lastM < startOfMonth) {
+            curr.month = 0;
+        }
 
         curr.total = (Number(curr.total) || 0) + 1;
         curr.week = (Number(curr.week) || 0) + 1;
         curr.month = (Number(curr.month) || 0) + 1;
+        curr.lastW = now;
+        curr.lastM = now;
+
         return curr;
     });
-}
-
+} 
 // --- 2. ĐỒNG BỘ SỐ TIM REALTIME VÀ TỰ ĐỘNG XẾP HẠNG ---
 function initStats() {
     window.onValue(window.dbRef(window.db, 'stats'), (snap) => {
@@ -3719,13 +3739,21 @@ window.startBannerTicker = function() {
         tickerContainer.style.display = 'none';
     }, 16200);
 };
+// Hàm lấy mốc 00:00:00 Chủ Nhật đầu tuần
+function getStartOfWeek(ts) {
+    var d = new Date(ts);
+    d.setDate(d.getDate() - d.getDay());
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+}
 
-// Hàm mở khóa cuộn trang
-window.closeTrending = function() {
-    var modal = document.getElementById('trendingModal');
-    if (modal) modal.style.display = 'none';
-    document.body.style.overflow = '';
-};
+// Hàm lấy mốc 00:00:00 Ngày mùng 1 đầu tháng
+function getStartOfMonth(ts) {
+    var d = new Date(ts);
+    d.setDate(1);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+}
 
 window.openTrending = function() {
     var modal = document.getElementById('trendingModal');
@@ -3737,7 +3765,12 @@ window.openTrending = function() {
     showTab('total', activeTab);
 };
 
-// Click nút Đóng hoặc bấm ngoài để đóng modal
+window.closeTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) modal.style.display = 'none';
+    document.body.style.overflow = '';
+};
+
 document.addEventListener('click', function(e) {
     var modal = document.getElementById('trendingModal');
     if (modal && modal.style.display === 'flex') {
@@ -3751,7 +3784,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeTrending();
 });
 
-// Hàm hiển thị Top 20 (Fix đè chữ)
+// Hàm hiển thị Top 20 (RESET CHUẨN LỊCH 12H ĐÊM CHỦ NHẬT & MÙNG 1)
 window.showTab = function(type, btn) {
     if (type === 'all') type = 'total'; 
 
@@ -3766,11 +3799,28 @@ window.showTab = function(type, btn) {
 
     var data = window.allStats || {};
     var allCards = (typeof cards !== 'undefined' && cards.length) ? cards : Array.from(document.querySelectorAll('.character-card'));
+    var now = Date.now();
+    var startOfWeek = getStartOfWeek(now);
+    var startOfMonth = getStartOfMonth(now);
 
+    // Sắp xếp và lấy đủ TOP 20
     var sorted = allCards.map(function(card) {
         var name = card.querySelector('h2') ? card.querySelector('h2').innerText : 'Nhân vật';
         var newsIndex = Number(card.dataset.news) || 0;
-        var count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
+        var charData = data[card.id] || {};
+        
+        var count = Number(charData[type]) || 0;
+        var lastW = charData.lastW || now;
+        var lastM = charData.lastM || now;
+
+        // KIỂM TRA LỊCH CỐ ĐỊNH: Đã qua 12h đêm Chủ Nhật / Mùng 1 chưa
+        if (type === 'week' && lastW < startOfWeek) {
+            count = 0; // Đã bước sang tuần mới -> Tự động về 0 tim
+        }
+        if (type === 'month' && lastM < startOfMonth) {
+            count = 0; // Đã bước sang tháng mới -> Tự động về 0 tim
+        }
+
         return { name: name, count: count, newsIndex: newsIndex };
     }).sort(function(a, b) {
         if (b.count !== a.count) return b.count - a.count;
@@ -3808,7 +3858,6 @@ window.showTab = function(type, btn) {
     });
 };
 
-// Kích hoạt khi vào quán
 window.enterWebsite = function() {
     var screen = document.getElementById('welcome-screen');
     if (screen) screen.style.opacity = '0';
@@ -3819,7 +3868,7 @@ window.enterWebsite = function() {
         var news = document.getElementById('newsOverlay');
         if (news) news.style.display = 'flex';
 
-        startBannerTicker();
+        if (typeof startBannerTicker === 'function') startBannerTicker();
     }, 800);
 };
 </script>
