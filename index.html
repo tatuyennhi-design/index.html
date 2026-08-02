@@ -3200,7 +3200,7 @@ function handleFavorite(charId, btn) {
         setTimeout(() => h.remove(), 1500);
     }
 
- // Gửi số liệu lên Firebase (Lịch Reset cố định 12h đêm Chủ Nhật & 12h đêm Mùng 1)
+// Gửi số liệu lên Firebase (Khóa mốc 12h đêm Chủ Nhật & Mùng 1 CHUẨN GIỜ VIỆT NAM)
     const charRef = window.dbRef(window.db, 'stats/' + charId);
     window.runTransaction(charRef, (curr) => {
         const now = Date.now();
@@ -3208,26 +3208,21 @@ function handleFavorite(charId, btn) {
         if (!curr.lastW) curr.lastW = now;
         if (!curr.lastM) curr.lastM = now;
 
-        // Tính mốc 00:00:00 Chủ Nhật đầu tuần này
-        let dW = new Date(now);
+        // Ép tính mốc Chủ Nhật & Mùng 1 theo GIỜ VIỆT NAM (Asia/Ho_Chi_Minh)
+        var vnNowStr = new Date(now).toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" });
+        
+        let dW = new Date(vnNowStr);
         dW.setDate(dW.getDate() - dW.getDay());
         dW.setHours(0, 0, 0, 0);
         let startOfWeek = dW.getTime();
 
-        // Tính mốc 00:00:00 Ngày mùng 1 đầu tháng này
-        let dM = new Date(now);
+        let dM = new Date(vnNowStr);
         dM.setDate(1);
         dM.setHours(0, 0, 0, 0);
         let startOfMonth = dM.getTime();
 
-        // Nếu tim cũ thả ở tuần trước (trước 12h đêm Chủ Nhật) -> Reset về 0 trước khi +1
-        if (curr.lastW < startOfWeek) {
-            curr.week = 0;
-        }
-        // Nếu tim cũ thả ở tháng trước (trước 12h đêm Mùng 1) -> Reset về 0 trước khi +1
-        if (curr.lastM < startOfMonth) {
-            curr.month = 0;
-        }
+        if (curr.lastW < startOfWeek) curr.week = 0;
+        if (curr.lastM < startOfMonth) curr.month = 0;
 
         curr.total = (Number(curr.total) || 0) + 1;
         curr.week = (Number(curr.week) || 0) + 1;
@@ -3710,11 +3705,19 @@ window.showTab = function(type, btn) {
     }
 }
 </style>
-
+		
 <script>
-// Hàm kích hoạt Banner chữ chạy đúng thời điểm
+// Hàm quy đổi bất kỳ giờ thiết bị nào sang GIỜ VIỆT NAM (Asia/Ho_Chi_Minh)
+function getVietnamDate(ts) {
+    var date = ts ? new Date(ts) : new Date();
+    var vnString = date.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" });
+    return new Date(vnString);
+}
+
+// 1. Banner chào mừng ÉP CHUẨN GIỜ VIỆT NAM (Dù ở Mỹ hay đâu cũng hiện đúng giờ VN)
 window.startBannerTicker = function() {
-    const hour = new Date().getHours();
+    const vnDate = getVietnamDate();
+    const hour = vnDate.getHours(); // Lấy đúng giờ Việt Nam
     const tickerText = document.getElementById('tickerText');
     const tickerContainer = document.getElementById('bannerTicker');
     if (!tickerText || !tickerContainer) return;
@@ -3739,22 +3742,23 @@ window.startBannerTicker = function() {
         tickerContainer.style.display = 'none';
     }, 16200);
 };
-// Hàm lấy mốc 00:00:00 Chủ Nhật đầu tuần
+
+// 2. Tính mốc đầu tuần & đầu tháng CHUẨN GIỜ VIỆT NAM
 function getStartOfWeek(ts) {
-    var d = new Date(ts);
+    var d = getVietnamDate(ts);
     d.setDate(d.getDate() - d.getDay());
     d.setHours(0, 0, 0, 0);
     return d.getTime();
 }
 
-// Hàm lấy mốc 00:00:00 Ngày mùng 1 đầu tháng
 function getStartOfMonth(ts) {
-    var d = new Date(ts);
+    var d = getVietnamDate(ts);
     d.setDate(1);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
 }
 
+// 3. Quản lý Bảng Xu Hướng Modal
 window.openTrending = function() {
     var modal = document.getElementById('trendingModal');
     if (modal) {
@@ -3784,7 +3788,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeTrending();
 });
 
-// Hàm hiển thị Top 20 (RESET CHUẨN LỊCH 12H ĐÊM CHỦ NHẬT & MÙNG 1)
+// 4. Hàm hiển thị Top 20 (Reset chuẩn 12h đêm Chủ Nhật & Mùng 1 GIỜ VIỆT NAM)
 window.showTab = function(type, btn) {
     if (type === 'all') type = 'total'; 
 
@@ -3803,7 +3807,6 @@ window.showTab = function(type, btn) {
     var startOfWeek = getStartOfWeek(now);
     var startOfMonth = getStartOfMonth(now);
 
-    // Sắp xếp và lấy đủ TOP 20
     var sorted = allCards.map(function(card) {
         var name = card.querySelector('h2') ? card.querySelector('h2').innerText : 'Nhân vật';
         var newsIndex = Number(card.dataset.news) || 0;
@@ -3813,13 +3816,9 @@ window.showTab = function(type, btn) {
         var lastW = charData.lastW || now;
         var lastM = charData.lastM || now;
 
-        // KIỂM TRA LỊCH CỐ ĐỊNH: Đã qua 12h đêm Chủ Nhật / Mùng 1 chưa
-        if (type === 'week' && lastW < startOfWeek) {
-            count = 0; // Đã bước sang tuần mới -> Tự động về 0 tim
-        }
-        if (type === 'month' && lastM < startOfMonth) {
-            count = 0; // Đã bước sang tháng mới -> Tự động về 0 tim
-        }
+        // TỰ ĐỘNG RESET THEO GIỜ VIỆT NAM
+        if (type === 'week' && lastW < startOfWeek) count = 0;
+        if (type === 'month' && lastM < startOfMonth) count = 0;
 
         return { name: name, count: count, newsIndex: newsIndex };
     }).sort(function(a, b) {
