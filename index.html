@@ -3117,12 +3117,22 @@ function showTab(type, btn) {
     list.innerHTML = "Đang tải...";
     if (!window.allStats) return;
 
-    // Sắp xếp lấy Top 5
+    // Sắp xếp lấy Top 5 (Đã thêm luật xử lý ĐỒNG TIM)
     const sorted = Object.keys(window.allStats).map(id => {
         const card = document.getElementById(id);
         const name = card ? card.querySelector('h2').innerText : id;
-        return { name, count: window.allStats[id][type] || 0 };
-    }).sort((a, b) => b.count - a.count).slice(0, 5);
+        
+        // Lấy thêm chỉ số data-news (độ mới) để làm tiêu chí phụ
+        const newsIndex = card ? Number(card.dataset.news) : 0; 
+        
+        return { name, count: window.allStats[id][type] || 0, newsIndex };
+    }).sort((a, b) => {
+        // 1. So sánh số tim trước, ai nhiều tim hơn đứng trên
+        if (b.count !== a.count) return b.count - a.count;
+        
+        // 2. Nếu bằng tim nhau, ai mới ra mắt hơn (newsIndex lớn hơn) sẽ đứng trên
+        return b.newsIndex - a.newsIndex;
+    }).slice(0, 5);
 
     // In ra danh sách cùng Vương Miện
     list.innerHTML = sorted.map((item, i) => {
@@ -3150,14 +3160,26 @@ function showTab(type, btn) {
     if(btn) btn.classList.add('active');
     const list = document.getElementById('trendingList');
     list.innerHTML = "Đang tải...";
-    if (!window.allStats) return;
+    
+    // Lấy dữ liệu tim hiện tại (nếu chưa có thì để trống)
+    const data = window.allStats || {};
 
-    // Sắp xếp lấy Top 5
-    const sorted = Object.keys(window.allStats).map(id => {
-        const card = document.getElementById(id);
-        const name = card ? card.querySelector('h2').innerText : id;
-        return { name, count: window.allStats[id][type] || 0 };
-    }).sort((a, b) => b.count - a.count).slice(0, 5);
+    // LẤY DANH SÁCH TỪ CHÍNH CÁC THẺ CARD TRÊN WEB ĐỂ ĐẢM BẢO ĐỒNG BỘ 100% VỚI BÊN NGOÀI
+    const sorted = cards.map(card => {
+        const name = card.querySelector('h2').innerText;
+        const newsIndex = Number(card.dataset.news) || 0;
+        
+        // Lấy số tim tương ứng (tất cả, tuần, tháng) dựa theo ID của card
+        const count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
+        
+        return { name, count, newsIndex };
+    }).sort((a, b) => {
+        // 1. So sánh số tim trước
+        if (b.count !== a.count) return b.count - a.count;
+        
+        // 2. Nếu bằng tim nhau, ai mới ra mắt hơn (newsIndex lớn hơn) sẽ đứng trên
+        return b.newsIndex - a.newsIndex;
+    }).slice(0, 5); // Cắt lấy top 5
 
     // In ra danh sách cùng Vương Miện
     list.innerHTML = sorted.map((item, i) => {
