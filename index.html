@@ -3364,17 +3364,39 @@ function enterWebsite() {
     }, 5000);
   });
 </script>
-<!-- DÁN ĐOẠN NÀY VÀO CUỐI FILE, NGAY TRƯỚC THẺ </body> -->
+<!-- DÁN ĐOẠN NÀY VÀO NGAY TRƯỚC THẺ </body> Ở CUỐI FILE HTML -->
 <script>
 // Ghi đè triệt để hàm mở Bảng xếp hạng
 window.openTrending = function() {
     var modal = document.getElementById('trendingModal');
-    if (modal) modal.style.display = 'flex';
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Khóa trang web chính đứng im
+    }
     var activeTab = document.querySelector('.tab-btn.active') || document.querySelector('.tab-btn');
     showTab('total', activeTab);
 };
 
-// Ghi đè triệt để hàm hiển thị Top 20
+// Hàm đóng Bảng xếp hạng
+window.closeTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Mở lại cuộn trang web
+    }
+};
+
+// Sự kiện click đóng modal
+document.addEventListener('click', function(e) {
+    var modal = document.getElementById('trendingModal');
+    if (modal && modal.style.display === 'flex') {
+        if (e.target === modal || (e.target.tagName === 'BUTTON' && e.target.innerText.trim() === 'Đóng')) {
+            closeTrending();
+        }
+    }
+});
+
+// Ghi đè triệt để hàm hiển thị Top 20 (ĐÃ FIX LỖI ĐÈ CHỮ)
 window.showTab = function(type, btn) {
     if (type === 'all') type = 'total'; 
 
@@ -3389,8 +3411,6 @@ window.showTab = function(type, btn) {
     }
 
     var data = window.allStats || {};
-    
-    // Tự động quét trực tiếp toàn bộ 24 nhân vật trên trang web
     var allCards = (typeof cards !== 'undefined' && cards.length) ? cards : Array.from(document.querySelectorAll('.character-card'));
 
     // Sắp xếp và lấy đủ TOP 20
@@ -3402,19 +3422,20 @@ window.showTab = function(type, btn) {
     }).sort(function(a, b) {
         if (b.count !== a.count) return b.count - a.count;
         return b.newsIndex - a.newsIndex;
-    }).slice(0, 20); // LẤY ĐỦ TOP 20
+    }).slice(0, 20);
 
-    // Tạo giao diện có Vương miện
+    // Tạo giao diện có Vương miện và Fix khoảng cách
     var htmlContent = sorted.map(function(item, i) {
-        var rankIcon = '<b style="width:30px; color:#d8a91d;">#' + (i + 1) + '</b>';
-        if (i === 0) rankIcon = '<b style="width:30px; font-size:18px;">👑</b>';
-        else if (i === 1) rankIcon = '<b style="width:30px; font-size:18px;">🥈</b>';
-        else if (i === 2) rankIcon = '<b style="width:30px; font-size:18px;">🥉</b>';
+        // Tăng độ rộng min-width lên 42px để số có 2 chữ số như #14, #20 không bị đè chữ
+        var rankIcon = '<b style="min-width: 42px; color:#d8a91d; font-size: 14px; display: inline-block;">#' + (i + 1) + '</b>';
+        if (i === 0) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">👑</b>';
+        else if (i === 1) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">🥈</b>';
+        else if (i === 2) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">🥉</b>';
 
-        return '<div style="display:flex; align-items:center; padding:10px; border-bottom:1px dashed #ecd78b;">' +
+        return '<div style="display:flex; align-items:center; gap: 10px; padding:10px; border-bottom:1px dashed #ecd78b;">' +
             rankIcon +
-            '<span style="flex:1; font-weight: 500; color: #5b430a;">' + item.name + '</span>' +
-            '<span style="color:#e74c3c; font-weight: bold;">❤ ' + item.count + '</span>' +
+            '<span style="flex:1; font-weight: 500; color: #5b430a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + item.name + '</span>' +
+            '<span style="color:#e74c3c; font-weight: bold; white-space: nowrap;">❤ ' + item.count + '</span>' +
         '</div>';
     }).join('');
 
@@ -3422,6 +3443,7 @@ window.showTab = function(type, btn) {
     document.querySelectorAll('#trendingList').forEach(function(list) {
         list.style.maxHeight = '400px';
         list.style.overflowY = 'auto';
+        list.style.overscrollBehavior = 'contain';
         list.style.display = 'block';
         list.innerHTML = htmlContent;
     });
