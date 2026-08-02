@@ -1239,7 +1239,45 @@ user-select:none;
     box-shadow: 2px 4px 10px rgba(140, 91, 0, 0.35), inset 0 0 6px rgba(255, 255, 255, 0.6);
     text-shadow: 0 1px 1px rgba(255, 235, 175, 0.8);
     z-index: 3;
+} 
+/* ===================================================
+   GIỮ NGUYÊN ẢNH TO 250PX & FIX CON DẤU TRÊN ĐIỆN THOẠI
+=================================================== */
+
+/* 1. Co khung chứa vừa khít theo chiều rộng bức ảnh */
+.right {
+    position: relative !important;
+    width: fit-content !important;
+    margin: 0 auto !important;
 }
+
+/* 2. ÉP BỨC ẢNH GIỮ NGUYÊN ĐỘ TO 250PX (KHÔNG BỊ THU NHỎ TRÊN MOBILE/TABLET) */
+.right img {
+    width: 200px !important;    
+    max-width: 250px !important;
+    height: auto !important;
+}
+
+/* 3. Tối ưu vị trí các nút trên Mobile */
+@media (max-width: 768px) {
+    .banner-ticker {
+        margin: -12px auto 20px auto !important;
+        width: 95% !important;
+    }
+    .ticker-text {
+        font-size: 12px !important;
+    }
+    #secret-mailbox {
+        right: 10px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+    .mail-icon {
+        width: 22px !important;
+        height: 22px !important;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -3566,21 +3604,31 @@ window.showTab = function(type, btn) {
     });
 };
 </script>
-<!-- === DÁN ĐOẠN NÀY THAY THẾ VÀO ĐÁY FILE (TRƯỚC THẺ </body>) === -->
+<!-- DÁN ĐOẠN NÀY THAY THẾ VÀO NGAY TRƯỚC THẺ </body> Ở CUỐI FILE HTML -->
 <style>
+/* === FIX TỐI ƯU BANNER & THANH CHỮ CHẠY MOBILE === */
+.banner {
+    width: 100%;
+    display: block;
+    margin: 0 auto 12px auto !important; /* Khoảng cách dưới banner vừa đẹp */
+    border-radius: 12px;
+}
+
+/* Thanh chữ chạy nằm TÁCH RỜI DƯỚI BANNER (Không đè lên ảnh nữa) */
 .banner-ticker {
-    width: min(100%, 1200px);
+    width: 100% !important;
     background: rgba(255, 248, 222, 0.95);
     border: 1.5px solid #ecd78b;
     border-radius: 10px;
-    padding: 10px 15px;
-    margin: -38px auto 25px auto;
+    padding: 10px 15px !important;
+    margin: 0 auto 22px auto !important; /* Đặt nằm bên dưới banner sạch sẽ */
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     backdrop-filter: blur(4px);
     position: relative;
     z-index: 10;
     text-align: center;
+    box-sizing: border-box !important;
 }
 
 .ticker-text {
@@ -3590,37 +3638,38 @@ window.showTab = function(type, btn) {
     font-weight: 600;
     color: #7b5908;
     font-family: "Be Vietnam Pro", sans-serif;
-    opacity: 0; /* Mặc định ẩn khi đang ở màn hình chờ */
+    opacity: 0;
 }
 
-/* LỚP KÍCH HOẠT HIỆU ỨNG (Chỉ bật khi bấm Bước vào cửa tiệm) */
 .ticker-text.active-run {
     animation: pauseTicker 16s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* HIỆU ỨNG: 4s VÀO GIỮA ➔ DỪNG 8s ➔ 4s RA LỀ TRÁI MỜ DẦN */
+/* Hiệu ứng 4s vào giữa -> Dừng 8s -> 4s sang trái */
 @keyframes pauseTicker {
-    0% {
-        transform: translateX(80vw);
-        opacity: 0;
+    0% { transform: translateX(80vw); opacity: 0; }
+    25% { transform: translateX(0); opacity: 1; }
+    75% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(-80vw); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .banner {
+        border-radius: 8px;
+        margin-bottom: 10px !important;
     }
-    25% {
-        transform: translateX(0); /* Từ phải vào giữa mất 4s */
-        opacity: 1;
+    .banner-ticker {
+        padding: 8px 10px !important;
+        margin-bottom: 18px !important;
     }
-    75% {
-        transform: translateX(0); /* ĐỪNG IM Ở GIỮA 8 GIÂY */
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(-80vw); /* Từ giữa qua trái mất 4s */
-        opacity: 0;
+    .ticker-text {
+        font-size: 11.5px !important; /* Thu nhỏ chữ vừa khít màn hình điện thoại */
     }
 }
 </style>
 
 <script>
-// Hàm kích hoạt Banner chạy chữ ĐÚNG THỜI ĐIỂM
+// Hàm kích hoạt Banner chữ chạy đúng thời điểm
 window.startBannerTicker = function() {
     const hour = new Date().getHours();
     const tickerText = document.getElementById('tickerText');
@@ -3629,44 +3678,124 @@ window.startBannerTicker = function() {
 
     let msg = "";
     if (hour >= 5 && hour < 11) {
-        msg = "🌅 Buổi sáng tốt lành! Tiệm nhà Hy chúc lữ khách một ngày mới thật dịu dàng ✨";
+        msg = "🌅 Buổi sáng tốt lành! Tiệm nhà Hy chúc lữ khách một ngày dịu dàng ✨";
     } else if (hour >= 11 && hour < 14) {
-        msg = "☀️ Trưa rồi đó! Nắng đã gắt hơn, lữ khách nhớ ăn uống đầy đủ và nghỉ tay chút nha ✨";
+        msg = "☀️ Trưa rồi đó! Nắng đã gắt hơn, lữ khách nhớ ăn uống đầy đủ nha ✨";
     } else if (hour >= 14 && hour < 18) {
-        msg = "🌇 Trà chiều đã pha xong! Cứ coi đây là mái hiên quen cũ mà tạt vào trú tạm ✨";
+        msg = "🌇 Trà chiều đã pha xong! Cứ coi đây là mái hiên quen tạt vào trú tạm ✨";
     } else if (hour >= 18 && hour < 22) {
-        msg = "🌙 Buổi tối bình yên! Chúc lữ khách có khoảng thời gian thư thái bên ly trà mạn ✨";
+        msg = "🌙 Buổi tối bình yên! Chúc lữ khách thư thái bên ly trà mạn ✨";
     } else {
-        msg = "🌌 Đêm đã muộn rồi... Lữ khách nhớ giữ ấm và ngủ sớm cho ngày mai tươi sáng nhé ✨";
+        msg = "🌌 Đêm đã muộn rồi... Lữ khách nhớ giữ ấm và ngủ sớm nhé ✨";
     }
 
     tickerText.innerHTML = msg;
-    
-    // Kích hoạt chạy chữ ngay bây giờ!
     tickerText.classList.add('active-run');
 
-    // Chờ 16.2 giây sau thì ẩn khung
     setTimeout(function() {
         tickerContainer.style.display = 'none';
     }, 16200);
 };
 
-// Ghi đè hàm enterWebsite để kích hoạt Banner ĐÚNG LÚC bấm "Bước vào cửa tiệm"
+// Hàm mở khóa cuộn trang
+window.closeTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) modal.style.display = 'none';
+    document.body.style.overflow = '';
+};
+
+window.openTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    var activeTab = document.querySelector('.tab-btn.active') || document.querySelector('.tab-btn');
+    showTab('total', activeTab);
+};
+
+// Click nút Đóng hoặc bấm ngoài để đóng modal
+document.addEventListener('click', function(e) {
+    var modal = document.getElementById('trendingModal');
+    if (modal && modal.style.display === 'flex') {
+        if (e.target === modal || (e.target.tagName === 'BUTTON' && e.target.innerText.trim() === 'Đóng')) {
+            closeTrending();
+        }
+    }
+}, true);
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeTrending();
+});
+
+// Hàm hiển thị Top 20 (Fix đè chữ)
+window.showTab = function(type, btn) {
+    if (type === 'all') type = 'total'; 
+
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.remove('active');
+        b.style.color = '#8d7237';
+    });
+    if (btn) {
+        btn.classList.add('active');
+        btn.style.color = '#48350d';
+    }
+
+    var data = window.allStats || {};
+    var allCards = (typeof cards !== 'undefined' && cards.length) ? cards : Array.from(document.querySelectorAll('.character-card'));
+
+    var sorted = allCards.map(function(card) {
+        var name = card.querySelector('h2') ? card.querySelector('h2').innerText : 'Nhân vật';
+        var newsIndex = Number(card.dataset.news) || 0;
+        var count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
+        return { name: name, count: count, newsIndex: newsIndex };
+    }).sort(function(a, b) {
+        if (b.count !== a.count) return b.count - a.count;
+        return b.newsIndex - a.newsIndex;
+    }).slice(0, 20);
+
+    var htmlContent = sorted.map(function(item, i) {
+        var rankIcon = '<b style="min-width: 42px; color:#d8a91d; font-size: 14px; display: inline-block;">#' + (i + 1) + '</b>';
+        if (i === 0) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">👑</b>';
+        else if (i === 1) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">🥈</b>';
+        else if (i === 2) rankIcon = '<b style="min-width: 42px; font-size:18px; display: inline-block;">🥉</b>';
+
+        return '<div style="display:flex; align-items:center; gap: 10px; padding:10px; border-bottom:1px dashed #ecd78b;">' +
+            rankIcon +
+            '<span style="flex:1; font-weight: 500; color: #5b430a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + item.name + '</span>' +
+            '<span style="color:#e74c3c; font-weight: bold; white-space: nowrap;">❤ ' + item.count + '</span>' +
+        '</div>';
+    }).join('');
+
+    document.querySelectorAll('#trendingList').forEach(function(list) {
+        list.style.maxHeight = '400px';
+        list.style.overflowY = 'auto';
+        list.style.overscrollBehavior = 'contain';
+        list.style.display = 'block';
+        list.innerHTML = htmlContent;
+    });
+
+    document.querySelectorAll('#trendingModal button').forEach(function(b) {
+        if (b.innerText.trim() === 'Đóng') {
+            b.onclick = function(e) {
+                e.preventDefault();
+                closeTrending();
+            };
+        }
+    });
+};
+
+// Kích hoạt khi vào quán
 window.enterWebsite = function() {
     var screen = document.getElementById('welcome-screen');
     if (screen) screen.style.opacity = '0';
     
     setTimeout(function() {
         if (screen) screen.style.display = 'none';
-        
-        // 1. Kích hoạt đếm tim Firebase
         if (typeof initStats === 'function') initStats();
-        
-        // 2. Mở bảng đề xuất món ngon
         var news = document.getElementById('newsOverlay');
         if (news) news.style.display = 'flex';
 
-        // 3. BẮT ĐẦU CHẠY BANNER THÔNG BÁO TẠI ĐÂY!
         startBannerTicker();
     }, 800);
 };
