@@ -4683,63 +4683,37 @@ body {
 </style>
 <style>
 /* ===================================================
-   FIX LỖI: THANH NỔI NẰM DƯỚI BẢNG ĐỀ XUẤT & POPUP
+   FIX TRIỆT ĐỂ: PHÔI PHỤC PHÂN TRANG 10 CHAR / TRANG
 =================================================== */
 
-/* 1. Hạ thanh nổi nằm DƯỚI tất cả các Bảng Popup */
-.nav-toolbar-wrapper {
-    z-index: 999 !important; /* Hạ độ cao xuống để không đè lên Bảng Đề Xuất */
+/* 1. Mở khóa cho Safari iPhone nhận lệnh trượt Sticky */
+html, body {
+    overflow-x: visible !important;
 }
 
-/* 2. Đẩy Bảng Đề Xuất lên trên cùng để lướt mượt mà */
-#newsOverlay {
-    z-index: 999999 !important;
-}
-
-#newsList {
-    overscroll-behavior: contain !important;
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
-}
-</style>
-<style>
-/* ===================================================
-   TẠO KHUNG TRANH VINTAGE SANG TRỌNG CHO BANNER
-=================================================== */
-.banner {
-    width: 100% !important;
-    display: block !important;
-    margin: 10px auto 16px auto !important;
-    border-radius: 14px !important;            /* Bo góc mềm mại */
-    border: 2px solid #d4a72c !important;      /* Viền vàng kim hoài cổ */
-    background: #ffffff !important;            /* Nền trắng lót khung tranh */
-    padding: 5px !important;                   /* Viền lót bên trong như khung ảnh thật */
-    box-shadow: 4px 4px 0 #ebd9a2, 0 8px 24px rgba(120, 90, 20, 0.1) !important; /* Bóng đổ retro */
+/* 2. ĐÃ BỎ display: grid !important ĐỂ KHÔNG LÀM HỎNG PHÂN TRANG JAVASCRIPT */
+.character-card {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 20px !important;
+    padding: 22px 20px 20px 20px !important;
     box-sizing: border-box !important;
-    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    overflow: visible !important;
+    position: relative !important;
 }
 
-.banner:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 5px 5px 0 #e2ca86, 0 12px 28px rgba(120, 90, 20, 0.15) !important;
+/* Chỉnh vị trí Badge NỔI BẬT */
+.hot-badge {
+    position: absolute !important;
+    top: -11px !important;
+    left: 16px !important;
+    z-index: 10 !important;
+    padding: 3px 10px !important;
+    font-size: 10.5px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 3px 8px rgba(255, 78, 80, 0.4) !important;
 }
 
-/* Tối ưu riêng cho Điện thoại mobile */
-@media (max-width: 768px) {
-    .banner {
-        border-radius: 10px !important;
-        padding: 3px !important; /* Nẹp khung mỏng hơn trên mobile */
-        border-width: 1.5px !important;
-        box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(120, 90, 20, 0.08) !important;
-    }
-}
-</style>
-<style>
-/* ===================================================
-   FIX TRIỆT ĐỂ: GOM 4 NÚT ĐỨNG SÁT NHAU ĐỒNG ĐỀU 100%
-=================================================== */
-
-/* 1. Thanh nổi gom chặt 4 nút vào chính giữa */
+/* 3. Thanh Nổi Gom 4 Nút Đứng Sát Nhau */
 .nav-toolbar-wrapper {
     position: fixed !important;
     top: 5px !important;
@@ -4747,9 +4721,9 @@ body {
     transform: translateX(-50%) !important;
     z-index: 999 !important;
     display: flex !important;
-    justify-content: center !important; /* Gom chặt vào giữa */
+    justify-content: center !important;
     align-items: center !important;
-    gap: 3px !important;                /* Khoảng cách giữa các nút chuẩn 3px */
+    gap: 3px !important;
     flex-wrap: nowrap !important;
     background: rgba(255, 254, 248, 0.96) !important;
     backdrop-filter: blur(10px) !important;
@@ -4765,14 +4739,14 @@ body {
     overflow: hidden !important;
 }
 
-/* 2. Xóa sạch triệt để margin-right 8px ẩn do JavaScript tự chèn */
+/* Xóa sạch margin 8px thừa của JS */
 .nav-toolbar-wrapper .nav-btn-wish,
 .nav-toolbar-wrapper #gachaNavBtn,
 #gachaNavBtn {
-    margin: 0 !important;              /* Ép bỏ sạch margin thừa của JS */
-    flex: 0 0 auto !important;           /* Không cho co giãn đẩy nút ra xa */
-    font-size: 10px !important;         /* Cỡ chữ đồng bộ */
-    padding: 3px 6px !important;         /* Lề nút mỏng dẹp */
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+    font-size: 10px !important;
+    padding: 3px 6px !important;
     border-radius: 20px !important;
     white-space: nowrap !important;
     letter-spacing: -0.2px !important;
@@ -4796,7 +4770,74 @@ body {
     border: 1px dashed #d4a72c !important;
 }
 
-/* Tối ưu riêng cho Điện thoại iPhone */
+/* 4. Khung Ảnh Nhỏ Gọn Cân Đối */
+.right {
+    position: relative !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.right img {
+    width: 200px !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 7 / 10 !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #c99f2b !important;
+    background: #fff !important;
+    padding: 4px !important;
+    box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(0,0,0,0.06) !important;
+    box-sizing: border-box !important;
+}
+
+.right::after {
+    content: "✦\AORIGINAL\A✦" !important;
+    white-space: pre-wrap !important;
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 6.5px !important;
+    z-index: 5 !important;
+}
+
+/* 5. Khung Tranh Banner */
+.banner {
+    width: 100% !important;
+    display: block !important;
+    margin: 10px auto 16px auto !important;
+    border-radius: 14px !important;
+    border: 2px solid #d4a72c !important;
+    background: #ffffff !important;
+    padding: 5px !important;
+    box-shadow: 4px 4px 0 #ebd9a2, 0 8px 24px rgba(120, 90, 20, 0.1) !important;
+    box-sizing: border-box !important;
+}
+
+/* 6. Tối ưu iPhone / Mobile */
+@media (max-width: 768px) {
+    .character-card {
+        padding: 20px 14px 16px 14px !important;
+    }
+    .right {
+        width: auto !important;
+        margin: 0 auto 6px auto !important;
+    }
+    .right img {
+        width: 170px !important;
+    }
+    .right::after {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 6px !important;
+    }
+}
+
 @media (max-width: 600px) {
     .nav-toolbar-wrapper {
         top: 4px !important;
@@ -4813,6 +4854,7 @@ body {
     }
 }
 </style>
+
 </body>
 </html>
 
