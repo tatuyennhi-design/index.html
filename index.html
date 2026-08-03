@@ -2626,14 +2626,15 @@ Nó vừa dứt lời, không gian màu trắng xung quanh bắt đầu vỡ v�
         </footer>
     </div>
         <div id="newsOverlay">
-<div id="newsPanel">
-   <h2> Đề Xuất: Món Ngon Hôm Nay ✨</h2>
-      <div id="newsList"></div>
-</div>
-<div class="news-close-tip">
-    ⌁ Nhấn để đóng ⌁
-</div>
+<div id="newsOverlay" class="news-overlay">
+    <div id="newsPanel">
+        <h2>Đề Xuất: Món Ngon Hôm Nay ✨</h2>
+        <div id="newsList"></div>
+        <div class="news-close-tip" onclick="closeNewsOverlay()">
+            ⌁ Nhấn để đóng ⌁
         </div>
+    </div>
+</div>
 <script>
 function removeVietnameseTones(str){
     return str.normalize("NFD")
@@ -2740,26 +2741,38 @@ function renderPagination(totalPages){
     createButton("Sau ›",currentPage+1,currentPage===totalPages);
     createButton("»",totalPages,currentPage===totalPages);
 }
-	// 1. HÀM ĐÓNG BẢNG ĐỀ XUẤT (Viết độc lập ở bên ngoài)
+	// 1. HÀM ĐÓNG BẢNG ĐỀ XUẤT (Tự động mở lại scroll)
+
 function closeNewsOverlay() {
     const newsOverlay = document.getElementById("newsOverlay");
     if (newsOverlay) {
         newsOverlay.style.display = "none";
     }
-    // Mở lại thanh cuộn cho trang web
+    // Mở lại scroll & cảm ứng vuốt
     document.body.style.overflow = "auto"; 
+    document.body.style.touchAction = "auto";
+}
+	// 2. TỰ ĐỘNG ĐÓNG BẢNG KHI BẤM RA NGOÀI NỀN MỜ (CÁCH 2)
+const newsOverlay = document.getElementById("newsOverlay");
+if (newsOverlay) {
+    newsOverlay.onclick = function(event) {
+        if (event.target === newsOverlay) {
+            closeNewsOverlay();
+        }
+    };
 }
 
-// 2. BẢNG ĐỀ XUẤT RANDOM
+// 3. BẢNG ĐỀ XUẤT RANDOM
 const newest = [...cards]
     .sort(() => 0.5 - Math.random()) 
     .slice(0, 3);
 
 const newsList = document.getElementById("newsList");
 if (newsList) {
-    // Khóa scroll khi bảng hiển thị
+    // Khóa scroll & khóa vuốt chạm nền
     document.body.style.overflow = "hidden";
-
+    document.body.style.touchAction = "none";
+    // ... giữ nguyên phần code bên dưới của bạn
     newsList.innerHTML = ""; 
     newest.forEach(card => {
         const name = card.querySelector("h2")?.innerText || "";
@@ -2785,14 +2798,14 @@ if (newsList) {
         `;
     });
 
-    // Sự kiện khi bấm nút "Gọi món!"
+    // Sự kiện bấm nút "Gọi món!"
     document.querySelectorAll(".news-btn").forEach(btn => {
         btn.onclick = () => {
             const index = Number(btn.dataset.index);
             currentPage = Math.floor(index / cardsPerPage) + 1;
             renderCards();
 
-            // Gọi hàm đóng bảng & mở lại scroll
+            // Đóng bảng & mở lại scroll
             closeNewsOverlay();
 
             setTimeout(() => {
