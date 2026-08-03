@@ -1494,12 +1494,19 @@ html, body {
             <b>@Luna Bloom</b>
         </p>
         <div class="section-divider"></div>
-	<!-- THANH CÔNG CỤ NỔI BỌC 4 NÚT -->
-<div class="nav-toolbar-wrapper">
-    <button onclick="openTrending()" class="nav-btn-wish">🔥 Bảng Xu Hướng</button> 
-    <a href="https://www.facebook.com/profile.php?id=61589739301065" class="nav-btn-wish" target="_blank">✨ Fanpage ✨</a>
-    <a href="https://tatuyennhi-design.github.io/file-C-Windows-System32-index.html/" class="nav-btn-wish" target="_blank">✨ Góc Ước Nguyện ✨</a>
-</div>
+		
+<button onclick="openTrending()" class="nav-btn-wish" style="background:#f6cb4b; display: inline-block">🔥 Bảng Xu Hướng</button> 
+		
+         <!-- Nút Fanpage -->
+<a href="https://www.facebook.com/profile.php?id=61589739301065" class="nav-btn-wish" style="display: inline-block; margin-bottom: 25px;">
+    ✨ Fanpage ✨
+</a>
+
+<!-- Nút Góc Ước Nguyện -->
+<a href="https://tatuyennhi-design.github.io/file-C-Windows-System32-index.html/" class="nav-btn-wish" style="display: inline-block;">
+    ✨ Góc Ước Nguyện Giao Lưu & Feedback Char ✨
+</a>
+
         <div class="search-box">
             <input
                 type="text"
@@ -4681,180 +4688,7 @@ body {
     }
 }
 </style>
-<style>
-/* ===================================================
-   FIX TRIỆT ĐỂ: PHÔI PHỤC PHÂN TRANG 10 CHAR / TRANG
-=================================================== */
-
-/* 1. Mở khóa cho Safari iPhone nhận lệnh trượt Sticky */
-html, body {
-    overflow-x: visible !important;
-}
-
-/* 2. ĐÃ BỎ display: grid !important ĐỂ KHÔNG LÀM HỎNG PHÂN TRANG JAVASCRIPT */
-.character-card {
-    grid-template-columns: minmax(0, 1fr) auto !important;
-    gap: 20px !important;
-    padding: 22px 20px 20px 20px !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-    position: relative !important;
-}
-
-/* Chỉnh vị trí Badge NỔI BẬT */
-.hot-badge {
-    position: absolute !important;
-    top: -11px !important;
-    left: 16px !important;
-    z-index: 10 !important;
-    padding: 3px 10px !important;
-    font-size: 10.5px !important;
-    border-radius: 20px !important;
-    box-shadow: 0 3px 8px rgba(255, 78, 80, 0.4) !important;
-}
-
-/* 3. Thanh Nổi Gom 4 Nút Đứng Sát Nhau */
-.nav-toolbar-wrapper {
-    position: fixed !important;
-    top: 5px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 999 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 3px !important;
-    flex-wrap: nowrap !important;
-    background: rgba(255, 254, 248, 0.96) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    padding: 3px 6px !important;
-    border-radius: 30px !important;
-    border: 1px solid #e2cb86 !important;
-    box-shadow: 0 4px 14px rgba(120, 90, 20, 0.14) !important;
-    width: fit-content !important;
-    max-width: 95vw !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-    overflow: hidden !important;
-}
-
-/* Xóa sạch margin 8px thừa của JS */
-.nav-toolbar-wrapper .nav-btn-wish,
-.nav-toolbar-wrapper #gachaNavBtn,
-#gachaNavBtn {
-    margin: 0 !important;
-    flex: 0 0 auto !important;
-    font-size: 10px !important;
-    padding: 3px 6px !important;
-    border-radius: 20px !important;
-    white-space: nowrap !important;
-    letter-spacing: -0.2px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-/* Nút Game (Gacha + Bảng Xu Hướng) */
-#gachaNavBtn, 
-.nav-toolbar-wrapper button[onclick="openTrending()"] {
-    background: #f4cf65 !important;
-    color: #4b3605 !important;
-    border: 1px solid #c89b20 !important;
-}
-
-/* Nút Link (Fanpage + Ước Nguyện) */
-.nav-toolbar-wrapper a.nav-btn-wish {
-    background: #fffdf5 !important;
-    color: #725410 !important;
-    border: 1px dashed #d4a72c !important;
-}
-
-/* 4. Khung Ảnh Nhỏ Gọn Cân Đối */
-.right {
-    position: relative !important;
-    display: inline-flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: auto !important;
-    margin: 0 !important;
-}
-
-.right img {
-    width: 200px !important;
-    max-width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 7 / 10 !important;
-    object-fit: cover !important;
-    border-radius: 8px !important;
-    border: 1.5px solid #c99f2b !important;
-    background: #fff !important;
-    padding: 4px !important;
-    box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(0,0,0,0.06) !important;
-    box-sizing: border-box !important;
-}
-
-.right::after {
-    content: "✦\AORIGINAL\A✦" !important;
-    white-space: pre-wrap !important;
-    position: absolute !important;
-    top: -5px !important;
-    right: -5px !important;
-    width: 42px !important;
-    height: 42px !important;
-    font-size: 6.5px !important;
-    z-index: 5 !important;
-}
-
-/* 5. Khung Tranh Banner */
-.banner {
-    width: 100% !important;
-    display: block !important;
-    margin: 10px auto 16px auto !important;
-    border-radius: 14px !important;
-    border: 2px solid #d4a72c !important;
-    background: #ffffff !important;
-    padding: 5px !important;
-    box-shadow: 4px 4px 0 #ebd9a2, 0 8px 24px rgba(120, 90, 20, 0.1) !important;
-    box-sizing: border-box !important;
-}
-
-/* 6. Tối ưu iPhone / Mobile */
-@media (max-width: 768px) {
-    .character-card {
-        padding: 20px 14px 16px 14px !important;
-    }
-    .right {
-        width: auto !important;
-        margin: 0 auto 6px auto !important;
-    }
-    .right img {
-        width: 170px !important;
-    }
-    .right::after {
-        width: 38px !important;
-        height: 38px !important;
-        font-size: 6px !important;
-    }
-}
-
-@media (max-width: 600px) {
-    .nav-toolbar-wrapper {
-        top: 4px !important;
-        padding: 3px 4px !important;
-        gap: 2px !important;
-        max-width: 95vw !important;
-    }
-
-    .nav-toolbar-wrapper .nav-btn-wish,
-    #gachaNavBtn {
-        font-size: 8.8px !important;
-        padding: 2px 4.5px !important;
-        letter-spacing: -0.3px !important;
-    }
-}
-</style>
-
 </body>
 </html>
+
 
