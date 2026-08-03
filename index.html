@@ -1494,19 +1494,12 @@ html, body {
             <b>@Luna Bloom</b>
         </p>
         <div class="section-divider"></div>
-		
-<button onclick="openTrending()" class="nav-btn-wish" style="background:#f6cb4b; display: inline-block">🔥 Bảng Xu Hướng</button> 
-		
-         <!-- Nút Fanpage -->
-<a href="https://www.facebook.com/profile.php?id=61589739301065" class="nav-btn-wish" style="display: inline-block; margin-bottom: 25px;">
-    ✨ Fanpage ✨
-</a>
-
-<!-- Nút Góc Ước Nguyện -->
-<a href="https://tatuyennhi-design.github.io/file-C-Windows-System32-index.html/" class="nav-btn-wish" style="display: inline-block;">
-    ✨ Góc Ước Nguyện Giao Lưu & Feedback Char ✨
-</a>
-
+	<!-- THANH CÔNG CỤ NỔI BỌC 4 NÚT -->
+<div class="nav-toolbar-wrapper">
+    <button onclick="openTrending()" class="nav-btn-wish">🔥 Bảng Xu Hướng</button> 
+    <a href="https://www.facebook.com/profile.php?id=61589739301065" class="nav-btn-wish" target="_blank">✨ Fanpage ✨</a>
+    <a href="https://tatuyennhi-design.github.io/file-C-Windows-System32-index.html/" class="nav-btn-wish" target="_blank">✨ Góc Ước Nguyện ✨</a>
+</div>
         <div class="search-box">
             <input
                 type="text"
@@ -4688,6 +4681,84 @@ body {
     }
 }
 </style>
+	
+
+
+<style>
+/* ===================================================
+   THANH CÔNG CỤ NỔI STICKY (CHẠY THEO MÀN HÌNH CHUẨN VIP)
+=================================================== */
+.nav-toolbar-wrapper {
+    position: sticky !important;
+    top: 10px !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+    background: rgba(255, 253, 245, 0.92) !important; /* Nền kem mờ */
+    backdrop-filter: blur(10px) !important; /* Hiệu ứng kính mờ nịnh mắt */
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 6px 12px !important;
+    border-radius: 30px !important;
+    border: 1px solid #e2cb86 !important;
+    box-shadow: 0 6px 20px rgba(120, 90, 20, 0.12) !important;
+    margin: 15px auto 25px auto !important;
+    width: fit-content !important;
+    max-width: 95% !important;
+}
+
+/* Định dạng lại nút bên trong thanh nổi */
+.nav-toolbar-wrapper .nav-btn-wish {
+    margin-bottom: 0 !important;
+    font-size: 12px !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    white-space: nowrap !important;
+}
+
+/* Nút Game (Gacha + Bảng Xu Hướng) -> Nền vàng ấm */
+#gachaNavBtn, 
+.nav-toolbar-wrapper button[onclick="openTrending()"] {
+    background: #f4cf65 !important;
+    color: #4b3605 !important;
+    border: 1px solid #c89b20 !important;
+}
+
+/* Nút Link (Fanpage + Ước Nguyện) -> Nền kem viền nét đứt */
+.nav-toolbar-wrapper a.nav-btn-wish {
+    background: #fffdf5 !important;
+    color: #725410 !important;
+    border: 1px dashed #d4a72c !important;
+}
+
+.nav-toolbar-wrapper .nav-btn-wish:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2) !important;
+}
+
+/* Tối ưu riêng cho Điện thoại: Vuốt ngang mượt mà không cấn màn hình */
+@media (max-width: 600px) {
+    .nav-toolbar-wrapper {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        max-width: 92vw !important;
+        padding: 5px 8px !important;
+        scrollbar-width: none !important;
+    }
+    .nav-toolbar-wrapper::-webkit-scrollbar {
+        display: none !important;
+    }
+    .nav-toolbar-wrapper .nav-btn-wish {
+        font-size: 11px !important;
+        padding: 4px 9px !important;
+        flex: 0 0 auto !important;
+    }
+}
+</style>
+
 </body>
 </html>
 
