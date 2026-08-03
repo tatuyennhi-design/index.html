@@ -4704,10 +4704,10 @@ body {
 </style>
 <style>
 /* ===================================================
-   THANH NỔI SIÊU MỎNG GỌN (1 HÀNG DUY NHẤT - KHÔNG CHE BANNER)
+   FIX TRIỆT ĐỂ: THANH NỔI NẰM GỌN 100% TRONG MÀN HÌNH IPHONE
 =================================================== */
 
-/* 1. Thanh nổi dạng Capsule siêu mỏng dính sát mép trên màn hình */
+/* 1. Thanh nổi Nẹp cứng giới hạn 95% chiều ngang màn hình */
 .nav-toolbar-wrapper {
     position: fixed !important;
     top: 5px !important;
@@ -4717,26 +4717,27 @@ body {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 4px !important;
-    flex-wrap: nowrap !important; /* KHÔNG CHO RỚT DÒNG - ÉP 1 HÀNG DUY NHẤT */
-    background: rgba(255, 254, 248, 0.95) !important;
+    gap: 3px !important; /* Co hẹp khe hở xuống 3px */
+    flex-wrap: nowrap !important;
+    background: rgba(255, 254, 248, 0.96) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
-    padding: 3px 8px !important; /* Nẹp lề cực mỏng dẹp */
+    padding: 3px 6px !important;
     border-radius: 30px !important;
     border: 1px solid #e2cb86 !important;
     box-shadow: 0 4px 14px rgba(120, 90, 20, 0.14) !important;
-    width: max-content !important;
-    max-width: 98vw !important;
+    width: fit-content !important;
+    max-width: 95vw !important; /* KHÔNG BAO GIỜ CHO PHÁT TRIỂN LÒI RA KHỎI MÀN HÌNH */
     box-sizing: border-box !important;
     margin: 0 !important;
+    overflow: hidden !important;
 }
 
-/* 2. Co nhỏ chữ & nút bấm để trôi vừa khít 1 hàng trên cả Điện thoại & Laptop */
+/* 2. Co nút bấm dẹp nhẹ nhàng */
 .nav-toolbar-wrapper .nav-btn-wish {
     margin-bottom: 0 !important;
-    font-size: 11px !important;
-    padding: 3px 8px !important; /* Nút dẹp thanh thoát */
+    font-size: 10.5px !important;
+    padding: 3px 7px !important;
     border-radius: 20px !important;
     white-space: nowrap !important;
     letter-spacing: -0.2px !important;
@@ -4762,18 +4763,18 @@ body {
     transform: translateY(-1px) !important;
 }
 
-/* 3. Tối ưu siêu gọn riêng cho Điện thoại iPhone màn hình nhỏ */
+/* 3. Tối ưu vừa khít 100% riêng cho Điện thoại iPhone */
 @media (max-width: 600px) {
     .nav-toolbar-wrapper {
         top: 4px !important;
-        padding: 3px 5px !important;
-        gap: 3px !important;
-        max-width: 99vw !important;
+        padding: 3px 4px !important;
+        gap: 2px !important; /* Thu hẹp khe hở cực dẹp */
+        max-width: 95vw !important;
     }
 
     .nav-toolbar-wrapper .nav-btn-wish {
-        font-size: 9.8px !important; /* Chữ 9.8px vừa khít 1 hàng iPhone */
-        padding: 3px 6px !important;
+        font-size: 8.8px !important; /* Hạ chữ 8.8px vừa khít trọn vẹn 100% */
+        padding: 2px 5px !important;
         letter-spacing: -0.3px !important;
     }
 }
