@@ -2740,12 +2740,17 @@ function renderPagination(totalPages){
     createButton("Sau ›",currentPage+1,currentPage===totalPages);
     createButton("»",totalPages,currentPage===totalPages);
 }
-    // BẢNG ĐỀ XUẤT RANDOM: Tự động bốc ngẫu nhiên 3 char bất kỳ từ danh sách
-    const newest = [...cards]
+// BẢNG ĐỀ XUẤT RANDOM: Tự động bốc ngẫu nhiên 3 char bất kỳ từ danh sách
+const newest = [...cards]
     .sort(() => 0.5 - Math.random()) 
     .slice(0, 3);
+
 const newsList = document.getElementById("newsList");
 if (newsList) {
+    // 1. KHÓA SCROLL TRANG WEB ĐẰNG SAU KHÁC KHI BẢNG BẬT
+    document.body.style.overflow = "hidden";
+
+    newsList.innerHTML = ""; // Xóa dữ liệu cũ để tránh trùng lặp nếu chạy lại
     newest.forEach(card => {
         const name = card.querySelector("h2")?.innerText || "";
         const tag = card.querySelector(".tagline")?.innerText || "";
@@ -2769,14 +2774,20 @@ if (newsList) {
             </div>
         `;
     });
+
     document.querySelectorAll(".news-btn").forEach(btn => {
         btn.onclick = () => {
             const index = Number(btn.dataset.index);
             currentPage = Math.floor(index / cardsPerPage) + 1;
             renderCards();
+
             if(newsOverlay){
                 newsOverlay.style.display = "none";
             }
+
+            // 2. MỞ LẠI SCROLL KHI BẢNG ĐÓNG
+            document.body.style.overflow = "auto";
+
             setTimeout(() => {
                 cards[index].scrollIntoView({
                     behavior:"smooth",
@@ -2786,6 +2797,7 @@ if (newsList) {
         };
     });
 }
+
     const newsOverlay = document.getElementById("newsOverlay");
 if(newsOverlay){
     newsOverlay.onclick = e => {
