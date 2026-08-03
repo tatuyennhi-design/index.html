@@ -3165,34 +3165,66 @@ function enterWebsite() {
 </script>
 
 <script>
-// --- 1. FIREBASE LOGIC (TĂNG TIM CHỐNG SPAM TRÊN ĐIỆN THOẠI) ---
+// --- 1. FIREBASE ANONYMOUS AUTH (XÁC THỰC ẨN DANH ĐỂ NHỚ MÁY TRÊN ELEVATED SERVER) ---
+// Thêm kiểm tra Đăng nhập ẩn danh tự động khi load trang
+if (window.firebase && window.firebase.auth) {
+    window.firebase.auth().signInAnonymously().catch(err => console.error("Lỗi Auth Firebase:", err));
+}
+
 const VOTE_KEY = "hy_voted_chars_v5";
 
 // Tự động kiểm tra và khóa nút đã thả tim ngay khi vừa mở web
 function checkUserVotes() {
     let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
+    
+    // 1. Khóa theo localStorage trước cho nhanh
     votedList.forEach(charId => {
         const btns = document.querySelectorAll(`.fav-btn[data-id="${charId}"]`);
-        btns.forEach(btn => {
-            btn.classList.add('active', 'voted');
-        });
+        btns.forEach(btn => btn.classList.add('active', 'voted'));
     });
+
+    // 2. Khóa chuẩn xác 100% bằng Firebase UID (Chống điện thoại tự xóa Cache/LocalStorage)
+    if (window.firebase && window.firebase.auth) {
+        window.firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const uid = user.uid;
+                window.onValue(window.dbRef(window.db, 'userVotes/' + uid), (snap) => {
+                    const votes = snap.val() || {};
+                    Object.keys(votes).forEach(charId => {
+                        if (votes[charId]) {
+                            const btns = document.querySelectorAll(`.fav-btn[data-id="${charId}"]`);
+                            btns.forEach(btn => btn.classList.add('active', 'voted'));
+                            if (!votedList.includes(charId)) votedList.push(charId);
+                        }
+                    });
+                    localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
+                });
+            }
+        });
+    }
 }
 
 function handleFavorite(charId, btn) {
     let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
+    const user = window.firebase && window.firebase.auth ? window.firebase.auth().currentUser : null;
 
-    // LỚP BẢO VỆ 1: Khóa nút NGAY LẬP TỨC để chống chạm nhấp đúp nhanh trên điện thoại
+    // LỚP BẢO VỆ 1: Khóa nút NGAY LẬP TỨC nếu đã từng thả tim
     if (btn.classList.contains('voted') || votedList.includes(charId)) {
         showToast("✨ Bạn đã tặng tim cho người này rồi!");
         btn.classList.add('active', 'voted');
         return;
     }
 
-    // Đánh dấu đã thả tim NGAY TẠI DÒNG ĐẦU TIÊN
+    // Đánh dấu đã thả tim cục bộ
     btn.classList.add('active', 'voted');
     votedList.push(charId);
     localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
+
+    // LƯU VẾT THẢ TIM LÊN SERVER FIREBASE THEO ID ĐIỆN THOẠI (Chống reset)
+    if (user) {
+        const userVoteRef = window.dbRef(window.db, `userVotes/${user.uid}/${charId}`);
+        window.set(userVoteRef, true);
+    }
 
     // Hiệu ứng tim bay lên
     const rect = btn.getBoundingClientRect();
@@ -3204,7 +3236,7 @@ function handleFavorite(charId, btn) {
         setTimeout(() => h.remove(), 1500);
     }
 
-// Gửi số liệu lên Firebase (Khóa mốc 12h đêm Chủ Nhật & Mùng 1 CHUẨN GIỜ VIỆT NAM)
+    // Gửi số liệu lên Firebase (Khóa mốc 12h đêm Chủ Nhật & Mùng 1 CHUẨN GIỜ VIỆT NAM)
     const charRef = window.dbRef(window.db, 'stats/' + charId);
     window.runTransaction(charRef, (curr) => {
         const now = Date.now();
@@ -3237,6 +3269,7 @@ function handleFavorite(charId, btn) {
         return curr;
     });
 } 
+
 // --- 2. ĐỒNG BỘ SỐ TIM REALTIME VÀ TỰ ĐỘNG XẾP HẠNG ---
 function initStats() {
     window.onValue(window.dbRef(window.db, 'stats'), (snap) => {
@@ -3283,11 +3316,13 @@ function initStats() {
         }
     });
 } 
+
 // --- 3. BẢNG XU HƯỚNG CÓ VƯƠNG MIỆN ---
 function openTrending() {
     document.getElementById('trendingModal').style.display = 'flex';
     showTab('total', document.querySelector('.tab-btn'));
 }
+
 function showTab(type, btn) {
     if (type === 'all') type = 'total'; 
 
@@ -3304,8 +3339,8 @@ function showTab(type, btn) {
     const data = window.allStats || {};
 
     // Lấy Top 20
-    const sorted = cards.map(card => {
-        const name = card.querySelector('h2').innerText;
+    const sorted = (typeof cards !== 'undefined' ? cards : []).map(card => {
+        const name = card.querySelector('h2') ? card.querySelector('h2').innerText : 'Nhân vật';
         const newsIndex = Number(card.dataset.news) || 0;
         const count = (data[card.id] && data[card.id][type]) ? Number(data[card.id][type]) : 0;
         return { name, count, newsIndex };
@@ -3339,36 +3374,6 @@ function showTab(type, btn) {
     });
 } 
 
-function showTab(type, btn) {
-    if (type === 'all') type = 'total'; 
-
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    const list = document.getElementById('trendingList');
-    list.innerHTML = "Đang tải...";
-    
-    // Lấy dữ liệu tim hiện tại (nếu chưa có thì để trống)
-    const data = window.allStats || {};
-
-    // In ra danh sách cùng Vương Miện
-    list.innerHTML = sorted.map((item, i) => {
-        
-        // Cấp phát Vương miện cho Top 1, 2, 3
-        let rankIcon = `<b style="width:30px; color:#d8a91d;">#${i+1}</b>`;
-        if (i === 0) rankIcon = `<b style="width:30px; font-size:18px;">👑</b>`;
-        else if (i === 1) rankIcon = `<b style="width:30px; font-size:18px;">🥈</b>`;
-        else if (i === 2) rankIcon = `<b style="width:30px; font-size:18px;">🥉</b>`;
-
-        return `
-        <div style="display:flex; align-items:center; padding:12px 10px; border-bottom:1px dashed #ecd78b;">
-            ${rankIcon}
-            <span style="flex:1; font-weight: 500;">${item.name}</span>
-            <span style="color:#e74c3c; font-weight: bold;">❤ ${item.count}</span>
-        </div>
-        `;
-    }).join('');
-} 
-
 // Thêm animation flyUp vào CSS thủ công bằng JS
 const style = document.createElement('style');
 style.innerHTML = `@keyframes flyUp { 0%{transform:translateY(0) scale(1); opacity:1} 100%{transform:translateY(-150px) scale(1.5); opacity:0} }`;
@@ -3377,14 +3382,20 @@ document.head.appendChild(style);
 // Sửa lại hàm vào web để nó kích hoạt Firebase
 function enterWebsite() {
     var screen = document.getElementById('welcome-screen');
-    screen.style.opacity = '0';
-    setTimeout(function() {
-        screen.style.display = 'none';
-        initStats(); // KÍCH HOẠT ĐẾM TIM
-        document.getElementById('newsOverlay').style.display = 'flex';
-    }, 800);
+    if (screen) {
+        screen.style.opacity = '0';
+        setTimeout(function() {
+            screen.style.display = 'none';
+            initStats(); // KÍCH HOẠT ĐẾM TIM
+            const newsOverlay = document.getElementById('newsOverlay');
+            if (newsOverlay) newsOverlay.style.display = 'flex';
+        }, 800);
+    } else {
+        initStats();
+    }
 }
 </script>
+
 <style>
   .click-daisy-flower {
     position: fixed;
