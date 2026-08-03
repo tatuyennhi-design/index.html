@@ -3953,93 +3953,125 @@ window.enterWebsite = function() {
     }, 800);
 };
 </script>
+<!-- === SỬA LỖI GACHA TỰ ĐỘNG KHÔI PHỤC (DÁN TRƯỚC </body>) === -->
+<style>
+.gacha-modal {
+    display: none; 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(15, 23, 42, 0.75); 
+    z-index: 2000000; 
+    justify-content: center; 
+    align-items: center; 
+    backdrop-filter: blur(5px);
+}
+.gacha-card {
+    background: #fffdf5; 
+    width: min(360px, 88vw); 
+    border-radius: 20px; 
+    padding: 25px 20px;
+    border: 3px solid #d8a91d; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    text-align: center;
+    position: relative; 
+    animation: popGacha 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes popGacha {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.dice-rolling {
+    font-size: 48px; 
+    display: inline-block;
+    animation: spinDice 0.6s infinite linear;
+}
+@keyframes spinDice {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+.gacha-char-img {
+    width: 140px; 
+    aspect-ratio: 7/10; 
+    object-fit: cover; 
+    border-radius: 12px;
+    border: 2px solid #c99f2b; 
+    margin: 12px auto; 
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    display: block;
+    background: #fffdf5;
+}
+</style>
+
 <script>
-// Hàm quay xúc xắc Gacha (ĐÃ FIX LỖI TỰ ĐỘNG TRƯỢT ĐẾN CARD 100%)
+var targetCardGlobal = null;
+
+// Tự động kiểm tra và khôi phục khung Gacha nếu bị thiếu HTML
+function ensureGachaModalExists() {
+    if (!document.getElementById('gachaModal')) {
+        var modalDiv = document.createElement('div');
+        modalDiv.id = 'gachaModal';
+        modalDiv.className = 'gacha-modal';
+        modalDiv.onclick = function(e) { if(e.target === this) closeGachaModal(); };
+        modalDiv.innerHTML = `
+            <div class="gacha-card">
+                <button type="button" onclick="closeGachaModal()" style="position:absolute; top:12px; right:15px; background:none; border:none; font-size:20px; cursor:pointer; color:#8d7237; font-weight:bold;">✕</button>
+                <div id="gachaLoadingArea">
+                    <div class="dice-rolling">🎲</div>
+                    <h3 style="color:#8b5a2b; margin-top:12px; font-size:16px;">Đang tìm vì sao may mắn...</h3>
+                    <p style="color:#8d7237; font-size:12px; margin-top:6px;">Xúc xắc đang xoay tìm duyên phận cho bạn ✨</p>
+                </div>
+                <div id="gachaResultArea" style="display:none;">
+                    <div style="font-size:12px; font-weight:bold; color:#c89b27; letter-spacing:1px;">VÌ SAO MAY MẮN CỦA BẠN</div>
+                    <img id="gachaCharImg" src="" class="gacha-char-img" alt="Avatar Char" onerror="this.onerror=null; this.src='hy.png';">
+                    <h2 id="gachaCharName" style="color:#2c3e50; font-size:20px; font-weight:bold; margin: 8px 0 18px 0;"></h2>
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <button type="button" id="gachaGheXemBtn" class="chat-btn" style="height:44px; font-size:14px; width: 100%; cursor:pointer; background:linear-gradient(180deg, #ffe78f, #f6c948); border:2px solid #c89b20; border-radius:12px; font-weight:bold; color:#5b4208;">Ghé xem</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+    }
+}
+
+// Hàm đóng Modal Gacha
+window.closeGachaModal = function() {
+    var modal = document.getElementById('gachaModal');
+    if (modal) modal.style.display = 'none';
+    if (document.body) document.body.style.overflow = '';
+};
+
+// Hàm quay xúc xắc Gacha
 window.spinGachaRoll = function() {
+    ensureGachaModalExists(); // Khôi phục khung tự động nếu chưa có
+    
     var modal = document.getElementById('gachaModal');
     var loadingArea = document.getElementById('gachaLoadingArea');
     var resultArea = document.getElementById('gachaResultArea');
     
     if (!modal) return;
     modal.style.display = 'flex';
-    if (document.body) document.body.style.overflow = 'hidden'; // Khóa cuộn khi mở popup
+    if (document.body) document.body.style.overflow = 'hidden';
 
     if (loadingArea) loadingArea.style.display = 'block';
     if (resultArea) resultArea.style.display = 'none';
 
-    // Lấy danh sách tất cả 25 card
-    var allCards = (typeof cards !== 'undefined' && cards.length) ? cards : Array.from(document.querySelectorAll('.character-card'));
+    var allCards = Array.from(document.querySelectorAll('.character-card'));
     if (!allCards.length) return;
 
-    // Chờ 1.2s quay xúc xắc rồi tung kết quả
     setTimeout(function() {
         var randomIndex = Math.floor(Math.random() * allCards.length);
-        var randomCard = allCards[randomIndex];
+        targetCardGlobal = allCards[randomIndex];
         
-        var name = randomCard.querySelector('h2') ? randomCard.querySelector('h2').innerText : 'Nhân vật';
-        var img = randomCard.querySelector('img') ? randomCard.querySelector('img').src : '';
-
-        var imgEl = document.getElementById('gachaCharImg');
+        var name = targetCardGlobal.querySelector('h2') ? targetCardGlobal.querySelector('h2').innerText : 'Nhân vật';
+        var img = targetCardGlobal.querySelector('img') ? targetCardGlobal.querySelector('img').src : '';
+        
         var nameEl = document.getElementById('gachaCharName');
-        var seeBtn = document.getElementById('gachaSeeDishBtn');
+        var imgEl = document.getElementById('gachaCharImg');
 
-        if (imgEl) imgEl.src = img;
         if (nameEl) nameEl.innerText = name;
-
-        // BẤM "XEM MÓN" -> TRẢ BỘ LỌC VỀ "TẤT CẢ" & KÉO MÀN HÌNH TỰ ĐỘNG
-        if (seeBtn) {
-            seeBtn.onclick = function(e) {
-                if (e) e.preventDefault();
-                
-                // 1. Tắt Bảng Gacha & Mở cuộn web
-                modal.style.display = 'none';
-                if (document.body) document.body.style.overflow = '';
-
-                // 2. TỰ ĐỘNG THÁO BỎ BỘ LỌC VỀ "TẤT CẢ" ĐỂ CARD KHÔNG BỊ ẨN (DISPLAY: NONE)
-                currentCategory = "all";
-                var searchInput = document.getElementById("searchInput");
-                if (searchInput) searchInput.value = "";
-
-                document.querySelectorAll('.category-btn').forEach(function(b) {
-                    b.classList.remove('active');
-                    if (b.innerText.trim().toLowerCase() === 'tất cả') {
-                        b.classList.add('active');
-                    }
-                });
-
-                // 3. Tính toán vị trí trang chứa Card trong danh sách Tất Cả
-                var filtered = (typeof getFilteredCards === 'function') ? getFilteredCards() : cards;
-                var cardIndex = filtered.indexOf(randomCard);
-
-                if (cardIndex !== -1 && typeof renderCards === 'function') {
-                    currentPage = Math.floor(cardIndex / cardsPerPage) + 1;
-                    renderCards(); // Render hiển thị Card đó ra màn hình
-
-                    // 4. Kéo màn hình trượt mượt từ từ xuống đúng ô Card
-                    setTimeout(function() {
-                        var elementPosition = randomCard.getBoundingClientRect().top + window.pageYOffset;
-                        var offsetPosition = elementPosition - (window.innerHeight / 2) + (randomCard.offsetHeight / 2);
-
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth' 
-                        });
-
-                        // 5. Hiệu ứng Card phóng nhẹ 102% + Viền vàng phát sáng lôi cuốn mắt
-                        randomCard.style.transition = 'box-shadow 0.6s ease, border-color 0.6s ease, transform 0.4s ease';
-                        randomCard.style.borderColor = '#f6cb4b';
-                        randomCard.style.boxShadow = '0 0 35px rgba(246, 203, 75, 0.95), 6px 6px 0 #efd886';
-                        randomCard.style.transform = 'scale(1.02)';
-
-                        setTimeout(function() {
-                            randomCard.style.borderColor = '';
-                            randomCard.style.boxShadow = '';
-                            randomCard.style.transform = '';
-                        }, 2500);
-                    }, 120);
-                }
-            };
-        }
+        if (imgEl) imgEl.src = img;
 
         if (loadingArea) loadingArea.style.display = 'none';
         if (resultArea) resultArea.style.display = 'block';
@@ -4047,8 +4079,48 @@ window.spinGachaRoll = function() {
         if (typeof createBurstParticle === 'function') {
             createBurstParticle(window.innerWidth / 2, window.innerHeight / 2);
         }
-    }, 1200);
+    }, 1000);
 };
+
+// Khi bấm nút "Ghé xem"
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'gachaGheXemBtn') {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        closeGachaModal();
+
+        if (!targetCardGlobal) return;
+
+        var allCards = Array.from(document.querySelectorAll('.character-card'));
+        var cardIndex = allCards.indexOf(targetCardGlobal);
+        if (cardIndex !== -1 && typeof renderCards === 'function') {
+            currentPage = Math.floor(cardIndex / cardsPerPage) + 1;
+            renderCards();
+        }
+
+        setTimeout(function() {
+            var elementPosition = targetCardGlobal.getBoundingClientRect().top + window.pageYOffset;
+            var offsetPosition = elementPosition - (window.innerHeight / 2) + (targetCardGlobal.offsetHeight / 2);
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth' 
+            });
+
+            targetCardGlobal.style.transition = 'box-shadow 0.6s ease, border-color 0.6s ease, transform 0.4s ease';
+            targetCardGlobal.style.borderColor = '#f6cb4b';
+            targetCardGlobal.style.boxShadow = '0 0 30px rgba(246, 203, 75, 0.9), 6px 6px 0 #efd886';
+            targetCardGlobal.style.transform = 'scale(1.02)';
+
+            setTimeout(function() {
+                targetCardGlobal.style.borderColor = '';
+                targetCardGlobal.style.boxShadow = '';
+                targetCardGlobal.style.transform = '';
+            }, 2500);
+        }, 100);
+    }
+});
 
 // Tự động chèn nút "🎲 Gacha Duyên Phận" kế bên nút "🔥 Bảng Xu Hướng"
 (function initGachaButton() {
@@ -4057,7 +4129,7 @@ window.spinGachaRoll = function() {
         var btn = document.createElement('button');
         btn.id = 'gachaNavBtn';
         btn.className = 'nav-btn-wish';
-        btn.style.cssText = "display: inline-block; margin-right: 8px; margin-bottom: 10px;";
+        btn.style.cssText = "background:#ffe78f; border-style:solid; margin-right: 8px; margin-bottom: 10px;";
         btn.innerHTML = '🎲 Gacha Duyên Phận';
         btn.onclick = spinGachaRoll;
         wishlistBtn.parentNode.insertBefore(btn, wishlistBtn);
@@ -4066,6 +4138,7 @@ window.spinGachaRoll = function() {
     }
 })();
 </script>
+
 </body>
 </html>
 
