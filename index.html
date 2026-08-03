@@ -1321,9 +1321,9 @@ html, body {
     box-sizing: border-box !important;
 }
 
-/* 2. Sửa Thanh chữ chạy không làm phình khung màn hình iPhone */
+/* === FIX KHÔNG BAO GIỜ BỊ MẤT CHỮ BANNER TRÊN MOBILE === */
 .banner-ticker {
-    contain: paint !important;   /* Bắt buộc iPhone xén sạch phần chữ thừa ngoài khung */
+    contain: paint !important;
     overflow: hidden !important;
     position: relative !important;
     width: 100% !important;
@@ -1344,41 +1344,35 @@ html, body {
     animation: pauseTicker 16s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* ĐỔI TỪ 80VW THÀNH 100% ĐỂ KHÔNG BỊ ĐẨY PHÌNH MÀN HÌNH IPHONE SANG PHẢI */
 @keyframes pauseTicker {
-    0% {
-        transform: translateX(100%); /* Bắt đầu ngay mép phải khung */
-        opacity: 0;
-    }
-    25% {
-        transform: translateX(0); /* Vào chính giữa */
-        opacity: 1;
-    }
-    75% {
-        transform: translateX(0); /* Dừng ở giữa 8s */
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(-100%); /* Trôi ra lề trái */
-        opacity: 0;
-    }
+    0% { transform: translateX(100%); opacity: 0; }
+    25% { transform: translateX(0); opacity: 1; }
+    75% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(-100%); opacity: 0; }
 }
 
-/* 3. Tối ưu riêng trên Điện thoại (Bao gồm nút Góc Ước Nguyện) */
 @media (max-width: 768px) {
     .container {
         width: 100% !important;
         padding: 0 14px 24px !important;
         margin: 0 auto !important;
     }
+    .banner-ticker {
+        padding: 8px 6px !important; /* Thu gọn lề để dành không gian cho chữ */
+        margin-bottom: 18px !important;
+    }
+    .ticker-text {
+        font-size: 11px !important;       /* Hạ cỡ chữ 11px vừa khít màn hình iPhone */
+        letter-spacing: -0.2px !important; /* Co nhẹ khoảng cách chữ */
+    }
     .nav-btn-wish {
         max-width: 92vw !important;
         font-size: 12px !important;
         padding: 6px 12px !important;
-        white-space: normal !important;      /* Tự động xuống dòng gọn gàng khi chữ dài */
+        white-space: normal !important;
         text-align: center !important;
         justify-content: center !important;
-        word-break: break-word !important;   /* Giữ chữ luôn nằm trong viền */
+        word-break: break-word !important;
     }
 }
 
@@ -1418,7 +1412,7 @@ html, body {
         
         <!-- NÚT BẤM VÀO WEBSITE (BAN ĐẦU ẨN ĐI - 100% MỚI HIỆN) -->
         <button id="enter-btn" onclick="enterWebsite()" style="width: 100%; background: #fff2cc; color: #7a5c00; border: 1px solid #ffe066; padding: 12px; font-size: 13px; font-weight: bold; border-radius: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 224, 102, 0.3); transition: all 0.5s ease; letter-spacing: 0.5px; opacity: 0; pointer-events: none; transform: translateY(10px);">
-            Bước vào cửa tiệm
+            Bước vào cửa tiệm
         </button>
         
     </div>
@@ -1545,8 +1539,8 @@ html, body {
     <button class="category-btn" onclick="filterCategory('cung đấu',this)">
         Cung đấu
 	</button>	
-    <button class="category-btn" onclick="filterCategory('trinh thám',this)">
-        Trinh thám
+    <button class="category-btn" onclick="filterCategory('trinh thám',this)">
+        Trinh thám
     </button>
     <button class="category-btn" onclick="filterCategory('tận thế',this)">
         Tận thế
@@ -1563,7 +1557,7 @@ html, body {
 <section class="character-card" id="card1" data-news="1">
        <div class="hot-badge" id="badge-card1">🔥 NỔI BẬT</div>
     <div class="left">
-        <h2>Nguyễn Vĩnh Hiên</h2>
+        <h2>Nguyễn Vĩnh Hiên</h2>
         <p class="tagline">
             "Chữ nghĩa tui nhiều thiệt, mà sao chữ 'Yêu cô Út' - tui đánh vần hoài không xong."
         </p>
@@ -1811,7 +1805,7 @@ Kiyomitsu rơi vào bi kịch tột cùng. Cha mẹ coi hắn như quân cờ l�
   <div class="backstory-content">
     <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
     Trương Hoài Nam sinh ra và lớn lên trong tiếng trống trận của võ đường Trương Gia (đoàn lân Hùng Anh Đường), nằm trên trục đường đậm chất Trung Hoa cũ thuộc khu Chợ Lớn, Quận 5. Từ khi hắn còn đỏ hỏn, cha mẹ hắn đã mất, nên hắn được ông ngoại – một võ sư kiêm nghệ nhân múa lân lối cổ, nuôi lớn và truyền dạy bộ pháp. Tuổi thơ của Nam đã gắn liền với những vết bầm dập do tập tấn dưới mái đình rêu phong, cùng với mùi thuốc xoa bóp mật gấu và những điển tích cổ xưa.
-Khi ông ngoại đột ngột qua đời thì cuộc đời hắn cũng xảy ra một bước ngoặt lớn. Ông để lại cho hắn một Hùng Anh Đường khánh kiệt, với khoản nợ tiền nhà chồng chất và nguy cơ bị xóa sổ trước sự bùng nổ của các đoàn lân thương mại hóa. Ở tuổi 26, Nam đành phải mặc chiếc áo khoác bạc màu lao ra đời chạy shipper, va vấp sấp mặt khắp các hang cùng ngõ hẻm trên đất Sài Gòn. Tới đêm muộn lại gồng mình làm Tiền đao, ôm con Lân Đen 'Trương Phi', gánh vác trên vai là cả vận mệnh của đoàn lân.
+Khi ông ngoại đột ngột qua đời thì cuộc đời hắn cũng xảy ra một bước ngoặt lớn. Ông để lại cho hắn một Hùng Anh Đường khánh kiệt, với khoản nợ tiền nhà chồng chất và nguy cơ bị xóa sổ trước sự bùng nổ của các đoàn lân thương mại hóa. Ở tuổi 26, Nam đành phải mặc chiếc áo khoác bạc màu lao ra đời chạy shipper, va vấp sấp mặt khắp các hang cùng ngõ hẻm trên đất Sài Gòn. Tới đêm muộn lại gồng mình làm Tiền đao, ôm con Lân Đen 'Trương Phi', gánh vác trên vai là cả vận mệnh của đoàn lân.
   </div>
   
   <!-- Nút bấm mở rộng -->
@@ -1967,7 +1961,7 @@ Một cuộc đời cũ khép lại sau cú va chạm định mệnh dưới mà
         </p>
         <div class="tags">
             <span>#Cổ trang</span>
-            <span>#Hiện đại</span>
+            <span>#Hiện đại</span>
             <span>#Xuyên Không - thời gian</span>
             <span>#Hai thế giới</span>
             <span>#Huyền huyễn</span>
@@ -2221,7 +2215,7 @@ Cuộc đời gã đảo lộn khi cô – cô tiểu thư đài các từ miề
 <div class="char-backstory-box">
   <div class="backstory-content">
     <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
-   Ba tháng sau khi tận thế bùng nổ, nhân loại chật vật sinh tồn trong sự tàn khốc của những cuộc thanh trừng. Hôm đó, {{user}} một người thường không có dị năng, được xếp vào đội thu thập vật tư ngoại ô cùng nhóm của Lê Hiểu Nghi. Vì một phút phán đoán sai sót của Hiểu Nghi, cả đội bị đẩy vào tử lộ, chịu sự vây công điên cuồng của triều cường tang thi hoang dã. Giữa tiếng gào rú và mùi máu tanh, đội dự bị không có ai mang dị năng tấn công, tất cả chỉ biết hoảng loạn tháo chạy. Lúc này, bản năng {{user}} tham sống sợ chết bùng lên dữ dội. Không một chút do dự, cô lạnh lùng vung tay, đẩy thẳng Lê Hiểu Nghi về phía trước để làm mồi nhử cản bước con quái vật đang nhe nanh múa vuốt.
+   Ba tháng sau khi tận thế bùng nổ, nhân loại chật vật sinh tồn trong sự tàn khốc của những cuộc thanh trừng. Hôm đó, {{user}} một người thường không có dị năng, được xếp vào đội thu thập vật tư ngoại ô cùng nhóm của Lê Hiểu Nghi. Vì một phút phán đoán sai sót của Hiểu Nghi, cả đội bị đẩy vào tử lộ, chịu sự vây công điên cuồng của triều cường tang thi hoang dã. Giữa tiếng gào rú và mùi máu tanh, đội dự bị không có ai mang dị năng tấn công, tất cả chỉ biết hoảng loạn tháo chạy. Lúc này, bản năng {{user}} tham sống sợ chết bùng lên dữ dội. Không một chút do dự, cô lạnh lùng vung tay, đẩy thẳng Lê Hiểu Nghi về phía trước để làm mồi nhử cản bước con quái vật đang nhe nanh múa vuốt.
 Ngay khoảnh khắc Lê Hiểu Nghi suýt bị xé xác, Thẩm Trường An cùng đội tiên phong căn cứ Sói Trắng đã kịp thời xuất hiện, hỏa diễm bùng nổ đẩy lùi vòng vây. Sống sót trở về, bộ mặt tiểu nhân của {{user}} lập tức bị vạch trần trước toàn căn cứ. Sự phẫn nộ dâng cao, cô bị Thẩm Trường An máu lạnh tuyên án trục xuất, thẳng tay ném ra khỏi ranh giới an toàn của Sói Trắng. Giữa thế giới đổ nát, thực vật biến dị bủa vây và thi triều khát máu, một kẻ không dị năng, không nơi nương tựa như {{user}} coi như đã cầm chắc cái chết trong tay. Cô đơn độc bước đi trong tuyệt vọng, hoàn toàn không biết rằng, từ trong góc tối của thành phố chết, một đôi mắt xám trắng của con tang thi cấp 3 hệ Lôi biến dị đã khóa chặt vào bóng hình cô, trong tiềm thức thức tỉnh một sự chiếm hữu điên cuồng...
   </div>
   
@@ -2283,14 +2277,14 @@ Có thể đối với cả thế giới, hắn là quái vật cao 1m92 thống
 <section class="character-card" id="card17" data-news="17">
  <div class="hot-badge" id="badge-card17">🔥 NỔI BẬT</div>
     <div class="left">
-        <h2>Vệ Thành</h2>
+        <h2>Vệ Thành</h2>
         <p class="tagline">
-            Không hứa nhiều, nhưng nói là làm
+            Không hứa nhiều, nhưng nói là làm
         </p>
         <div class="tags">
             <span>#Hiện đại</span>
-            <span>#Thực tế</span>
-            <span>#Nghèo</span>
+            <span>#Thực tế</span>
+            <span>#Nghèo</span>
             <span>#419</span>
 			<span>#Slice Of Life</span>
         </div>
@@ -2323,15 +2317,15 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
 <section class="character-card" id="card18" data-news="18">
  <div class="hot-badge" id="badge-card18">🔥 NỔI BẬT</div>
     <div class="left">
-        <h2>Lê Trần Hoài Vũ</h2>
+        <h2>Lê Trần Hoài Vũ</h2>
         <p class="tagline">
            Bậu bước chân vô nhà này bằng danh nghĩa gạt nợ, thì đừng mơ tưởng đến chuyện tự do.
         </p>
         <div class="tags">
-            <span>#Việt Nam xưa</span>
+            <span>#Việt Nam xưa</span>
             <span>#1930s</span>
-            <span>#Miền tây</span>
-            <span>#Đấu đá</span>
+            <span>#Miền tây</span>
+            <span>#Đấu đá</span>
 			<span>#Tranh giành</span>
         </div>
 <!-- KHỐI BACKSTORY XEM THÊM -->
@@ -2339,7 +2333,7 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
   <div class="backstory-content">
     <!-- ✍️ NHẬP ĐOẠN BACKSTORY CỦA NHÂN VẬT VÀO ĐÂY -->
   Lê Trần Hoài Vũ danh xưng cậu Út nhà hội đồng Lê Trần nghe qua thì vang nức tiếng Cà Mau, nhưng ngặt nỗi, hắn lại là con vợ lẻ, khúc ruột rớt của bà ba Bé Tám vốn từ đứa ở đi lên. Cái nhà chữ đinh tôn nghiêm ấy chưa bao giờ coi hắn là máu mủ, chỉ xem như một vết nhơ. Sống trong đầm lầy mưu mô của bà lớn, lời xỉa xói của bà hai, Hoài Vũ trui rèn cho mình đôi mắt sắc bén, lạnh lùng và một cái đầu đầy sỏi đá. Không cam chịu như má mình, hắn ngầm gầy dựng thế lực trong bóng tối, mượn tiếng sưu tầm đồng hồ Tây, đồ cổ để che giấu dã tâm lật đổ ván cờ gia tộc.
-Đời hắn có hai chấp niệm lớn. Một là mối tình câm lặng với mợ hai Lụa, người con gái sắc sảo bị bà lớn hất tay trên gả cho cậu hai Khang. Hai là lật đổ cái nhà hội đồng này, đoạt lấy vị trí gia chủ để bắt những kẻ từng chà đạp má con hắn phải trả giá. Nhưng bi kịch chồng chất khi mà bà lớn lại thủ thỉ vào tai ông hội đồng, ép hắn phải cưới {{user}} – con nhà tá điền nghèo rớt mồng tơi về gạt nợ. Với Hoài Vũ, cuộc hôn nhân áp đặt này là một sự sỉ nhục kép, cho nên hắn biến mợ thành bia đỡ đạn cho lòng hận thù ngút trời của hắn.
+Đời hắn có hai chấp niệm lớn. Một là mối tình câm lặng với mợ hai Lụa, người con gái sắc sảo bị bà lớn hất tay trên gả cho cậu hai Khang. Hai là lật đổ cái nhà hội đồng này, đoạt lấy vị trí gia chủ để bắt những kẻ từng chà đạp má con hắn phải trả giá. Nhưng bi kịch chồng chất khi mà bà lớn lại thủ thỉ vào tai ông hội đồng, ép hắn phải cưới {{user}} – con nhà tá điền nghèo rớt mồng tơi về gạt nợ. Với Hoài Vũ, cuộc hôn nhân áp đặt này là một sự sỉ nhục kép, cho nên hắn biến mợ thành bia đỡ đạn cho lòng hận thù ngút trời của hắn.
   </div>
   
   <!-- Nút bấm mở rộng -->
@@ -2362,16 +2356,16 @@ Câu chuyện bắt đầu từ buổi sáng hôm đó.....
 <section class="character-card" id="card19" data-news="19">
  <div class="hot-badge" id="badge-card19">🔥 NỔI BẬT</div>
     <div class="left">
-        <h2>Ninh Tử Khiêm</h2>
+        <h2>Ninh Tử Khiêm</h2>
         <p class="tagline">
            Thế giới này ồn ào và dối trá, chỉ có hoàng hôn và những người đã khuất là biết giữ bí mật.
         </p>
         <div class="tags">
-            <span>#Hiện đại</span>
-            <span>#Trinh thám</span>
-            <span>#Điều tra</span>
-            <span>#Phá án</span>
-            <span>#Pháp y x Cảnh sát</span>
+            <span>#Hiện đại</span>
+            <span>#Trinh thám</span>
+            <span>#Điều tra</span>
+            <span>#Phá án</span>
+            <span>#Pháp y x Cảnh sát</span>
         </div>
 <!-- KHỐI BACKSTORY XEM THÊM -->
 <div class="char-backstory-box">
@@ -2400,16 +2394,16 @@ Hắn chọn đối thoại với người chết vì tin rằng thi thể khôn
 <section class="character-card" id="card20" data-news="20">
  <div class="hot-badge" id="badge-card20">🔥 NỔI BẬT</div>
     <div class="left">
-        <h2>Ninh Hữu Ngôn</h2>
+        <h2>Ninh Hữu Ngôn</h2>
         <p class="tagline">
           E-e-e-em...c-c-có...th-th-th-thích...h-h-hoa không?! A-aanh...th-th-thì...th-th-th-thích e-em...lắm!
         </p>
         <div class="tags">
-            <span>#Việt Nam xưa</span>
+            <span>#Việt Nam xưa</span>
             <span>#1990s</span>
-            <span>#Sài Gòn</span>
-            <span>#Cà Lăm</span>
-            <span>#Ngọt</span>
+            <span>#Sài Gòn</span>
+            <span>#Cà Lăm</span>
+            <span>#Ngọt</span>
         </div>
 <!-- KHỐI BACKSTORY XEM THÊM -->
 <div class="char-backstory-box">
@@ -2753,7 +2747,7 @@ Với khách quen và nhân viên, anh chăm sóc bằng sự quan tâm âm th�
     </div>
 </div>
         <footer class="footer">
-            <p>© 2026 <a href="#">Hyperion</a> | <a href="#">Luna Bloom</a>. Website được tài trợ khởi tạo bởi @Le Bel Astre và tiếp tục phát triển bởi Hyperion. Cảm ơn Le đã đặt những nền móng đầu tiên cho Web! Chúc Le luôn tràn ngập niềm vui, vạn sự thuận lợi và mãi xinh đẹp rực rỡ. Cảm ơn mọi người đã ghé đến và ủng hộ mình, xin chúc mọi người có một trải nghiệm vui vẻ và hài lòng tại Tiệm Nhà Hyprion. </p>
+            <p>© 2026 <a href="#">Hyperion</a> | <a href="#">Luna Bloom</a>. Website được tài trợ khởi tạo bởi @Le Bel Astre và tiếp tục phát triển bởi Hyperion. Cảm ơn Le đã đặt những nền móng đầu tiên cho Web! Chúc Le luôn tràn ngập niềm vui, vạn sự thuận lợi và mãi xinh đẹp rực rỡ. Cảm ơn mọi người đã ghé đến và ủng hộ mình, xin chúc mọi người có một trải nghiệm vui vẻ và hài lòng tại Tiệm Nhà Hyprion. </p>
         </footer>
     </div>
         <div id="newsOverlay">
@@ -3065,7 +3059,7 @@ function sendAnonymousMail(){
     <div class="anonymous-modal-content">
         <button class="anonymous-close-btn" onclick="toggleAnonymousModal()">&times;</button>
         <h3>📨 Hòm thư ẩn danh</h3>
-        <p style="margin:0; font-size:13px; color:#8d7237;">Bạn có điều muốn góp ý hay tâm sự với chủ tiệm? Viết ở đây nhé.</p>
+        <p style="margin:0; font-size:13px; color:#8d7237;">Bạn có điều muốn góp ý hay tâm sự với chủ tiệm? Viết ở đây nhé.</p>
         
         <input id="anonymousName" class="anonymous-input-pop" placeholder="Tên (không bắt buộc)">
         <textarea id="anonymousMessage" class="anonymous-textarea-pop" placeholder="Viết thư..."></textarea>
@@ -3597,7 +3591,7 @@ function enterWebsite() {
     <span class="close-btn" onclick="closeMail()">&times;</span>
     <div class="mail-header">
       <div class="stamp">💌</div>
-      <h3>Hy Hy gửi bạn</h3>
+      <h3>Hy Hy gửi bạn</h3>
     </div>
     <div class="mail-body">
       <p id="mail-text">Đang mở thư...</p>
@@ -3635,7 +3629,7 @@ function enterWebsite() {
     "Đôi khi, không làm gì cả cũng là một cách chăm sóc bản thân. Cho phép mình được 'lười biếng' một tí tối nay nha.",
     "Mỗi nhân vật ở đây đều giữ một câu chuyện riêng, còn cậu thì đang viết nên câu chuyện của chính mình. Dù thế nào cũng hãy thật vững vàng!",
     "Mong rằng vài giai điệu nho nhỏ cùng tiếng lá rơi nơi đây có thể vỗ nhè nhẹ vào tâm trạng của cậu lúc này.",
-    "Trời có đổ mưa hay nắng gắt thì cũng đừng quên ăn uống đầy đủ và giữ ấm cho bản thân nha.",
+    "Trời có đổ mưa hay nắng gắt thì cũng đừng quên ăn uống đầy đủ và giữ ấm cho bản thân nha.",
     "Chúc cậu một ngày (hoặc một buổi tối) có thật nhiều điều nho nhỏ làm cậu mỉm cười bất giác.",
     "Cảm ơn cậu vì đã xuất hiện và cố gắng mỗi ngày. Cậu đang làm rất tốt rồi, thực sự đấy!",
   "Nếu hôm nay thế giới đối xử với cậu hơi khắt khe, thì hãy nhớ tự thưởng cho mình một ly nước ấm và một giấc ngủ thật ngon.",
@@ -3697,7 +3691,7 @@ function enterWebsite() {
  let originalTitle = document.title; // Lưu lại tên web gốc
   window.addEventListener('blur', () => {
     // Khi user chuyển sang tab khác
-    document.title = "Mặt trời nhỏ, cậu đi đâu thế..."; 
+    document.title = "Mặt trời nhỏ, cậu đi đâu thế..."; 
   });
   window.addEventListener('focus', () => {
     // Khi user quay lại tab web mình
@@ -3881,21 +3875,21 @@ function getVietnamDate(ts) {
     return new Date(vnString);
 }
 
-// 1. Banner chào mừng ÉP CHUẨN GIỜ VIỆT NAM (Dù ở Mỹ hay đâu cũng hiện đúng giờ VN)
+// 1. Banner chào mừng chuẩn độ dài không bị mất chữ trên điện thoại
 window.startBannerTicker = function() {
     const vnDate = getVietnamDate();
-    const hour = vnDate.getHours(); // Lấy đúng giờ Việt Nam
+    const hour = vnDate.getHours();
     const tickerText = document.getElementById('tickerText');
     const tickerContainer = document.getElementById('bannerTicker');
     if (!tickerText || !tickerContainer) return;
 
     let msg = "";
     if (hour >= 5 && hour < 11) {
-        msg = "🌅 Buổi sáng tốt lành! Tiệm nhà Hy chúc lữ khách một ngày dịu dàng ✨";
+        msg = "🌅 Buổi sáng tốt lành! Chúc lữ khách một ngày dịu dàng ✨";
     } else if (hour >= 11 && hour < 14) {
-        msg = "☀️ Trưa rồi đó! Nắng đã gắt hơn, lữ khách nhớ ăn uống đầy đủ nha ✨";
+        msg = "☀️ Trưa rồi đó! Lữ khách nhớ ăn uống đầy đủ và nghỉ tay nha ✨";
     } else if (hour >= 14 && hour < 18) {
-        msg = "🌇 Trà chiều đã pha xong! Cứ coi đây là mái hiên quen tạt vào trú tạm ✨";
+        msg = "🌇 Trà chiều đã pha xong! Mời lữ khách tạt vào trú tạm ✨";
     } else if (hour >= 18 && hour < 22) {
         msg = "🌙 Buổi tối bình yên! Chúc lữ khách thư thái bên ly trà mạn ✨";
     } else {
