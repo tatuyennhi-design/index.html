@@ -1144,6 +1144,11 @@ user-select:none;
     transform: translateY(-2px) scale(1.03);
     box-shadow: 0 4px 12px rgba(200, 155, 39, 0.25);
 }
+		/* Viết trong file style.css */
+.nav-btn-wish {
+    margin-bottom: 10px !important; /* Tạo khoảng cách dưới cho tất cả các nút */
+}
+
 /* =========================================
     THÔNG BÁO TÙY CHỈNH (TOAST)
 ========================================= */
@@ -4027,7 +4032,10 @@ window.spinGachaRoll = function() {
         var btn = document.createElement('button');
         btn.id = 'gachaNavBtn';
         btn.className = 'nav-btn-wish';
-        btn.style.cssText = "background:#ffe78f; border-style:solid; margin-right: 8px;";
+        
+        // Thêm margin-bottom: 10px để tách hàng trên và hàng dưới
+        btn.style.cssText = "background:#ffe78f; border-style:solid; margin-right: 8px; margin-bottom: 10px;";
+        
         btn.innerHTML = '🎲 Gacha Duyên Phận';
         btn.onclick = spinGachaRoll;
         wishlistBtn.parentNode.insertBefore(btn, wishlistBtn);
@@ -4035,6 +4043,7 @@ window.spinGachaRoll = function() {
         setTimeout(initGachaButton, 300);
     }
 })();
+
 </script>
 </body>
 </html>
