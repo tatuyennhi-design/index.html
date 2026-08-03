@@ -1297,6 +1297,10 @@ user-select:none;
         height: 22px !important;
     }
 } 
+	/* Chống cuộn trôi trang web đằng sau khi xem Bảng Đề Xuất */
+#newsList {
+    overscroll-behavior: contain !important;
+}	
 </style>
 </head>
 <body>
@@ -4138,7 +4142,54 @@ document.addEventListener('click', function(e) {
     }
 })();
 </script>
+<!-- === XỬ LÝ KHÓA CUỘN TRANG NỀN CHO BẢNG ĐỀ XUẤT (NEWS OVERLAY) === -->
+<script>
+// Hàm đóng Bảng Đề Xuất và MỞ LẠI CUỘN TRANG WEB
+window.closeNewsOverlay = function() {
+    var news = document.getElementById('newsOverlay');
+    if (news) {
+        news.style.display = 'none';
+    }
+    document.body.style.overflow = ''; // Mở khóa cuộn trang chính
+};
 
+// Hàm mở Bảng Đề Xuất và KHÓA CUỘN TRANG WEB
+window.openNewsOverlay = function() {
+    var news = document.getElementById('newsOverlay');
+    if (news) {
+        news.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Khóa cuộn trang chính
+    }
+};
+
+// Tự động giải phóng trang web khi BẤM RA NGOÀI hoặc BẤM NÚT "GỌI MÓN!"
+document.addEventListener('click', function(e) {
+    var news = document.getElementById('newsOverlay');
+    if (news && (news.style.display === 'flex' || getComputedStyle(news).display === 'flex')) {
+        // Nếu click ra nền đen ngoài panel HOẶC click nút "Gọi món!"
+        if (e.target === news || e.target.classList.contains('news-btn')) {
+            closeNewsOverlay();
+        }
+    }
+}, true);
+
+// Cập nhật hàm enterWebsite để kích hoạt Khóa Cuộn khi vừa vào tiệm
+var oldEnterWebsite = window.enterWebsite;
+window.enterWebsite = function() {
+    var screen = document.getElementById('welcome-screen');
+    if (screen) screen.style.opacity = '0';
+    
+    setTimeout(function() {
+        if (screen) screen.style.display = 'none';
+        if (typeof initStats === 'function') initStats();
+        
+        // Bật Bảng Đề Xuất và KHÓA TRANG NỀN
+        openNewsOverlay();
+
+        if (typeof startBannerTicker === 'function') startBannerTicker();
+    }, 800);
+};
+</script>
 </body>
 </html>
 
