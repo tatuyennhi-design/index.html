@@ -4142,53 +4142,89 @@ document.addEventListener('click', function(e) {
     }
 })();
 </script>
-<!-- === XỬ LÝ KHÓA CUỘN TRANG NỀN CHO BẢNG ĐỀ XUẤT (NEWS OVERLAY) === -->
+<!-- === BỘ KHÓA CUỘN THÔNG MINH - CHỐNG TRÔI NỀN TRÊN IPHONE & LAPTOP === -->
+<style>
+/* Khóa cuộn tuyệt đối trên cả iPhone (iOS Safari) lẫn Laptop */
+body.modal-open {
+    overflow: hidden !important;
+    touch-action: none !important;
+    -webkit-overflow-scrolling: none !important;
+}
+
+/* Chống cuộn tràn lực vuốt ngón tay trên điện thoại */
+.trending-modal, .gacha-modal, #newsOverlay, .anonymous-modal, .mail-modal {
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+}
+</style>
+
 <script>
-// Hàm đóng Bảng Đề Xuất và MỞ LẠI CUỘN TRANG WEB
+// QUẢN LÝ KHÓA CUỘN THÔNG MINH (Chống xung đột giữa các Bảng)
+window.lockBodyScroll = function() {
+    document.body.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+};
+
+window.unlockBodyScroll = function() {
+    // Tìm tất cả các Bảng Popup trên trang
+    var modals = document.querySelectorAll('.trending-modal, .gacha-modal, #newsOverlay, .anonymous-modal, .mail-modal');
+    
+    // Kiểm tra xem còn Bảng nào đang mở hay không
+    var isAnyOpen = Array.from(modals).some(function(m) {
+        if (!m) return false;
+        var display = window.getComputedStyle(m).display;
+        return display === 'flex' || display === 'block';
+    });
+
+    // Chỉ khi KHÔNG CÒN BẢNG NÀO MỞ thì mới mở lại cuộn trang chính
+    if (!isAnyOpen) {
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    }
+};
+
+// Cập nhật hàm mở/đóng chuẩn xác cho Bảng Xu Hướng
+window.openTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) modal.style.display = 'flex';
+    lockBodyScroll();
+    var activeTab = document.querySelector('.tab-btn.active') || document.querySelector('.tab-btn');
+    if (typeof showTab === 'function') showTab('total', activeTab);
+};
+
+window.closeTrending = function() {
+    var modal = document.getElementById('trendingModal');
+    if (modal) modal.style.display = 'none';
+    unlockBodyScroll();
+};
+
+// Cập nhật hàm đóng cho Bảng Gacha
+window.closeGachaModal = function() {
+    var modal = document.getElementById('gachaModal');
+    if (modal) modal.style.display = 'none';
+    unlockBodyScroll();
+};
+
+// Cập nhật hàm đóng cho Bảng Đề Xuất
 window.closeNewsOverlay = function() {
     var news = document.getElementById('newsOverlay');
-    if (news) {
-        news.style.display = 'none';
-    }
-    document.body.style.overflow = ''; // Mở khóa cuộn trang chính
+    if (news) news.style.display = 'none';
+    unlockBodyScroll();
 };
 
-// Hàm mở Bảng Đề Xuất và KHÓA CUỘN TRANG WEB
-window.openNewsOverlay = function() {
-    var news = document.getElementById('newsOverlay');
-    if (news) {
-        news.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Khóa cuộn trang chính
-    }
-};
-
-// Tự động giải phóng trang web khi BẤM RA NGOÀI hoặc BẤM NÚT "GỌI MÓN!"
+// Tự động kiểm tra và khóa/mở cuộn mỗi khi có thao tác click hoặc đóng bảng
 document.addEventListener('click', function(e) {
-    var news = document.getElementById('newsOverlay');
-    if (news && (news.style.display === 'flex' || getComputedStyle(news).display === 'flex')) {
-        // Nếu click ra nền đen ngoài panel HOẶC click nút "Gọi món!"
-        if (e.target === news || e.target.classList.contains('news-btn')) {
-            closeNewsOverlay();
-        }
-    }
+    setTimeout(unlockBodyScroll, 100);
 }, true);
 
-// Cập nhật hàm enterWebsite để kích hoạt Khóa Cuộn khi vừa vào tiệm
-var oldEnterWebsite = window.enterWebsite;
-window.enterWebsite = function() {
-    var screen = document.getElementById('welcome-screen');
-    if (screen) screen.style.opacity = '0';
-    
-    setTimeout(function() {
-        if (screen) screen.style.display = 'none';
-        if (typeof initStats === 'function') initStats();
-        
-        // Bật Bảng Đề Xuất và KHÓA TRANG NỀN
-        openNewsOverlay();
-
-        if (typeof startBannerTicker === 'function') startBannerTicker();
-    }, 800);
-};
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeTrending();
+        closeGachaModal();
+        closeNewsOverlay();
+        unlockBodyScroll();
+    }
+});
 </script>
 </body>
 </html>
