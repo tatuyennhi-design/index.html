@@ -4705,43 +4705,46 @@ body {
 </style>
 <style>
 /* ===================================================
-   FIX DỨT ĐIỂM: THANH NỔI FLOATING DOCK (CHẠY 100% TRÊN LAPTOP & IPHONE)
+   THANH NỔI SIÊU MỎNG GỌN (1 HÀNG DUY NHẤT - KHÔNG CHE BANNER)
 =================================================== */
 
-/* Chuyển sang position: fixed để bất chấp mọi khung cha */
+/* 1. Thanh nổi dạng Capsule siêu mỏng dính sát mép trên màn hình */
 .nav-toolbar-wrapper {
     position: fixed !important;
-    top: 10px !important;
+    top: 5px !important;
     left: 50% !important;
-    transform: translateX(-50%) !important; /* Canh chính giữa màn hình */
+    transform: translateX(-50%) !important;
     z-index: 999 !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 6px !important;
-    flex-wrap: wrap !important;
-    background: rgba(255, 253, 245, 0.94) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    padding: 6px 14px !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important; /* KHÔNG CHO RỚT DÒNG - ÉP 1 HÀNG DUY NHẤT */
+    background: rgba(255, 254, 248, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 3px 8px !important; /* Nẹp lề cực mỏng dẹp */
     border-radius: 30px !important;
     border: 1px solid #e2cb86 !important;
-    box-shadow: 0 6px 22px rgba(120, 90, 20, 0.16) !important;
+    box-shadow: 0 4px 14px rgba(120, 90, 20, 0.14) !important;
     width: max-content !important;
-    max-width: 95vw !important;
+    max-width: 98vw !important;
     box-sizing: border-box !important;
     margin: 0 !important;
 }
 
+/* 2. Co nhỏ chữ & nút bấm để trôi vừa khít 1 hàng trên cả Điện thoại & Laptop */
 .nav-toolbar-wrapper .nav-btn-wish {
     margin-bottom: 0 !important;
-    font-size: 12.5px !important;
-    padding: 5px 12px !important;
+    font-size: 11px !important;
+    padding: 3px 8px !important; /* Nút dẹp thanh thoát */
     border-radius: 20px !important;
     white-space: nowrap !important;
+    letter-spacing: -0.2px !important;
+    flex: 0 0 auto !important;
 }
 
-/* Nút Game (Gacha + Bảng Xu Hướng) -> Nền vàng ấm */
+/* Nút Game (Gacha + Bảng Xu Hướng) */
 #gachaNavBtn, 
 .nav-toolbar-wrapper button[onclick="openTrending()"] {
     background: #f4cf65 !important;
@@ -4749,7 +4752,7 @@ body {
     border: 1px solid #c89b20 !important;
 }
 
-/* Nút Link (Fanpage + Ước Nguyện) -> Nền kem viền nét đứt */
+/* Nút Link (Fanpage + Ước Nguyện) */
 .nav-toolbar-wrapper a.nav-btn-wish {
     background: #fffdf5 !important;
     color: #725410 !important;
@@ -4757,27 +4760,22 @@ body {
 }
 
 .nav-toolbar-wrapper .nav-btn-wish:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2) !important;
+    transform: translateY(-1px) !important;
 }
 
-/* Tối ưu riêng cho Điện thoại / iPhone */
-@media (max-width: 768px) {
+/* 3. Tối ưu siêu gọn riêng cho Điện thoại iPhone màn hình nhỏ */
+@media (max-width: 600px) {
     .nav-toolbar-wrapper {
-        top: 6px !important;
-        padding: 6px 8px !important;
-        gap: 5px !important;
-        border-radius: 16px !important;
-        width: min(360px, 94vw) !important;
-        justify-content: center !important;
+        top: 4px !important;
+        padding: 3px 5px !important;
+        gap: 3px !important;
+        max-width: 99vw !important;
     }
 
     .nav-toolbar-wrapper .nav-btn-wish {
-        font-size: 11px !important;
-        padding: 4px 8px !important;
-        max-width: calc(50% - 6px) !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
+        font-size: 9.8px !important; /* Chữ 9.8px vừa khít 1 hàng iPhone */
+        padding: 3px 6px !important;
+        letter-spacing: -0.3px !important;
     }
 }
 </style>
