@@ -1375,153 +1375,6 @@ html, body {
         word-break: break-word !important;
     }
 }
-/* ===================================================
-   BỘ GHI ĐÈ GIAO DIỆN: TỐI ƯU GỌN GÀNG - KHÔNG NGỢP
-   (Dán đoạn này ở đáy cùng thẻ <style>, ngay TRƯỚC </style>)
-=================================================== */
-
-:root {
-    --primary-gradient: linear-gradient(180deg, #fdfbf7 0%, #f6f0df 50%, #eee4c9 100%) !important;
-    --card-bg: #fffdf9 !important;
-    --accent: #d4a328 !important;
-    --text-color: #4a3814 !important;
-    --text-muted: #8c713a !important;
-    --tag-bg: #f9f3df !important;
-    --tag-color: #725410 !important;
-    --border: #e2cb86 !important;
-    --card-hover-border: #b8860b !important;
-}
-
-body {
-    background: var(--primary-gradient) !important;
-    color: var(--text-color) !important;
-}
-
-/* Thu gọn Container & Search */
-.container {
-    width: min(1000px, 92%) !important;
-    margin: 0 auto 50px auto !important;
-}
-
-.search-box input {
-    width: min(550px, 100%) !important;
-    padding: 10px 18px !important;
-    font-size: 13.5px !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 25px !important;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.04) !important;
-}
-
-/* Thu gọn nút Phân Loại */
-.category-filter {
-    gap: 6px 8px !important;
-    margin: 18px auto 28px !important;
-    max-width: 850px !important;
-}
-
-.category-btn {
-    padding: 4px 12px !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 999px !important;
-    background: #fffdf5 !important;
-    color: #684b0b !important;
-}
-
-.category-btn.active {
-    background: #f4cf65 !important;
-    border-color: #b8860b !important;
-    color: #3d2c04 !important;
-    font-weight: 600 !important;
-}
-
-/* Thu gọn Character Card */
-.character-card {
-    grid-template-columns: minmax(0,1fr) 200px !important;
-    gap: 24px !important;
-    padding: 20px 22px !important;
-    border: 1px solid var(--border) !important;
-    box-shadow: 3px 3px 0 #e6d396, 0 8px 24px rgba(120, 90, 20, 0.06) !important;
-    border-radius: 12px !important;
-}
-
-.character-card:hover {
-    border-color: #b8860b !important;
-    box-shadow: 4px 4px 0 #dec67b, 0 10px 22px rgba(120, 90, 20, 0.09) !important;
-}
-
-.left h2 {
-    font-size: 23px !important;
-    line-height: 1.25 !important;
-    margin: 0 !important;
-}
-
-.tagline {
-    font-size: 13.5px !important;
-    line-height: 1.6 !important;
-    font-style: italic !important;
-}
-
-.tags span {
-    padding: 3px 9px !important;
-    font-size: 11.5px !important;
-    border: 1px solid #ebd9a2 !important;
-}
-
-/* Thu gọn Nút Bấm (Chat & Tim) */
-.button-group {
-    gap: 8px !important;
-    margin-top: 6px !important;
-}
-
-.chat-btn {
-    height: 38px !important;
-    padding: 0 14px !important;
-    font-size: 13px !important;
-    min-width: 110px !important;
-    border: 1px solid #c89b20 !important;
-    border-radius: 8px !important;
-    box-shadow: 2px 2px 0 #ebd593 !important;
-}
-
-.fav-btn {
-    height: 38px !important;
-    padding: 0 12px !important;
-    font-size: 13px !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
-    box-shadow: 2px 2px 0 #ebd593 !important;
-}
-
-/* Thu gọn Ảnh nhân vật */
-.right {
-    width: 200px !important;
-}
-
-.right img {
-    width: 200px !important;
-    border: 1px solid #c99f2b !important;
-    padding: 4px !important;
-    box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(0,0,0,0.06) !important;
-}
-
-/* Responsive cho Mobile */
-@media (max-width: 768px) {
-    .character-card {
-        grid-template-columns: 1fr !important;
-        padding: 16px !important;
-    }
-    .left h2 {
-        font-size: 20px !important;
-    }
-    .right {
-        width: 180px !important;
-    }
-    .right img {
-        width: 180px !important;
-    }
-}
 
 </style>
 </head>
@@ -4496,6 +4349,135 @@ document.addEventListener('keydown', function(e) {
     }
 });
 </script>
+	<!-- DÁN VÀO ĐÁY CÙNG FILE (NGAY TRƯỚC THẺ </body>) -->
+<style>
+/* === BỘ GHI ĐÈ CUỐI TRANG - ĐẢM BẢO ĐÈ THÀNH CÔNG 100% === */
+:root {
+    --primary-gradient: linear-gradient(180deg, #fdfbf7 0%, #f6f0df 50%, #eee4c9 100%) !important;
+    --card-bg: #fffdf9 !important;
+    --border: #e2cb86 !important;
+}
+
+body {
+    background: linear-gradient(180deg, #fdfbf7 0%, #f6f0df 50%, #eee4c9 100%) !important;
+    color: #4a3814 !important;
+}
+
+/* Khung chứa & Ô tìm kiếm */
+.container {
+    width: min(1000px, 92%) !important;
+}
+
+.search-box input {
+    width: min(550px, 100%) !important;
+    padding: 10px 18px !important;
+    font-size: 13.5px !important;
+    border: 1px solid #e2cb86 !important;
+    border-radius: 25px !important;
+}
+
+/* Nút Phân loại */
+.category-filter {
+    gap: 6px 8px !important;
+    margin: 18px auto 28px !important;
+    max-width: 850px !important;
+}
+
+.category-btn {
+    padding: 4px 12px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    border: 1px solid #e2cb86 !important;
+    border-radius: 999px !important;
+    background: #fffdf5 !important;
+    color: #684b0b !important;
+}
+
+.category-btn.active {
+    background: #f4cf65 !important;
+    border-color: #b8860b !important;
+    color: #3d2c04 !important;
+    font-weight: 600 !important;
+}
+
+/* Thẻ Nhân Vật */
+.character-card {
+    grid-template-columns: minmax(0,1fr) 200px !important;
+    gap: 24px !important;
+    padding: 20px 22px !important;
+    border: 1px solid #e2cb86 !important;
+    box-shadow: 3px 3px 0 #e6d396, 0 8px 24px rgba(120, 90, 20, 0.06) !important;
+    border-radius: 12px !important;
+}
+
+.left h2 {
+    font-size: 23px !important;
+    line-height: 1.25 !important;
+}
+
+.tagline {
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+}
+
+.tags span {
+    padding: 3px 9px !important;
+    font-size: 11.5px !important;
+    border: 1px solid #ebd9a2 !important;
+}
+
+/* Nút Chat & Nút Tim */
+.chat-btn {
+    height: 38px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+    min-width: 110px !important;
+    border: 1px solid #c89b20 !important;
+    border-radius: 8px !important;
+    box-shadow: 2px 2px 0 #ebd593 !important;
+}
+
+.fav-btn {
+    height: 38px !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+    border: 1px solid #e2cb86 !important;
+    border-radius: 8px !important;
+    box-shadow: 2px 2px 0 #ebd593 !important;
+}
+
+/* Ép khung ảnh về 200px (Đè triệt để dòng 250px cũ) */
+.right, 
+.character-card .right {
+    width: 200px !important;
+    max-width: 200px !important;
+}
+
+.right img, 
+.character-card .right img {
+    width: 200px !important;
+    max-width: 200px !important;
+    border: 1px solid #c99f2b !important;
+    padding: 4px !important;
+    box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(0,0,0,0.06) !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .character-card {
+        grid-template-columns: 1fr !important;
+        padding: 16px !important;
+    }
+    .left h2 {
+        font-size: 20px !important;
+    }
+    .right, .right img, .character-card .right, .character-card .right img {
+        width: 180px !important;
+        max-width: 180px !important;
+    }
+}
+</style>
+
 </body>
 </html>
 
