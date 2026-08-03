@@ -2740,17 +2740,27 @@ function renderPagination(totalPages){
     createButton("Sau ›",currentPage+1,currentPage===totalPages);
     createButton("»",totalPages,currentPage===totalPages);
 }
-// BẢNG ĐỀ XUẤT RANDOM: Tự động bốc ngẫu nhiên 3 char bất kỳ từ danh sách
+	// 1. HÀM ĐÓNG BẢNG ĐỀ XUẤT (Viết độc lập ở bên ngoài)
+function closeNewsOverlay() {
+    const newsOverlay = document.getElementById("newsOverlay");
+    if (newsOverlay) {
+        newsOverlay.style.display = "none";
+    }
+    // Mở lại thanh cuộn cho trang web
+    document.body.style.overflow = "auto"; 
+}
+
+// 2. BẢNG ĐỀ XUẤT RANDOM
 const newest = [...cards]
     .sort(() => 0.5 - Math.random()) 
     .slice(0, 3);
 
 const newsList = document.getElementById("newsList");
 if (newsList) {
-    // 1. KHÓA SCROLL TRANG WEB ĐẰNG SAU KHÁC KHI BẢNG BẬT
+    // Khóa scroll khi bảng hiển thị
     document.body.style.overflow = "hidden";
 
-    newsList.innerHTML = ""; // Xóa dữ liệu cũ để tránh trùng lặp nếu chạy lại
+    newsList.innerHTML = ""; 
     newest.forEach(card => {
         const name = card.querySelector("h2")?.innerText || "";
         const tag = card.querySelector(".tagline")?.innerText || "";
@@ -2775,25 +2785,22 @@ if (newsList) {
         `;
     });
 
+    // Sự kiện khi bấm nút "Gọi món!"
     document.querySelectorAll(".news-btn").forEach(btn => {
         btn.onclick = () => {
             const index = Number(btn.dataset.index);
             currentPage = Math.floor(index / cardsPerPage) + 1;
             renderCards();
 
-            if(newsOverlay){
-                newsOverlay.style.display = "none";
-            }
-
-            // 2. MỞ LẠI SCROLL KHI BẢNG ĐÓNG
-            document.body.style.overflow = "auto";
+            // Gọi hàm đóng bảng & mở lại scroll
+            closeNewsOverlay();
 
             setTimeout(() => {
                 cards[index].scrollIntoView({
-                    behavior:"smooth",
-                    block:"center"
+                    behavior: "smooth",
+                    block: "center"
                 });
-            },100);
+            }, 100);
         };
     });
 }
