@@ -4477,7 +4477,98 @@ body {
     }
 }
 </style>
+<style>
+/* ===================================================
+   FIX TRIỆT ĐỂ: TRÁNH LỌI ẢNH LAPTOP & CON DẤU ĐẸP TRÊN MOBILE
+=================================================== */
 
+/* 1. Sửa Laptop: Cột card tự ôm trọn ảnh, không bao giờ bị lòi ra ngoài */
+.character-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important; /* Tự co giãn vừa khít ảnh */
+    gap: 24px !important;
+    align-items: center !important;
+    padding: 20px 22px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* Khóa không cho ảnh tràn lề */
+}
+
+.right {
+    position: relative !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: auto !important; /* Bỏ width 250px cứng gây trồi khung */
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.right img {
+    width: 205px !important; /* Kích thước ảnh chuẩn đẹp trên Laptop */
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 7 / 10 !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #c99f2b !important;
+    background: #fff !important;
+    padding: 4px !important;
+    box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(0,0,0,0.06) !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. Sửa Con Dấu "ORIGINAL": Đặt hít chuẩn mép góc ảnh (như tem thật) */
+.right::after {
+    content: "✦\AORIGINAL\A✦" !important;
+    white-space: pre-wrap !important;
+    position: absolute !important;
+    top: -6px !important;       /* Kéo lên dính góc trên ảnh */
+    right: -6px !important;     /* Kéo ra mép ngoài góc phải */
+    width: 44px !important;
+    height: 44px !important;
+    background: radial-gradient(circle at 35% 35%, #ffeb99 0%, #d89b1c 60%, #8c5b00 100%) !important;
+    border: 1.5px solid #734900 !important;
+    outline: 1px dashed #fffdf0 !important;
+    outline-offset: -3px !important;
+    border-radius: 50% !important;
+    color: #3d2300 !important;
+    font-size: 7px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    transform: rotate(-12deg) !important;
+    box-shadow: 2px 3px 8px rgba(140, 91, 0, 0.25) !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+}
+
+/* 3. Tối ưu Mobile (Điện thoại) */
+@media (max-width: 768px) {
+    .character-card {
+        grid-template-columns: 1fr !important;
+        padding: 16px !important;
+    }
+    .right {
+        width: auto !important;
+        margin: 0 auto 8px auto !important;
+    }
+    .right img {
+        width: 175px !important; /* Ảnh mobile 175px nhỏ nhắn xinh xắn */
+    }
+    /* Thu nhỏ con dấu sáp trên điện thoại để không che mặt nhân vật */
+    .right::after {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 6px !important;
+        top: -4px !important;
+        right: -4px !important;
+    }
+}
+</style>
 </body>
 </html>
 
