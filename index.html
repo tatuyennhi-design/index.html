@@ -1301,6 +1301,29 @@ user-select:none;
 #newsList {
     overscroll-behavior: contain !important;
 }	
+		/* ===================================================
+   FIX TRIỆT ĐỂ LỖI WEB BỊ LỆCH SANG 1 BÊN TRÊN ĐIỆN THOẠI
+=================================================== */
+
+/* 1. Triệt tiêu hoàn toàn hiện tượng tràn lề ngang toàn trang */
+html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+}
+
+/* 2. Tối ưu nút dài (Góc Ước Nguyện) tự co giãn gọn gàng trên Mobile */
+@media (max-width: 768px) {
+    .nav-btn-wish {
+        max-width: 92vw !important;          /* Không vượt quá 92% chiều rộng màn hình */
+        font-size: 12px !important;           /* Chữ nhỏ gọn vừa mắt */
+        padding: 6px 12px !important;
+        white-space: normal !important;      /* Tự động xuống dòng gọn gàng khi chữ dài */
+        text-align: center !important;
+        justify-content: center !important;
+        word-break: break-word !important;   /* Giữ chữ luôn nằm trong viền */
+    }
+}
 </style>
 </head>
 <body>
