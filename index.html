@@ -4704,10 +4704,42 @@ body {
 </style>
 <style>
 /* ===================================================
-   FIX TRIỆT ĐỂ: THANH NỔI NẰM GỌN 100% TRONG MÀN HÌNH IPHONE
+   TẠO KHUNG TRANH VINTAGE SANG TRỌNG CHO BANNER
+=================================================== */
+.banner {
+    width: 100% !important;
+    display: block !important;
+    margin: 10px auto 16px auto !important;
+    border-radius: 14px !important;            /* Bo góc mềm mại */
+    border: 2px solid #d4a72c !important;      /* Viền vàng kim hoài cổ */
+    background: #ffffff !important;            /* Nền trắng lót khung tranh */
+    padding: 5px !important;                   /* Viền lót bên trong như khung ảnh thật */
+    box-shadow: 4px 4px 0 #ebd9a2, 0 8px 24px rgba(120, 90, 20, 0.1) !important; /* Bóng đổ retro */
+    box-sizing: border-box !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.banner:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 5px 5px 0 #e2ca86, 0 12px 28px rgba(120, 90, 20, 0.15) !important;
+}
+
+/* Tối ưu riêng cho Điện thoại mobile */
+@media (max-width: 768px) {
+    .banner {
+        border-radius: 10px !important;
+        padding: 3px !important; /* Nẹp khung mỏng hơn trên mobile */
+        border-width: 1.5px !important;
+        box-shadow: 3px 3px 0 #ebd9a2, 0 6px 16px rgba(120, 90, 20, 0.08) !important;
+    }
+}
+</style>
+<style>
+/* ===================================================
+   FIX TRIỆT ĐỂ: GOM 4 NÚT ĐỨNG SÁT NHAU ĐỒNG ĐỀU 100%
 =================================================== */
 
-/* 1. Thanh nổi Nẹp cứng giới hạn 95% chiều ngang màn hình */
+/* 1. Thanh nổi gom chặt 4 nút vào chính giữa */
 .nav-toolbar-wrapper {
     position: fixed !important;
     top: 5px !important;
@@ -4715,9 +4747,9 @@ body {
     transform: translateX(-50%) !important;
     z-index: 999 !important;
     display: flex !important;
-    justify-content: center !important;
+    justify-content: center !important; /* Gom chặt vào giữa */
     align-items: center !important;
-    gap: 3px !important; /* Co hẹp khe hở xuống 3px */
+    gap: 3px !important;                /* Khoảng cách giữa các nút chuẩn 3px */
     flex-wrap: nowrap !important;
     background: rgba(255, 254, 248, 0.96) !important;
     backdrop-filter: blur(10px) !important;
@@ -4727,21 +4759,26 @@ body {
     border: 1px solid #e2cb86 !important;
     box-shadow: 0 4px 14px rgba(120, 90, 20, 0.14) !important;
     width: fit-content !important;
-    max-width: 95vw !important; /* KHÔNG BAO GIỜ CHO PHÁT TRIỂN LÒI RA KHỎI MÀN HÌNH */
+    max-width: 95vw !important;
     box-sizing: border-box !important;
     margin: 0 !important;
     overflow: hidden !important;
 }
 
-/* 2. Co nút bấm dẹp nhẹ nhàng */
-.nav-toolbar-wrapper .nav-btn-wish {
-    margin-bottom: 0 !important;
-    font-size: 10.5px !important;
-    padding: 3px 7px !important;
+/* 2. Xóa sạch triệt để margin-right 8px ẩn do JavaScript tự chèn */
+.nav-toolbar-wrapper .nav-btn-wish,
+.nav-toolbar-wrapper #gachaNavBtn,
+#gachaNavBtn {
+    margin: 0 !important;              /* Ép bỏ sạch margin thừa của JS */
+    flex: 0 0 auto !important;           /* Không cho co giãn đẩy nút ra xa */
+    font-size: 10px !important;         /* Cỡ chữ đồng bộ */
+    padding: 3px 6px !important;         /* Lề nút mỏng dẹp */
     border-radius: 20px !important;
     white-space: nowrap !important;
     letter-spacing: -0.2px !important;
-    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 /* Nút Game (Gacha + Bảng Xu Hướng) */
@@ -4759,22 +4796,19 @@ body {
     border: 1px dashed #d4a72c !important;
 }
 
-.nav-toolbar-wrapper .nav-btn-wish:hover {
-    transform: translateY(-1px) !important;
-}
-
-/* 3. Tối ưu vừa khít 100% riêng cho Điện thoại iPhone */
+/* Tối ưu riêng cho Điện thoại iPhone */
 @media (max-width: 600px) {
     .nav-toolbar-wrapper {
         top: 4px !important;
         padding: 3px 4px !important;
-        gap: 2px !important; /* Thu hẹp khe hở cực dẹp */
+        gap: 2px !important;
         max-width: 95vw !important;
     }
 
-    .nav-toolbar-wrapper .nav-btn-wish {
-        font-size: 8.8px !important; /* Hạ chữ 8.8px vừa khít trọn vẹn 100% */
-        padding: 2px 5px !important;
+    .nav-toolbar-wrapper .nav-btn-wish,
+    #gachaNavBtn {
+        font-size: 8.8px !important;
+        padding: 2px 4.5px !important;
         letter-spacing: -0.3px !important;
     }
 }
