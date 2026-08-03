@@ -4758,6 +4758,27 @@ body {
     }
 }
 </style>
+<style>
+/* ===================================================
+   FIX LỖI: THANH NỔI NẰM DƯỚI BẢNG ĐỀ XUẤT & POPUP
+=================================================== */
+
+/* 1. Hạ thanh nổi nằm DƯỚI tất cả các Bảng Popup */
+.nav-toolbar-wrapper {
+    z-index: 999 !important; /* Hạ độ cao xuống để không đè lên Bảng Đề Xuất */
+}
+
+/* 2. Đẩy Bảng Đề Xuất lên trên cùng để lướt mượt mà */
+#newsOverlay {
+    z-index: 999999 !important;
+}
+
+#newsList {
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+</style>
 
 </body>
 </html>
