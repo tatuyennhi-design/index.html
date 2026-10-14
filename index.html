@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiệm nhà Hy</title>
     <meta name="description" content="Trang tổng hợp các AI Character của Hyperion.">
@@ -3558,25 +3558,33 @@ const pagination=document.getElementById("pagination");
 const cardsPerPage=10;
 let currentPage=1;
 let currentCategory="all";
-function getFilteredCards(){
-    const input=document.getElementById("searchInput");
-    const key=input
-        ? removeVietnameseTones(input.value.toLowerCase())
-        : "";
+
+function getFilteredCards() {
+    const input = document.getElementById("searchInput");
+
+    const normalize = (str) =>
+        removeVietnameseTones(str.toLowerCase().trim());
+
+    const key = input ? normalize(input.value) : "";
+
     return cards.filter(card => {
-  const title = card.querySelector("h2")?.innerText || "";
-  const tagline = card.querySelector(".tagline")?.innerText || "";
-  const tags = Array.from(card.querySelectorAll(".tags span"))
-                    .map(s => s.innerText)
-                    .join(" ");
-  const cardContent = title + " " + tagline + " " + tags;
-  const text = removeVietnameseTones(cardContent.toLowerCase());
-        const matchSearch=text.includes(key);
-        const matchCategory=
-            currentCategory==="all" ||
-            text.includes(
-                removeVietnameseTones(currentCategory)
-            );
+        const title = card.querySelector("h2")?.innerText || "";
+        const tagline = card.querySelector(".tagline")?.innerText || "";
+
+        const tags = Array.from(
+            card.querySelectorAll(".tags span")
+        ).map(span => normalize(span.innerText.replace(/^#/, "")));
+
+        const searchText = normalize(
+            title + " " + tagline + " " + tags.join(" ")
+        );
+
+        const matchSearch = searchText.includes(key);
+
+        const matchCategory =
+            currentCategory === "all" ||
+            tags.includes(normalize(currentCategory));
+
         return matchSearch && matchCategory;
     });
 }
