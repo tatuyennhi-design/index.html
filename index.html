@@ -15,7 +15,8 @@
  <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, runTransaction, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+		import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC8ksReOeGVbSPlybFhGaO6wue46ID9YME",
@@ -27,10 +28,21 @@
             appId: "1:454402686292:web:1b188b7cd86785df9f1cc1",
             measurementId: "G-1GF4SXRWZQ"
         };
+		const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        window.db = db; window.dbRef = ref; window.runTransaction = runTransaction; window.onValue = onValue;
+window.db = db;
+window.dbRef = ref;
+window.runTransaction = runTransaction;
+window.onValue = onValue;
+window.set = set;
+window.auth = auth;
+window.onAuthStateChanged = onAuthStateChanged;
+
+signInAnonymously(auth)
+    .then(() => console.log("Đăng nhập ẩn danh thành công"))
+    .catch(error => console.error("Lỗi đăng nhập ẩn danh:", error));
     </script>
 </head>
     <style>
@@ -4081,49 +4093,64 @@ function enterWebsite() {
   }
 })();
 </script>
-
 <script>
-// --- 1. FIREBASE ANONYMOUS AUTH (XÁC THỰC ẨN DANH ĐỂ NHỚ MÁY TRÊN ELEVATED SERVER) ---
-// Thêm kiểm tra Đăng nhập ẩn danh tự động khi load trang
-if (window.firebase && window.firebase.auth) {
-    window.firebase.auth().signInAnonymously().catch(err => console.error("Lỗi Auth Firebase:", err));
-}
-
+	let voteListenerStarted = false;
 const VOTE_KEY = "hy_voted_chars_v5";
-
-// Tự động kiểm tra và khóa nút đã thả tim ngay khi vừa mở web
 function checkUserVotes() {
-    let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
-    
-    // 1. Khóa theo localStorage trước cho nhanh
+    let votedList = JSON.parse(
+        localStorage.getItem(VOTE_KEY) || "[]"
+    );
+
+    // Khôi phục trạng thái tim đã lưu trên thiết bị
     votedList.forEach(charId => {
-        const btns = document.querySelectorAll(`.fav-btn[data-id="${charId}"]`);
-        btns.forEach(btn => btn.classList.add('active', 'voted'));
+        document.querySelectorAll(".fav-btn").forEach(btn => {
+            if (btn.dataset.id === charId) {
+                btn.classList.add("active", "voted");
+            }
+        });
     });
 
-    // 2. Khóa chuẩn xác 100% bằng Firebase UID (Chống điện thoại tự xóa Cache/LocalStorage)
-    if (window.firebase && window.firebase.auth) {
-        window.firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                const uid = user.uid;
-                window.onValue(window.dbRef(window.db, 'userVotes/' + uid), (snap) => {
-                    const votes = snap.val() || {};
+    // Đồng bộ lượt vote theo tài khoản Firebase ẩn danh
+    if (window.auth && window.onAuthStateChanged && !voteListenerStarted) {
+    voteListenerStarted = true;
+        window.onAuthStateChanged(window.auth, user => {
+            if (!user) return;
+            window.onValue(
+                window.dbRef(window.db, "userVotes/" + user.uid),
+                snapshot => {
+                    const votes = snapshot.val() || {};
+
                     Object.keys(votes).forEach(charId => {
                         if (votes[charId]) {
-                            const btns = document.querySelectorAll(`.fav-btn[data-id="${charId}"]`);
-                            btns.forEach(btn => btn.classList.add('active', 'voted'));
-                            if (!votedList.includes(charId)) votedList.push(charId);
+                            if (!votedList.includes(charId)) {
+                                votedList.push(charId);
+                            }
+
+                            document.querySelectorAll(".fav-btn").forEach(btn => {
+                                if (btn.dataset.id === charId) {
+                                    btn.classList.add("active", "voted");
+                                }
+                            });
                         }
                     });
-                    localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
-                });
-            }
+                    localStorage.setItem(
+                        VOTE_KEY,
+                        JSON.stringify(votedList)
+                    );
+                }
+            );
         });
     }
 }
+// Tự động kiểm tra và khóa nút đã thả tim ngay khi vừa mở web
+
 function handleFavorite(charId, btn) {
     let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
-    const user = window.firebase && window.firebase.auth ? window.firebase.auth().currentUser : null;
+    const user = window.auth ? window.auth.currentUser : null;
+	if (!user) {
+    showToast("⏳ Đang kết nối Firebase, thử lại sau nhé!");
+    return;
+}
     const isVoted = btn.classList.contains('voted') || votedList.includes(charId);
 
     const charRef = window.dbRef(window.db, 'stats/' + charId);
