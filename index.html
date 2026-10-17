@@ -15,7 +15,7 @@
  <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, runTransaction, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, runTransaction, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 		import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -37,6 +37,7 @@ window.dbRef = ref;
 window.runTransaction = runTransaction;
 window.onValue = onValue;
 window.set = set;
+window.dbGet = get;
 window.auth = auth;
 window.onAuthStateChanged = onAuthStateChanged;
 
@@ -4282,146 +4283,216 @@ function enterWebsite() {
 <script>
 	let voteListenerStarted = false;
 const VOTE_KEY = "hy_voted_chars_v5";
-function checkUserVotes() {
-    let votedList = JSON.parse(
+
+let voteAuthListenerStarted = false;
+let voteCurrentUser = null;
+const voteBusy = new Set();
+
+function syncVoteButtons() {
+    const stats = window.allStats || {};
+    const legacyVotes = JSON.parse(
         localStorage.getItem(VOTE_KEY) || "[]"
     );
 
-    // Khôi phục trạng thái tim đã lưu trên thiết bị
-    votedList.forEach(charId => {
-        document.querySelectorAll(".fav-btn").forEach(btn => {
-            if (btn.dataset.id === charId) {
-                btn.classList.add("active", "voted");
-            }
-        });
+    document.querySelectorAll(".fav-btn").forEach(btn => {
+        const id = btn.dataset.id;
+        const voters = stats[id]?.voters || {};
+        const uid = voteCurrentUser?.uid;
+
+        const voted = uid
+            ? (Object.prototype.hasOwnProperty.call(voters, uid)
+                ? voters[uid] === true
+                : legacyVotes.includes(id))
+            : legacyVotes.includes(id);
+
+        btn.classList.toggle("active", voted);
+        btn.classList.toggle("voted", voted);
+        btn.disabled = voteBusy.has(id);
     });
+}
 
-    // Đồng bộ lượt vote theo tài khoản Firebase ẩn danh
-    if (window.auth && window.onAuthStateChanged && !voteListenerStarted) {
-    voteListenerStarted = true;
+function checkUserVotes() {
+    if (!voteAuthListenerStarted && window.auth) {
+        voteAuthListenerStarted = true;
+
         window.onAuthStateChanged(window.auth, user => {
-            if (!user) return;
-            window.onValue(
-                window.dbRef(window.db, "userVotes/" + user.uid),
-                snapshot => {
-                    const votes = snapshot.val() || {};
+            voteCurrentUser = user;
+            syncVoteButtons();
+        });
+    }
 
-                    Object.keys(votes).forEach(charId => {
-                        if (votes[charId]) {
-                            if (!votedList.includes(charId)) {
-                                votedList.push(charId);
-                            }
+    syncVoteButtons();
+}
 
-                            document.querySelectorAll(".fav-btn").forEach(btn => {
-                                if (btn.dataset.id === charId) {
-                                    btn.classList.add("active", "voted");
-                                }
-                            });
-                        }
-                    });
-                    localStorage.setItem(
-                        VOTE_KEY,
-                        JSON.stringify(votedList)
-                    );
+async function handleFavorite(charId, btn) {
+    const user = window.auth?.currentUser;
+
+    if (!user) {
+        showToast("⏳ Đang đăng nhập Firebase!");
+        return;
+    }
+
+    if (voteBusy.has(charId)) return;
+
+    voteBusy.add(charId);
+    btn.disabled = true;
+
+    try {
+        const uid = user.uid;
+        const legacyList = JSON.parse(
+            localStorage.getItem(VOTE_KEY) || "[]"
+        );
+
+        // Kiểm tra lượt vote lưu theo hệ thống cũ
+        const oldVoteSnap = await window.dbGet(
+            window.dbRef(window.db, `userVotes/${uid}/${charId}`)
+        );
+
+        const oldVoted = oldVoteSnap.val() === true;
+        const localVoted = legacyList.includes(charId);
+
+        const charRef = window.dbRef(
+            window.db, `stats/${charId}`
+        );
+
+        // Một transaction duy nhất cho tim và trạng thái vote
+        const result = await window.runTransaction(
+            charRef,
+            current => {
+                if (!current) {
+                    current = {
+                        total: 0,
+                        week: 0,
+                        month: 0
+                    };
                 }
-            );
-        });
+
+                if (!current.voters) current.voters = {};
+
+                const known = Object.prototype.hasOwnProperty.call(
+                    current.voters, uid
+                );
+
+                const wasVoted = known
+                    ? current.voters[uid] === true
+                    : oldVoted || localVoted;
+
+                const now = Date.now();
+
+                // Giữ logic thời gian hiện có
+                if (!current.lastW) current.lastW = now;
+                if (!current.lastM) current.lastM = now;
+
+                const vnNowStr = new Date(now).toLocaleString(
+                    "en-US",
+                    { timeZone: "Asia/Ho_Chi_Minh" }
+                );
+
+                const dW = new Date(vnNowStr);
+                dW.setDate(dW.getDate() - dW.getDay());
+                dW.setHours(0, 0, 0, 0);
+
+                const dM = new Date(vnNowStr);
+                dM.setDate(1);
+                dM.setHours(0, 0, 0, 0);
+
+                if (current.lastW < dW.getTime()) current.week = 0;
+                if (current.lastM < dM.getTime()) current.month = 0;
+
+                const delta = wasVoted ? -1 : 1;
+
+                // Không trừ khi tổng đã về 0
+                if (delta < 0 && Number(current.total) <= 0) {
+                    return;
+                }
+
+                current.total = Math.max(
+                    0, (Number(current.total) || 0) + delta
+                );
+
+                current.week = Math.max(
+                    0, (Number(current.week) || 0) + delta
+                );
+
+                current.month = Math.max(
+                    0, (Number(current.month) || 0) + delta
+                );
+
+                current.voters[uid] = !wasVoted;
+                current.lastW = now;
+                current.lastM = now;
+
+                return current;
+            },
+            { applyLocally: false }
+        );
+
+        if (!result.committed) {
+            showToast("⚠️ Không thể cập nhật lượt tim!");
+            return;
+        }
+
+        const voted = result.snapshot.val()?.voters?.[uid] === true;
+
+        let updatedList = JSON.parse(
+            localStorage.getItem(VOTE_KEY) || "[]"
+        );
+
+        updatedList = updatedList.filter(id => id !== charId);
+
+        if (voted) updatedList.push(charId);
+		// Hiệu ứng 6 trái tim bay khi tặng tim
+if (voted) {
+    const rect = btn.getBoundingClientRect();
+
+    for (let i = 0; i < 6; i++) {
+        const h = document.createElement("div");
+        h.className = "floating-heart";
+        h.innerHTML = "❤";
+
+        h.style.cssText = `
+            position:fixed;
+            left:${rect.left + 20}px;
+            top:${rect.top}px;
+            color:#e74c3c;
+            z-index:9999999;
+            pointer-events:none;
+            font-size:24px;
+            animation:flyUp 1.5s forwards;
+        `;
+
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 1500);
     }
 }
-// Tự động kiểm tra và khóa nút đã thả tim ngay khi vừa mở web
 
-function handleFavorite(charId, btn) {
-    let votedList = JSON.parse(localStorage.getItem(VOTE_KEY) || "[]");
-    const user = window.auth ? window.auth.currentUser : null;
-	if (!user) {
-    showToast("⏳ Đang kết nối Firebase, thử lại sau nhé!");
-    return;
-}
-    const isVoted = btn.classList.contains('voted') || votedList.includes(charId);
+        localStorage.setItem(
+            VOTE_KEY,
+            JSON.stringify(updatedList)
+        );
 
-    const charRef = window.dbRef(window.db, 'stats/' + charId);
+        window.allStats = {
+            ...(window.allStats || {}),
+            [charId]: result.snapshot.val()
+        };
 
-    if (isVoted) {
-        // --- 1. ĐÃ VOTE RỒI -> BẤM LẠI ĐỂ HỦY (-1 TIM) ---
-        btn.classList.remove('active', 'voted');
-        
-        // Cập nhật lại danh sách bộ nhớ dưới máy
-        votedList = votedList.filter(id => id !== charId);
-        localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
+        syncVoteButtons();
 
-        // Xóa trạng thái vote trên Server Firebase
-        if (user) {
-            const userVoteRef = window.dbRef(window.db, `userVotes/${user.uid}/${charId}`);
-            window.set(userVoteRef, null);
-        }
+        showToast(
+            voted
+                ? "❤️ Đã tặng tim thành công!"
+                : "💔 Đã bỏ tặng tim!"
+        );
 
-        showToast("💔 Đã bỏ tặng tim!");
-
-        // Trừ 1 tim trên Firebase
-        window.runTransaction(charRef, (curr) => {
-            if (!curr) return { total: 0, week: 0, month: 0 };
-            curr.total = Math.max(0, (Number(curr.total) || 0) - 1);
-            curr.week = Math.max(0, (Number(curr.week) || 0) - 1);
-            curr.month = Math.max(0, (Number(curr.month) || 0) - 1);
-            return curr;
-        });
-
-    } else {
-        // --- 2. CHƯA VOTE -> BẤM ĐỂ TẶNG (+1 TIM) ---
-        btn.classList.add('active', 'voted');
-        votedList.push(charId);
-        localStorage.setItem(VOTE_KEY, JSON.stringify(votedList));
-
-        // Lưu trạng thái vote lên Server Firebase
-        if (user) {
-            const userVoteRef = window.dbRef(window.db, `userVotes/${user.uid}/${charId}`);
-            window.set(userVoteRef, true);
-        }
-
-        // Hiệu ứng tim bay lên
-        const rect = btn.getBoundingClientRect();
-        for(let i=0; i<6; i++) {
-            const h = document.createElement('div');
-            h.className = 'floating-heart'; h.innerHTML = '❤';
-            h.style.cssText = `position:fixed; left:${rect.left + 20}px; top:${rect.top}px; color:#e74c3c; z-index:9999999; pointer-events:none; font-size:24px; animation: flyUp 1.5s forwards;`;
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 1500);
-        }
-
-        showToast("✨ Đã tặng tim thành công!");
-
-        // Cộng 1 tim trên Firebase (Giữ nguyên logic reset giờ Việt Nam)
-        window.runTransaction(charRef, (curr) => {
-            const now = Date.now();
-            if (!curr) curr = { total: 0, week: 0, month: 0, lastW: now, lastM: now };
-            if (!curr.lastW) curr.lastW = now;
-            if (!curr.lastM) curr.lastM = now;
-
-            var vnNowStr = new Date(now).toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" });
-            
-            let dW = new Date(vnNowStr);
-            dW.setDate(dW.getDate() - dW.getDay());
-            dW.setHours(0, 0, 0, 0);
-            let startOfWeek = dW.getTime();
-
-            let dM = new Date(vnNowStr);
-            dM.setDate(1);
-            dM.setHours(0, 0, 0, 0);
-            let startOfMonth = dM.getTime();
-
-            if (curr.lastW < startOfWeek) curr.week = 0;
-            if (curr.lastM < startOfMonth) curr.month = 0;
-
-            curr.total = (Number(curr.total) || 0) + 1;
-            curr.week = (Number(curr.week) || 0) + 1;
-            curr.month = (Number(curr.month) || 0) + 1;
-            curr.lastW = now;
-            curr.lastM = now;
-
-            return curr;
-        });
+    } catch (error) {
+        console.error("Vote Firebase error:", error);
+        showToast("⚠️ Lỗi lưu tim, vui lòng thử lại!");
+    } finally {
+        voteBusy.delete(charId);
+        syncVoteButtons();
     }
 }
+
 // --- 2. ĐỒNG BỘ SỐ TIM REALTIME VÀ TỰ ĐỘNG XẾP HẠNG ---
 function initStats() {
     window.onValue(window.dbRef(window.db, 'stats'), (snap) => {
